@@ -1,0 +1,43 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+}
+
+body {
+  @apply font-inter text-black bg-white;
+}
+
+body, html {
+  scrollbar-gutter: stable;
+}
+
+p, ul {
+  margin: 0;
+}
+
+.ant-layout {
+  background-color: #fff;
+}
+
+.ant-select-selection.ant-select-selection--single {
+  border: none;
+  background: transparent;
+}
+
+.ant-select-focused .ant-select-selection {
+  box-shadow: none;
+}
+
+.ant-select-selection-selected-value {
+  @apply text-grey-text;
+}
+
+.header-2 .ant-select-selection-selected-value {
+  @apply text-orange text-lg;
+}
+
+.header-2 .ant-select-arrow svg {
+  @apply fill-orange w-4 h-4 -mt-1;
+}
