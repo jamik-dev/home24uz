@@ -12,7 +12,7 @@ export default {
   props: {
     fill: {
       type: String,
-      default: '#727474'
+      default: '#727474',
     }
   }
 }

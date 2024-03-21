@@ -14,13 +14,17 @@ module.exports = {
       transparent: "transparent",
       current: "currentColor",
       "white": "#ffffff",
-      "black": "#020105",
+      "black": {
+        default: "#020105",
+        "2": "#27282A"
+      },
       "orange": "#FF6418",
       "grey": {
         light: "#F4F5F5",
         text: "#727474",
+        "1": "#EBEBEB",
         "2": "#F8F8F8",
-        "1": "#EBEBEB"
+        "3": "#F2F2FA",
       },
     },
     fontFamily: {
