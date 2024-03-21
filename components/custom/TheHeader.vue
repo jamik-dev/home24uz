@@ -1,5 +1,5 @@
 <template>
-  <div class="sticky top-0 w-full bg-blue-400">
+  <header class="sticky top-0 w-full bg-blue-400">
     <div class="bg-grey-light w-full px-16 py-2 flex justify-between items-center">
       <div class="flex gap-1">
         <p class="flex gap-1 items-center text-grey-text"><img class="w-[12px] h-[16px]"
@@ -109,7 +109,7 @@
         <localTheHeaderModal v-else />
       </transition>
     </div>
-  </div>
+  </header>
 </template>
 <script>
 export default {

@@ -15,7 +15,7 @@ module.exports = {
       current: "currentColor",
       "white": "#ffffff",
       "black": {
-        default: "#020105",
+        DEFAULT: "#020105",
         "2": "#27282A"
       },
       "orange": "#FF6418",
@@ -25,6 +25,7 @@ module.exports = {
         "1": "#EBEBEB",
         "2": "#F8F8F8",
         "3": "#F2F2FA",
+        "4": "#F9F9F9",
       },
     },
     fontFamily: {

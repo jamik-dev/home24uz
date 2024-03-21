@@ -6,7 +6,9 @@
 }
 
 body {
-  @apply font-inter text-black bg-white;
+  font-family: 'Inter', sans-serif;
+  color: #020105;
+  background-color: #fff;
 }
 
 body, html {
