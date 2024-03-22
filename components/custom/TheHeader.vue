@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 w-full bg-blue-400 z-[1000]">
+  <header class="sticky top-0 w-full bg-blue-400 z-[1000] shadow-lg">
     <div class="bg-grey-light w-full px-16 py-2 flex justify-between items-center">
       <div class="flex gap-1">
         <p class="flex gap-1 items-center text-grey-text"><img class="w-[12px] h-[16px]"
@@ -41,7 +41,7 @@
             </li>
             <div class="p-6 bg-white shadow-lg rounded-lg" slot="overlay">
               <ul class="list-none flex w-[400px] flex-col">
-                <li v-for="item in 3" :key="item" class="flex items-center gap-4 cursor-pointer border-b border-grey-2 py-2 last:border-none">
+                <li v-for="item in 3" :key="item" class="flex items-center gap-4 cursor-pointer border-b border-grey-2 py-2 last:border-0">
                   <img class="w-16 border" src="~/assets/img/chair/1.png" alt="chair">
                   <div>
                     <h3 class="text-[16px]">Офисное кресло CM-F55AS(Muller)</h3>

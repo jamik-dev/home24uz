@@ -44,8 +44,8 @@
     <div class="col-span-10 border-l border-grey-3 pl-8">
       <h1 class="text-4xl text-orange mb-6">Техника</h1>
       <div class="grid grid-cols-4 gap-8">
-        <div v-for="item in 8" :keyi="item">
-          <h2 class="font-semibold text-xl">Для красоты и здоровья</h2>
+        <div v-for="item in 8" :key="item">
+          <h2 class="font-semibold text-xl mb-6">Для красоты и здоровья</h2>
           <ul class="list-none flex flex-col text-black-2 gap-2 text-[16px]">
             <li>-Выпрямители</li>
             <li>-Машинки для стрижки волос</li>

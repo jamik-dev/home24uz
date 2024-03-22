@@ -1,0 +1,52 @@
+<template>
+  <figure class="col-span-2 group flex flex-col gap-2 cursor-pointer h-full w-full">
+    <div class="rounded-2xl overflow-hidden h-[362px] border border-grey-3 p-4 relative">
+      <div
+        class="absolute z-[11] top-2 right-2 w-[40px] h-[40px] cursor-pointer bg-grey-light rounded-full flex justify-center items-center">
+        <img src="~/assets/icon/heart.svg" alt="heart">
+      </div>
+      <div
+        class="absolute z-[11] top-14 right-2 w-[40px] h-[40px] cursor-pointer bg-grey-light rounded-full flex justify-center items-center">
+        <img src="~/assets/icon/swap.svg" alt="swap">
+      </div>
+      <div
+        class="absolute h-full w-full top-0 left-0 z-10 text-base flex justify-center items-center transition-all ease translate-y-10 group-hover:translate-y-0 bg-[rgba(0,0,0,0.1)] opacity-0 group-hover:opacity-100">
+        <button class="px-5 py-4 bg-white rounded-full">Быстрый просмотр</button>
+      </div>
+      <img class="w-full object-cover scale-x-[-1]" :src="data.img" alt="image">
+      <div v-if="data.discount" class="absolute bottom-6 left-6 flex flex-col items-center justify-end">
+        <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[70%]" width="71" height="60"
+          viewBox="0 0 71 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M1.39197 44.4974L31.5498 2.88616C33.9831 -0.471304 39.0073 -0.407333 41.3543 3.011L69.7678 44.3935C71.94 47.5571 70.617 51.933 67.0126 53.2503C42.5257 62.1992 26.8576 62.2496 3.93275 53.4015C0.350396 52.0189 -0.86143 47.6066 1.39197 44.4974Z"
+            fill="#E90A0A" />
+        </svg>
+        <p class="font-ttfirs text-white text-xs leading-[0.8] z-10">скидки</p>
+        <h4 class="text-base text-white font-semibold leading-tight font-ttfirs mb-1 z-10">--{{data.discount}}%</h4>
+      </div>
+    </div>
+    <div class="bg-grey-4 h-[calc(100%-370px)] relative py-3 px-4 rounded-2xl">
+      <button class="absolute top-3 right-3 bg-orange p-4 rounded-full"><img class="w-5" src="~/assets/icon/buy.svg"
+          alt="buy"></button>
+      <div>
+        <h3 class="font-ttfirs text-xl">{{ data.price }} сум</h3>
+        <h4 v-if="data.price_old" class="line-through text-grey-5 text-base mt-1">{{ data.price_old }} сум</h4>
+        <p class="text-lg font-ttfirs flex items-center gap-2"><a-icon type="star" :style="{ color: '#F6C65C' }"
+            theme="filled" /><span>5.0</span></p>
+      </div>
+      <figcaption class="text-base leading-tight font-semibold mt-2">{{ data.text }}
+      </figcaption>
+    </div>
+  </figure>
+</template>
+<script>
+export default {
+  props: {
+    data: Object,
+    required: true
+  }
+}
+</script>
+<style lang="">
+
+</style>

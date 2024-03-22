@@ -35,6 +35,7 @@ export default {
   height: 8px;
   border-radius: 100%;
   background: #FF7E00;
+  transition: all 0.2s ease;
 }
 
 .ant-carousel .slick-dots-bottom li.slick-active button {

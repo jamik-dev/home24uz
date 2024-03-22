@@ -29,7 +29,10 @@ module.exports = {
         "2": "#F8F8F8",
         "3": "#F2F2FA",
         "4": "#F9F9F9",
+        "5": "#9A999B"
       },
+      "red": "#E90A0A",
+      "yellow": "#F6C65C",
     },
     fontFamily: {
       inter: ['Inter', 'sans-serif'],
