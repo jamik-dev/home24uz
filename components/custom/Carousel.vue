@@ -30,6 +30,12 @@ export default {
   justify-content: center;
 }
 
+.ant-carousel .slick-dots li {
+  width: auto;
+  height: auto;
+  margin: 0 5px;
+}
+
 .ant-carousel .slick-dots li button {
   width: 8px;
   height: 8px;

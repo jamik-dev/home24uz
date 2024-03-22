@@ -49,15 +49,88 @@
         </div>
       </section>
       <section id="popular-brands" class="mt-[140px]">
-        
+        <div class="flex gap-6 items-end">
+          <h2 class="text-4xl font-ttfirs">Популярные бренды</h2>
+          <nuxt-link to="/" class="text-orange underline font-ttfirs text-xl">Смотреть все</nuxt-link>
+        </div>
+        <div class="w-full grid grid-cols-12 gap-6 mt-6">
+          <div v-for="item in 12" :key="item" class="col-span-2">
+            <div class="rounded-lg border overflow-hidden border-grey-3 flex justify-center items-center"><img
+                class="fit-cover h-[160px]" src="~/assets/img/brands/1.png" alt="brands"></div>
+          </div>
+        </div>
+      </section>
+      <section id="popular-brands" class="mt-[140px]">
+        <h2 class="text-4xl font-ttfirs">Фото довольных клиентов</h2>
+        <div class="w-full mt-6">
+          <VueSlickCarousel :slidesPerRow="4" :slidesToScroll="1 / 4" :infinite="true" :arrows="true">
+            <template #prevArrow="arrowOption">
+              <div  class="custom-arrow custom-arrow--left">
+                <a-icon type="arrow-left" />
+              </div>
+            </template>
+            <template #nextArrow="arrowOption">
+              <div  class="custom-arrow custom-arrow--right">
+                <a-icon type="arrow-right" />
+              </div>
+            </template>
+            <div v-for="item in 5" :key="item">
+              <div class="rounded-lg border overflow-hidden border-grey-3 flex justify-center items-center"><img
+                  class="fit-cover h-[160px]" src="~/assets/img/brands/1.png" alt="brands">
+              </div>
+            </div>
+          </VueSlickCarousel>
+        </div>
       </section>
     </div>
   </main>
 </template>
 
 <script>
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+// optional style for arrows & dots
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 export default {
+  components: {
+    VueSlickCarousel
+  }
 }
 </script>
 
-<style scoped></style>
+<style>
+.custom-arrow {
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  color: #000;
+  background-color: #FFFFFF;
+  border-radius: 100%;
+  display: flex;
+  margin: 0;
+  transform: translateY(-50%);
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.custom-arrow--left {
+  left: 16px;
+}
+
+.custom-arrow--right {
+  right: 16px;
+}
+.custom-arrow:active, .custom-arrow:focus, .custom-arrow:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.custom-arrow:before {
+  display: none;
+}
+
+.slick-dots li button:before {
+  display: none!important;
+} 
+</style>
