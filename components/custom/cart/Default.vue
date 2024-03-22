@@ -34,7 +34,7 @@
         <p class="text-lg font-ttfirs flex items-center gap-2"><a-icon type="star" :style="{ color: '#F6C65C' }"
             theme="filled" /><span>5.0</span></p>
       </div>
-      <figcaption class="text-base leading-tight font-semibold mt-2">{{ data.text }}
+      <figcaption class="text-base leading-tight font-semibold mt-2 line-clamp-2">{{ data.text }}
       </figcaption>
     </div>
   </figure>

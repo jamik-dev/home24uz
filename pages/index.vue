@@ -38,6 +38,18 @@
           <customCartDefault v-for="item in 6" :key="item"
             :data="{ img: require(`~/assets/img/electronics/1.png`), text: 'Электросамокат Xiaomi Mi Electric Scooter 3 до 100 кг, черный', discount: 0, price: '3 512 750', price_old: '', rating: '5.0' }" />
         </div>
+        <div class="w-full grid grid-cols-12 gap-6 mt-14">
+          <div v-for="item in 4" :key="item" class="col-span-3">
+            <img class="w-full" :src="require(`~/assets/img/banner/sub/${item}.png`)" alt="sub-banner">
+          </div>
+        </div>
+        <div class="w-full grid grid-cols-12 gap-6 mt-14">
+          <customCartDefault v-for="item in 6" :key="item"
+            :data="{ img: require(`~/assets/img/electronics/2.png`), text: 'Смартфон Vivo V21e 8/128GB, черный', discount: 0, price: '812 750', price_old: '1 012 750', rating: '5.0' }" />
+        </div>
+      </section>
+      <section id="popular-brands" class="mt-[140px]">
+        
       </section>
     </div>
   </main>
