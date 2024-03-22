@@ -18,7 +18,10 @@ module.exports = {
         DEFAULT: "#020105",
         "2": "#27282A"
       },
-      "orange": "#FF6418",
+      "orange": {
+        DEFAULT: "#FF6418",
+        "2": "#FF7E00"
+      },
       "grey": {
         light: "#F4F5F5",
         text: "#727474",
@@ -30,7 +33,7 @@ module.exports = {
     },
     fontFamily: {
       inter: ['Inter', 'sans-serif'],
-      ttfirs: ['tt-firs-neue-trl', 'sans-serif']
+      ttfirs: ['TT Firs Neue Trl', 'sans-serif']
     }
   },
   plugins: [],

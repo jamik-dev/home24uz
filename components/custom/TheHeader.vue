@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 w-full bg-blue-400">
+  <header class="sticky top-0 w-full bg-blue-400 z-[1000]">
     <div class="bg-grey-light w-full px-16 py-2 flex justify-between items-center">
       <div class="flex gap-1">
         <p class="flex gap-1 items-center text-grey-text"><img class="w-[12px] h-[16px]"
@@ -11,7 +11,7 @@
             class="w-[20px] h-[20px]" src="~/assets/icon/instagram.svg" alt="instagram"><span>home24.uz</span></a>
         <a href="t.me/home24uz" class="flex items-center text-grey-text hover:text-grey-text gap-2"><img
             class="w-[16px] h-[16px]" src="~/assets/icon/telegram.svg" alt="telegram"><span>t.me/home24uz</span></a>
-        <a href="tel:+998712007002" class="text-orange font-bold flex text-xl">+998 71 200 70 02</a>
+        <a href="tel:+998712007002" class="text-orange font-ttfirs font-bold flex text-xl">+998 71 200 70 02</a>
         <a-select default-value="rus" class="w-[74px] text-grey-text">
           <a-select-option value="rus">
             Рус
