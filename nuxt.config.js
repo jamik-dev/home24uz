@@ -13,9 +13,9 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  css: ['ant-design-vue/dist/antd.css', '@/assets/css/main.css', '@/assets/css/fonts.css'],
+  css: ['ant-design-vue/dist/antd.css', 'vue-slick-carousel/dist/vue-slick-carousel.css', 'vue-slick-carousel/dist/vue-slick-carousel-theme.css', '@/assets/css/main.css', '@/assets/css/fonts.css'],
 
-  plugins: ['@/plugins/antd-ui'],
+  plugins: ['~/plugins/antd-ui'],
 
   components: true,
 

@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 w-full bg-blue-400 z-[1000] shadow-lg">
+  <header id="header" class="w-full sticky top-0 duration-300 ease transition-all z-[1000]">
     <div class="bg-grey-light w-full px-16 py-2 flex justify-between items-center">
       <div class="flex gap-1">
         <p class="flex gap-1 items-center text-grey-text"><img class="w-[12px] h-[16px]"
@@ -37,11 +37,13 @@
         <ul class="flex items-center gap-[40px] relative list-none">
           <li class="flex items-center gap-2 text-[16px]"><img src="~/assets/icon/swap.svg" alt="swap">Сравнение</li>
           <a-dropdown placement="topCenter" :getPopupContainer="relativeDropdown">
-            <li class="flex items-center gap-2 text-[16px] dropdown_heading cursor-pointer"><img src="~/assets/icon/heart.svg" alt="heart">Избранное
+            <li class="flex items-center gap-2 text-[16px] dropdown_heading cursor-pointer"><img
+                src="~/assets/icon/heart.svg" alt="heart">Избранное
             </li>
             <div class="p-6 bg-white shadow-lg rounded-lg" slot="overlay">
-              <ul class="list-none flex w-[400px] flex-col">
-                <li v-for="item in 3" :key="item" class="flex items-center gap-4 cursor-pointer border-b border-grey-2 py-2 last:border-0">
+              <ul role="list" class="list-none flex w-[400px] flex-col">
+                <li v-for="item in 2" :key="item"
+                  class="flex items-center gap-4 cursor-pointer border-b border-grey-2 py-2 last:border-0">
                   <img class="w-16 border" src="~/assets/img/chair/1.png" alt="chair">
                   <div>
                     <h3 class="text-[16px]">Офисное кресло CM-F55AS(Muller)</h3>
@@ -49,7 +51,7 @@
                   </div>
                   <img class="ml-auto" src="~/assets/icon/delete.svg" alt="delete">
                 </li>
-                <button class="py-4 w-full rounded-lg bg-orange mt-6 text-white text-lg">Перейти к оформлению</button>
+                <button class="py-4 w-full rounded-lg bg-orange mt-6 text-white text-lg font-medium">Перейти к оформлению</button>
               </ul>
             </div>
           </a-dropdown>
@@ -125,6 +127,16 @@ export default {
     relativeDropdown() {
       return document.querySelector('.dropdown_heading');
     }
+  },
+  mounted() {
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 0 ) {
+        header.classList.add('shadow-lg');
+      } else if(window.scrollY === 0) {
+        header.classList.remove('shadow-lg');
+      }
+    });
   }
 }
 </script>

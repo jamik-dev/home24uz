@@ -125,13 +125,10 @@
 
 <script>
 import VueSlickCarousel from 'vue-slick-carousel'
-import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-// optional style for arrows & dots
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 export default {
   components: {
-    VueSlickCarousel
-  }
+    VueSlickCarousel,
+  },
 }
 </script>
 
@@ -174,12 +171,12 @@ export default {
   display: none !important;
 }
 
-.slick-slide>div {
+#popular-brands .slick-slide>div {
   display: flex;
   gap: 24px;
 }
 
-.slick-slide>div>div:first-child {
+#popular-brands .slick-slide>div>div:first-child {
   margin-left: 24px;
 }
 </style>

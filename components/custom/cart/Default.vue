@@ -26,8 +26,9 @@
       </div>
     </div>
     <div class="bg-grey-4 h-[calc(100%-370px)] relative py-3 px-4 rounded-2xl">
-      <button class="absolute top-3 right-3 bg-orange p-4 rounded-full"><img class="w-5" src="~/assets/icon/buy.svg"
-          alt="buy"></button>
+      <button class="absolute top-3 right-3 border border-orange h-12 w-12 flex items-center justify-center rounded-full">
+        <localSvgBuy class="w-5 h-5" fill="#FF6418" />
+      </button>
       <div>
         <h3 class="font-ttfirs text-xl">{{ data.price }} сум</h3>
         <h4 v-if="data.price_old" class="line-through text-grey-5 text-base mt-1">{{ data.price_old }} сум</h4>

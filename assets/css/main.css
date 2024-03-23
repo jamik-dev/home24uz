@@ -23,7 +23,7 @@ p, ul, h1, h2, h3, h4, h5, h6, a, button, input, select, span, div, figure {
   background-color: #fff;
 }
 
-.ant-select-selection.ant-select-selection--single {
+#header .ant-select-selection.ant-select-selection--single {
   border: none;
   background: transparent;
 }
@@ -32,7 +32,7 @@ p, ul, h1, h2, h3, h4, h5, h6, a, button, input, select, span, div, figure {
   box-shadow: none;
 }
 
-.ant-select-selection-selected-value {
+#header .ant-select-selection-selected-value {
   @apply text-grey-text;
 }
 
@@ -42,4 +42,8 @@ p, ul, h1, h2, h3, h4, h5, h6, a, button, input, select, span, div, figure {
 
 .header-2 .ant-select-arrow svg {
   @apply fill-orange w-4 h-4 -mt-1;
+}
+
+#comparing .ant-select-selection {
+  @apply text-xl px-4 py-2 w-[200px] h-[50px] rounded-lg border border-grey-3 bg-grey-2;
 }
