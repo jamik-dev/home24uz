@@ -44,6 +44,6 @@ p, ul, h1, h2, h3, h4, h5, h6, a, button, input, select, span, div, figure {
   @apply fill-orange w-4 h-4 -mt-1;
 }
 
-#comparing .ant-select-selection {
+#comparing .ant-select-selection, #favourites .ant-select-selection  {
   @apply text-xl px-4 py-2 w-[200px] h-[50px] rounded-lg border border-grey-3 bg-grey-2;
 }

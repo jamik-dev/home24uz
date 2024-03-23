@@ -12,16 +12,9 @@
           </div>
         </div>
       </section>
-      <section id="bestsellers" class="mt-[120px]">
-        <div class="flex gap-6 items-end">
-          <h2 class="text-4xl font-ttfirs">Хиты продаж</h2>
-          <nuxt-link to="/" class="text-orange underline font-ttfirs text-xl">Все товары</nuxt-link>
-        </div>
-        <div class="w-full grid grid-cols-12 gap-6 mt-6">
-          <customCartDefault v-for="item in 6" :key="item"
-            :data="{ img: require(`~/assets/img/chair/2.png`), text: 'Руководительское кресло Metta Комплект 5.1 (Чёрный)', discount: 30, price: '3 512 750', price_old: '3 512 750', rating: '5.0' }" />
-        </div>
-        <div class="w-full h-auto mt-[120px]">
+      <customProductBestSeller />
+      <section id="banner" class="mt-[120px]">
+        <div class="w-full h-auto">
           <client-only>
             <customCarousel :arrows="true" class="rounded-3xl">
               <img v-for="item in 3" :key="item" class="h-full" src="~/assets/img/banner/2.png" alt="banner">
@@ -98,7 +91,8 @@
               <img class="w-[152px]" src="~/assets/img/app_store.png" alt="app store">
               <div class="flex items-center gap-6 ml-8">
                 <img class="w-24" src="~/assets/img/qr_code.png" alt="qr code">
-                <p class="text-grey-text text-xl max-w-[70%] font-ttfirs">Наведите камеру <br> на QR-код, чтобы найти местоположение</p>
+                <p class="text-grey-text text-xl max-w-[70%] font-ttfirs">Наведите камеру <br> на QR-код, чтобы найти
+                  местоположение</p>
               </div>
             </div>
             <img class="absolute w-[250px] -top-8 right-[335px]" src="~/assets/img/iphone-1.png" alt="iphone">
@@ -112,9 +106,13 @@
           <nuxt-link to="/" class="text-orange underline font-ttfirs text-xl">Все блоги</nuxt-link>
         </div>
         <div class="w-full grid grid-cols-12 gap-6 mt-14">
-          <div v-for="item in 4" :key="item" class="h-[270px] col-span-3 relative rounded-xl overflow-hidden bg-center bg-no-repeat bg-cover group w-full fit-content bg-[url(~/assets/img/blog/1.png)]">
-            <div class="absolute h-full w-full top-0 left-0 bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0)] flex items-end p-4">
-              <h3 class="font-semibold text-xl text-white max-w-[90%] group-hover:text-orange-2 duration-200 cursor-pointer">Поздравляем с ”8 марта” любимых женщин</h3>
+          <div v-for="item in 4" :key="item"
+            class="h-[270px] col-span-3 relative rounded-xl overflow-hidden bg-center bg-no-repeat bg-cover group w-full fit-content bg-[url(~/assets/img/blog/1.png)]">
+            <div
+              class="absolute h-full w-full top-0 left-0 bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0)] flex items-end p-4">
+              <h3
+                class="font-semibold text-xl text-white max-w-[90%] group-hover:text-orange-2 duration-200 cursor-pointer">
+                Поздравляем с ”8 марта” любимых женщин</h3>
             </div>
           </div>
         </div>

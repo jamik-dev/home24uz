@@ -22,7 +22,7 @@
           </a-select>
         </div>
       </div>
-      <div class="mt-4">
+      <div v-if="!isEmpty" class="mt-4">
         <VueSlickCarousel :slidesPerRow="5" :slidesToScroll="1 / 5" :infinite="true" :arrows="true">
           <template #prevArrow="arrowOption">
             <div class="custom-arrow custom-arrow--left">
@@ -39,11 +39,18 @@
           </div>
         </VueSlickCarousel>
       </div>
-      <div class="w-full flex items-center justify-center py-7 gap-6 flex-col">
-        <img src="~/assets/icon/empty-1.svg" alt="empty">
-        <h2 class="font-ttfirs text-4xl">Сравнивать пока нечего</h2>
-        <p class="text-center font-ttfirs text-grey-text text-lg max-w-[60%]">Добавляйте товары к сравнению характеристик и выбирайте самый подходящий вам товар</p>
-      </div>
+      <customEmptyDefault v-if="isEmpty">
+        <template #image>
+          <img src="~/assets/icon/empty-1.svg" alt="empty">
+        </template>
+        <template #title>
+          Сравнивать пока нечего
+        </template>
+        <template #description>
+          Добавляйте товары к сравнению характеристики выбирайте самый подходящий вам товар
+        </template> 
+      </customEmptyDefault>
+      <customProductBestSeller v-if="isEmpty" />
     </section>
   </main>
 </template>
@@ -57,8 +64,9 @@ export default {
     return {
       breadCrumb: [
         { name: 'Главная', url: '/' },
-        { name: 'Сравнение', url: '/comparing' },
-      ]
+        { name: 'Сравнение', url: '/compare' },
+      ],
+      isEmpty: true,
     }
   }
 }
