@@ -63,24 +63,25 @@
       <section id="popular-brands" class="mt-[140px]">
         <h2 class="text-4xl font-ttfirs">Фото довольных клиентов</h2>
         <div class="w-full mt-6">
-          <VueSlickCarousel :slidesPerRow="4" :slidesToScroll="1 / 4" :infinite="true" :arrows="true">
+          <VueSlickCarousel class="gap-4" :slidesPerRow="4" :slidesToScroll="1 / 4" :infinite="true" :arrows="true">
             <template #prevArrow="arrowOption">
-              <div  class="custom-arrow custom-arrow--left">
+              <div class="custom-arrow custom-arrow--left">
                 <a-icon type="arrow-left" />
               </div>
             </template>
             <template #nextArrow="arrowOption">
-              <div  class="custom-arrow custom-arrow--right">
+              <div class="custom-arrow custom-arrow--right">
                 <a-icon type="arrow-right" />
               </div>
             </template>
-            <div v-for="item in 5" :key="item">
-              <div class="rounded-lg border overflow-hidden border-grey-3 flex justify-center items-center"><img
-                  class="fit-cover h-[160px]" src="~/assets/img/brands/1.png" alt="brands">
-              </div>
+            <div v-for="item in 8" :key="item">
+              <customCartBlog />
             </div>
           </VueSlickCarousel>
         </div>
+      </section>
+      <section>
+        
       </section>
     </div>
   </main>
@@ -121,7 +122,10 @@ export default {
 .custom-arrow--right {
   right: 16px;
 }
-.custom-arrow:active, .custom-arrow:focus, .custom-arrow:hover {
+
+.custom-arrow:active,
+.custom-arrow:focus,
+.custom-arrow:hover {
   background-color: #fff;
   color: #000;
 }
@@ -131,6 +135,15 @@ export default {
 }
 
 .slick-dots li button:before {
-  display: none!important;
-} 
+  display: none !important;
+}
+
+.slick-slide>div {
+  display: flex;
+  gap: 24px;
+}
+
+.slick-slide>div>div:first-child {
+  margin-left: 24px;
+}
 </style>
