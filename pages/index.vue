@@ -75,13 +75,49 @@
               </div>
             </template>
             <div v-for="item in 8" :key="item">
-              <customCartBlog />
+              <customCartClientReview />
             </div>
           </VueSlickCarousel>
         </div>
       </section>
-      <section>
-        
+      <section id="televisions" class="mt-[140px]">
+        <div class="flex gap-6 items-end">
+          <h2 class="text-4xl font-ttfirs">Телевизоры</h2>
+          <nuxt-link to="/" class="text-orange underline font-ttfirs text-xl">Все товары</nuxt-link>
+        </div>
+        <div class="w-full grid grid-cols-12 gap-6 mt-14">
+          <customCartDefault v-for="item in 12" :key="item"
+            :data="{ img: require(`~/assets/img/electronics/3.png`), text: 'Телевизор Artel UA32H4101 32&quot;, серебристый', discount: 0, price: '3 512 750', price_old: '4 012 750', rating: '5.0' }" />
+        </div>
+        <div class="w-full mt-[120px] px-[96px] py-[72px] bg-grey-4 rounded-2xl relative">
+          <div class="w-2/3 flex flex-col gap-4">
+            <h2 class="font-ttfirs font-medium text-5xl">Заказывайте в новом приложении Маркета и получайте бонусы</h2>
+            <p class="font-ttfirs text-2xl">Home24.uz скачать мобильное приложение</p>
+            <div class="flex gap-6 items-center">
+              <img class="w-[152px]" src="~/assets/img/google_play.png" alt="google play">
+              <img class="w-[152px]" src="~/assets/img/app_store.png" alt="app store">
+              <div class="flex items-center gap-6 ml-8">
+                <img class="w-24" src="~/assets/img/qr_code.png" alt="qr code">
+                <p class="text-grey-text text-xl max-w-[70%] font-ttfirs">Наведите камеру <br> на QR-код, чтобы найти местоположение</p>
+              </div>
+            </div>
+            <img class="absolute w-[250px] -top-8 right-[335px]" src="~/assets/img/iphone-1.png" alt="iphone">
+            <img class="absolute w-[250px] -top-8 right-[65px]" src="~/assets/img/iphone-2.png" alt="iphone">
+          </div>
+        </div>
+      </section>
+      <section id="blog" class="mt-[140px]">
+        <div class="flex gap-6 items-end">
+          <h2 class="text-4xl font-ttfirs">Блог</h2>
+          <nuxt-link to="/" class="text-orange underline font-ttfirs text-xl">Все блоги</nuxt-link>
+        </div>
+        <div class="w-full grid grid-cols-12 gap-6 mt-14">
+          <div v-for="item in 4" :key="item" class="h-[270px] col-span-3 relative rounded-xl overflow-hidden bg-center bg-no-repeat bg-cover group w-full fit-content bg-[url(~/assets/img/blog/1.png)]">
+            <div class="absolute h-full w-full top-0 left-0 bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0)] flex items-end p-4">
+              <h3 class="font-semibold text-xl text-white max-w-[90%] group-hover:text-orange-2 duration-200 cursor-pointer">Поздравляем с ”8 марта” любимых женщин</h3>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </main>

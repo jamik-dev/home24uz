@@ -1,6 +1,6 @@
 <template>
   <figure class="col-span-2 group flex flex-col gap-2 cursor-pointer h-full w-full">
-    <div class="rounded-2xl overflow-hidden h-[362px] border border-grey-3 p-4 relative">
+    <div class="flex items-center justify-center rounded-2xl overflow-hidden h-[362px] border border-grey-3 p-4 relative">
       <div
         class="absolute z-[11] top-2 right-2 w-[40px] h-[40px] cursor-pointer bg-grey-light rounded-full flex justify-center items-center">
         <img src="~/assets/icon/heart.svg" alt="heart">
@@ -34,7 +34,7 @@
         <p class="text-lg font-ttfirs flex items-center gap-2"><a-icon type="star" :style="{ color: '#F6C65C' }"
             theme="filled" /><span>5.0</span></p>
       </div>
-      <figcaption class="text-base leading-tight font-semibold mt-2 line-clamp-2">{{ data.text }}
+      <figcaption class="text-base leading-snug font-medium mt-2 line-clamp-2">{{ data.text }}
       </figcaption>
     </div>
   </figure>
