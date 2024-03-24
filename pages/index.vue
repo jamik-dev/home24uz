@@ -49,11 +49,11 @@
         <div class="w-full grid grid-cols-12 gap-6 mt-6">
           <div v-for="item in 12" :key="item" class="col-span-2">
             <div class="rounded-lg border overflow-hidden border-grey-3 flex justify-center items-center"><img
-                class="fit-cover h-[160px]" src="~/assets/img/brands/1.png" alt="brands"></div>
+                class="object-cover h-[160px]" src="~/assets/img/brands/1.png" alt="brands"></div>
           </div>
         </div>
       </section>
-      <section id="popular-brands" class="mt-[140px]">
+      <section id="clients-review" class="mt-[140px]">
         <h2 class="text-4xl font-ttfirs">Фото довольных клиентов</h2>
         <div class="w-full mt-6">
           <VueSlickCarousel class="gap-4" :slidesPerRow="4" :slidesToScroll="1 / 4" :infinite="true" :arrows="true">
@@ -169,12 +169,12 @@ export default {
   display: none !important;
 }
 
-#popular-brands .slick-slide>div {
+#clients-review .slick-slide>div {
   display: flex;
   gap: 24px;
 }
 
-#popular-brands .slick-slide>div>div:first-child {
+#clients-review .slick-slide>div>div:first-child {
   margin-left: 24px;
 }
 </style>

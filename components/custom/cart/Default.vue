@@ -1,6 +1,7 @@
 <template>
-  <figure class="col-span-2 group flex flex-col gap-2 cursor-pointer h-full w-full">
-    <div class="flex items-center justify-center rounded-2xl overflow-hidden h-[362px] border border-grey-3 p-4 relative">
+  <figure :class="`col-span-${12 / items}`" class="group flex flex-col gap-2 cursor-pointer h-full w-full">
+    <div
+      class="flex items-center justify-center rounded-2xl overflow-hidden h-[362px] border border-grey-3 p-4 relative">
       <div
         class="absolute z-[11] top-2 right-2 w-[40px] h-[40px] cursor-pointer bg-grey-light rounded-full flex justify-center items-center">
         <img src="~/assets/icon/heart.svg" alt="heart">
@@ -22,11 +23,12 @@
             fill="#E90A0A" />
         </svg>
         <p class="font-ttfirs text-white text-xs leading-[0.8] z-10">скидки</p>
-        <h4 class="text-base text-white font-semibold leading-tight font-ttfirs mb-1 z-10">--{{data.discount}}%</h4>
+        <h4 class="text-base text-white font-semibold leading-tight font-ttfirs mb-1 z-10">--{{ data.discount }}%</h4>
       </div>
     </div>
     <div class="bg-grey-4 h-[calc(100%-370px)] relative py-3 px-4 rounded-2xl">
-      <button class="absolute top-3 right-3 border border-orange h-12 w-12 flex items-center justify-center rounded-full">
+      <button
+        class="absolute top-3 right-3 border border-orange h-12 w-12 flex items-center justify-center rounded-full">
         <localSvgBuy class="w-5 h-5" fill="#FF6418" />
       </button>
       <div>
@@ -43,8 +45,14 @@
 <script>
 export default {
   props: {
-    data: Object,
-    required: true
+    data: {
+      type: Object,
+      required: true
+    },
+    items: {
+      type: Number,
+      default: 6
+    }
   }
 }
 </script>

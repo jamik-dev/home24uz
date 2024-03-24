@@ -72,18 +72,4 @@ export default {
 }
 </script>
 <style>
-#comparing .custom-arrow {
-  border: 1px solid #EBEBEB;
-  top: 0;
-}
-
-#comparing .custom-arrow.custom-arrow--left {
-  left: 0;
-  transform: translate(-50%, 250px);
-}
-
-#comparing .custom-arrow.custom-arrow--right {
-  right: 0;
-  transform: translate(50%, 250px);
-}
 </style>
