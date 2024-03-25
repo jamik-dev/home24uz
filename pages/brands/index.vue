@@ -73,11 +73,6 @@ export default {
   @apply font-ttfirs font-light;
 }
 
-.ant-pagination-item-link {
-  /* width: 100%;
-  height: 100%; */
-}
-
 .ant-pagination-item-container .ant-pagination-item-link-icon {
   color: #FF6418!important;
 }
