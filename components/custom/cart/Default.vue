@@ -12,7 +12,7 @@
       </div>
       <div
         class="absolute h-full w-full top-0 left-0 z-10 text-base flex justify-center items-center transition-all ease translate-y-10 group-hover:translate-y-0 bg-[rgba(0,0,0,0.1)] opacity-0 group-hover:opacity-100">
-        <button class="px-5 py-4 bg-white rounded-full">Быстрый просмотр</button>
+        <button @click="isModalVisible = true" class="px-5 py-4 bg-white rounded-full">Быстрый просмотр</button>
       </div>
       <img class="w-full object-cover scale-x-[-1]" :src="data.img" alt="image">
       <div v-if="data.discount" class="absolute bottom-6 left-6 flex flex-col items-center justify-end">
@@ -34,12 +34,46 @@
       <div>
         <h3 class="font-ttfirs text-xl">{{ data.price }} сум</h3>
         <h4 v-if="data.price_old" class="line-through text-grey-5 text-base mt-1">{{ data.price_old }} сум</h4>
-        <p class="text-lg font-ttfirs flex items-center gap-2"><a-icon type="star" :style="{ color: '#F6C65C' }"
-            theme="filled" /><span>5.0</span></p>
+        <p class="text-lg font-ttfirs flex items-center gap-2"><a-icon type="star" :style="{ color: '#F6C65C' }" theme="filled" /><span>5.0</span></p>
       </div>
       <figcaption class="text-base leading-snug font-medium mt-2 line-clamp-2">{{ data.text }}
       </figcaption>
     </div>
+
+    <a-modal :width="'auto'" v-model="isModalVisible" :footer="false" title="Vertically centered modal dialog" centered
+      @ok="() => (isModalVisible = false)">
+      <div class="w-full flex items-center gap-8">
+        <div></div>
+        <div class="space-y-8 w-full">
+          <div class="flex items-center justify-between text-grey-text text-base">
+            <p class="flex items-center gap-1"><a-icon type="star" :style="{ color: '#F6C65C' }" theme="filled" /><span class="text-black">5</span></p>
+            <p class="flex items-center gap-1"><a-icon type="message" /> 10 Отзывов</p>
+            <p>Код товара: 1375043</p>
+          </div>
+          <div class="bg-grey-4 p-6 rounded-lg">
+            <div class="flex justify-between mb-10">
+              <div>
+                <h3 class="font-ttfirs font-medium text-2xl">25 880 000 СУМ</h3>
+                <h4 class="font-ttfirs font-light text-lg text-grey-text line-through">25 880 000 СУМ</h4>
+              </div>
+              <div class="flex items-center gap-6">
+                <img class="w-6" src="~/assets/icon/swap.svg" alt="swap">
+                <img class="w-6" src="~/assets/icon/heart.svg" alt="heart"> 
+              </div>
+            </div>
+            <button class="flex w-full justify-center items-center py-4 bg-orange text-white gap-2 rounded-lg text-lg border-orange"><localSvgBuy class="w-6 h-6" />Добавить в корзину</button>
+            <button class="flex w-full justify-center items-center text-center py-4 bg-white text-orange gap-2 border border-orange rounded-lg text-lg mt-3"><localSvgTap fill="#FF6418"/>Купить в один клик</button>
+          </div>
+          <div class="space-y-3">
+            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">Производитель:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">Китай</span></p>
+            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">bla:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">blabla</span></p>
+            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">blabla:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">blablabla</span></p>
+            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">Производитель:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">Китай</span></p>
+          </div>
+          <nuxt-link class="flex items-center gap-2 group hover:text-orange text-lg text-orange-2" to="/">Подробнее о товаре <a-icon type="arrow-right" :style="{ color: '#FF7E00'}" /></nuxt-link>
+        </div>
+      </div>
+    </a-modal>
   </figure>
 </template>
 <script>
@@ -52,10 +86,14 @@ export default {
     items: {
       type: Number,
       default: 6
+    },
+  },
+  data: () => {
+    return {
+      isModalVisible: false
     }
   }
 }
 </script>
-<style lang="">
-
+<style>
 </style>

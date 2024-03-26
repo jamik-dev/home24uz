@@ -62,3 +62,19 @@ p, ul, h1, h2, h3, h4, h5, h6, a, button, input, select, span, div, figure {
   right: 0;
   transform: translate(50%, 250px);
 }
+
+.anticon.anticon-close.ant-modal-close-icon {
+  @apply text-orange;
+}
+
+.ant-modal-title {
+  @apply text-xl font-medium font-ttfirs uppercase max-w-[70%];
+}
+
+.ant-modal-close-x {
+  font-size: 30px;
+}
+
+.ant-modal-header {
+  @apply bg-grey-4 border-grey-4;
+}
