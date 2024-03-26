@@ -1,6 +1,6 @@
 <template>
   <main>
-    <section id="favourites" class="">
+    <section id="favourites">
       <div v-if="!isEmpty" class="w-full bg-grey-light px-16 py-[60px]">
         <div class="flex flex-col gap-3">
           <customBreadCrumb :breadCrumb="breadCrumb" />
@@ -110,32 +110,4 @@ export default {
 }
 </script>
 <style>
-.ant-checkbox-wrapper {
-  display: flex;
-  align-items: center;
-  width: fit-content;
-
-}
-
-.ant-checkbox-checked .ant-checkbox-inner {
-  background-color: #FF6418;
-  border-color: #FF6418;
-}
-
-.ant-checkbox-wrapper:hover .ant-checkbox-inner,
-.ant-checkbox:hover .ant-checkbox-inner,
-.ant-checkbox-input:focus+.ant-checkbox-inner {
-  border-color: #FF6418;
-}
-
-
-
-.ant-checkbox-checked::after {
-  border-color: #FF6418;
-}
-
-.ant-checkbox-wrapper span:last-child {
-  color: #020105;
-  font-size: 18px;
-}
 </style>

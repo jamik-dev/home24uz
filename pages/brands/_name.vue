@@ -104,39 +104,4 @@ export default {
 }
 </script>
 <style>
-.ant-slider-handle {
-  border-color: #FF6418;
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  top: 50%;
-  transform: translate(-50%, -50%) !important;
-}
-
-.ant-slider-handle.ant-tooltip-open {
-  border-color: #FF6418;
-}
-
-.ant-slider:hover .ant-slider-track {
-  background-color: rgba(255, 100, 24, 0.5);
-}
-
-.ant-slider-rail {
-  height: 3px;
-}
-
-.ant-slider-track {
-  height: 3px;
-  background-color: #FF6418;
-}
-
-.ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
-  border-color: rgba(255, 100, 24, 0.5);
-}
-
-.ant-slider-handle:focus {
-  border-color: #FF6418;
-  outline: none;
-  box-shadow: 0 0 0 5px rgba(255, 100, 24, 0.2);
-}
 </style>
