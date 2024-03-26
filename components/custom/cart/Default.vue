@@ -34,50 +34,106 @@
       <div>
         <h3 class="font-ttfirs text-xl">{{ data.price }} сум</h3>
         <h4 v-if="data.price_old" class="line-through text-grey-5 text-base mt-1">{{ data.price_old }} сум</h4>
-        <p class="text-lg font-ttfirs flex items-center gap-2"><a-icon type="star" :style="{ color: '#F6C65C' }" theme="filled" /><span>5.0</span></p>
+        <p class="text-lg font-ttfirs flex items-center gap-2"><a-icon type="star" :style="{ color: '#F6C65C' }"
+            theme="filled" /><span>5.0</span></p>
       </div>
       <figcaption class="text-base leading-snug font-medium mt-2 line-clamp-2">{{ data.text }}
       </figcaption>
     </div>
 
-    <a-modal :width="'auto'" v-model="isModalVisible" :footer="false" title="Vertically centered modal dialog" centered
+    <a-modal :width="'1000px'" v-model="isModalVisible" :footer="false" :title="data.text" centered
       @ok="() => (isModalVisible = false)">
-      <div class="w-full flex items-center gap-8">
-        <div></div>
-        <div class="space-y-8 w-full">
+      <div class="w-full flex items-start gap-8">
+        <div class="w-7/12">
+          <div class="rounded-lg w-full border border-grey-4 p-2 relative">
+            <div
+              class="absolute bg-white z-10 top-4 right-4 w-[75px] h-[75px] rounded-full border border-grey-4 flex items-center justify-center">
+              <img class="w-4/5" src="~/assets/img/logos/1.png" alt="cougar">
+            </div>
+            <div v-if="data.discount" class="z-10 absolute bottom-4 right-10 flex flex-col items-center justify-end">
+              <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[70%]" width="71" height="60"
+                viewBox="0 0 71 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1.39197 44.4974L31.5498 2.88616C33.9831 -0.471304 39.0073 -0.407333 41.3543 3.011L69.7678 44.3935C71.94 47.5571 70.617 51.933 67.0126 53.2503C42.5257 62.1992 26.8576 62.2496 3.93275 53.4015C0.350396 52.0189 -0.86143 47.6066 1.39197 44.4974Z"
+                  fill="#E90A0A" />
+              </svg>
+              <p class="font-ttfirs text-white text-xs leading-[0.8] z-10">скидки</p>
+              <h4 class="text-base text-white font-semibold leading-tight font-ttfirs mb-1 z-10">--{{ data.discount }}%
+              </h4>
+            </div>
+            <VueSlickCarousel :arrows="false" :ref="slideOne" :asNavFor="c2" :focusOnSelect="true">
+              <div v-for="item in 10" :key="item" class="h-[450px]">
+                <img class="object-contain w-full h-full" src="~/assets/img/chair/1.png" alt="chair">
+              </div>
+            </VueSlickCarousel>
+          </div>
+          <div class="mt-6">
+            <VueSlickCarousel :arrows="false" @afterChange="activeItem" :ref="slideTwo" :asNavFor="c1" :slidesToShow="6"
+              :focusOnSelect="true">
+              <div v-for="(item, index) in 10" :key="item">
+                <div :class="{ 'border-orange': index === activeSlider }"
+                  class="h-[80px] w-[80px] mx-auto border border-grey-4 rounded-xl cursor-pointer p-1">
+                  <img class="object-contain w-full h-full" src="~/assets/img/chair/2.png" alt="chair">
+                </div>
+              </div>
+            </VueSlickCarousel>
+          </div>
+        </div>
+        <div class="space-y-8 w-5/12">
           <div class="flex items-center justify-between text-grey-text text-base">
-            <p class="flex items-center gap-1"><a-icon type="star" :style="{ color: '#F6C65C' }" theme="filled" /><span class="text-black">5</span></p>
+            <p class="flex items-center gap-1"><a-icon type="star" :style="{ color: '#F6C65C' }" theme="filled" /><span
+                class="text-black">5</span></p>
             <p class="flex items-center gap-1"><a-icon type="message" /> 10 Отзывов</p>
             <p>Код товара: 1375043</p>
           </div>
           <div class="bg-grey-4 p-6 rounded-lg">
             <div class="flex justify-between mb-10">
               <div>
-                <h3 class="font-ttfirs font-medium text-2xl">25 880 000 СУМ</h3>
-                <h4 class="font-ttfirs font-light text-lg text-grey-text line-through">25 880 000 СУМ</h4>
+                <h3 class="font-ttfirs font-medium text-2xl">{{ data.price }} СУМ</h3>
+                <h4 v-if="data.price_old" class="font-ttfirs font-light text-lg text-grey-text line-through">{{
+    data.price_old }}СУМ</h4>
               </div>
               <div class="flex items-center gap-6">
                 <img class="w-6" src="~/assets/icon/swap.svg" alt="swap">
-                <img class="w-6" src="~/assets/icon/heart.svg" alt="heart"> 
+                <img class="w-6" src="~/assets/icon/heart.svg" alt="heart">
               </div>
             </div>
-            <button class="flex w-full justify-center items-center py-4 bg-orange text-white gap-2 rounded-lg text-lg border-orange"><localSvgBuy class="w-6 h-6" />Добавить в корзину</button>
-            <button class="flex w-full justify-center items-center text-center py-4 bg-white text-orange gap-2 border border-orange rounded-lg text-lg mt-3"><localSvgTap fill="#FF6418"/>Купить в один клик</button>
+            <button
+              class="flex w-full justify-center items-center py-4 bg-orange text-white gap-2 rounded-lg text-lg border-orange">
+              <localSvgBuy class="w-6 h-6" />Добавить в корзину
+            </button>
+            <button
+              class="flex w-full justify-center items-center text-center py-4 bg-white text-orange gap-2 border border-orange rounded-lg text-lg mt-3">
+              <localSvgTap fill="#FF6418" />Купить в один клик
+            </button>
           </div>
           <div class="space-y-3">
-            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">Производитель:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">Китай</span></p>
-            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">bla:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">blabla</span></p>
-            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">blabla:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">blablabla</span></p>
-            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">Производитель:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">Китай</span></p>
+            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">Производитель:</span><span
+                class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">Китай</span>
+            </p>
+            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">bla:</span><span
+                class="w-full mt-3 border-b border-grey-text border-dotted"></span><span
+                class="text-black">blabla</span></p>
+            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">blabla:</span><span
+                class="w-full mt-3 border-b border-grey-text border-dotted"></span><span
+                class="text-black">blablabla</span></p>
+            <p class="text-lg flex items-center gap-2"><span class="text-grey-text">Производитель:</span><span
+                class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">Китай</span>
+            </p>
           </div>
-          <nuxt-link class="flex items-center gap-2 group hover:text-orange text-lg text-orange-2" to="/">Подробнее о товаре <a-icon type="arrow-right" :style="{ color: '#FF7E00'}" /></nuxt-link>
+          <nuxt-link class="flex items-center gap-2 group hover:text-orange text-lg text-orange-2" to="/">Подробнее о
+            товаре <a-icon type="arrow-right" :style="{ color: '#FF7E00' }" /></nuxt-link>
         </div>
       </div>
     </a-modal>
   </figure>
 </template>
 <script>
+import VueSlickCarousel from 'vue-slick-carousel'
 export default {
+  components: {
+    VueSlickCarousel
+  },
   props: {
     data: {
       type: Object,
@@ -90,10 +146,23 @@ export default {
   },
   data: () => {
     return {
-      isModalVisible: false
+      isModalVisible: false,
+      c1: null,
+      c2: null,
+      activeSlider: 0
+    }
+  },
+  methods: {
+    slideOne(el) {
+      this.c1 = el;
+    },
+    slideTwo(el) {
+      this.c2 = el;
+    },
+    activeItem(num) {
+      this.activeSlider = num;
     }
   }
 }
 </script>
-<style>
-</style>
+<style></style>

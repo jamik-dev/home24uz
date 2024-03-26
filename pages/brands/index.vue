@@ -44,7 +44,7 @@ export default {
     }
   },
   methods: {
-    itemRender(current, type, originalElement) {
+    itemRender(_, type, originalElement) {
       if (type === 'prev') {
         return;
       } else if (type === 'next') {
@@ -56,40 +56,4 @@ export default {
 }
 </script>
 <style>
-.ant-pagination {
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.ant-pagination .ant-pagination-item {
-  border: 0;
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  @apply font-ttfirs font-light;
-}
-
-.ant-pagination-item-container .ant-pagination-item-link-icon {
-  color: #FF6418!important;
-}
-
-.ant-pagination-item-active{
-  background-color: #FF6418;
-}
-
-.ant-pagination-item-active a {
-  color: #fff;
-}
-
-.ant-pagination-item.ant-pagination-item-active:hover a, .ant-pagination-item.ant-pagination-item-active:focus a {
-  color: #fff;
-}
-
-.ant-pagination-item:focus a, .ant-pagination-item:hover a  {
-  color: #FF6418;
-}
 </style>
