@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="col-span-10">
-        <customBreadCrumb :breadCrumb="breadCrumb" />
+        <customBreadCrumb :breadCrumbData="breadCrumb" />
         <div class="flex justify-between">
           <div class="flex items-center gap-4">
             <h1 class="font-medium font-ttfirs text-4xl"><span class="capitalize">{{ this.$route.params.name }}</span>
@@ -72,6 +72,7 @@
 </template>
 <script>
 export default {
+  layout: 'userLayout',
   data: () => {
     return {
       breadCrumb: [

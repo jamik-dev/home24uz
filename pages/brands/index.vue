@@ -2,7 +2,7 @@
   <main>
     <section id="brands" class="w-full px-16 py-[60px]">
       <div class="flex flex-col gap-3">
-        <customBreadCrumb :breadCrumb="breadCrumb" />
+        <customBreadCrumb :breadCrumbData="breadCrumb" />
         <h1 class="font-medium font-ttfirs text-4xl">Популярные бренды</h1>
       </div>
       <div class="flex items-center justify-between">

@@ -2,7 +2,7 @@
   <main>
     <localHomeHero />
     <div class="w-full px-16 py-[120px]">
-      <section id="category">
+      <section id="home_category">
         <h2 class="text-4xl font-ttfirs">Категории</h2>
         <div class="w-full grid grid-cols-12 gap-8 mt-6">
           <div v-for="item in 12" :key="item"

@@ -1,5 +1,5 @@
 <template>
-  <a-breadcrumb :routes="breadCrumb" separator=">">
+  <a-breadcrumb :routes="breadCrumbData" separator=">">
     <template slot="itemRender" slot-scope="{ route, params, routes, paths }">
       <span class="text-orange font-ttfirs text-xl capitalize" v-if="routes.indexOf(route) === routes.length - 1">
         {{ route.name }}
@@ -13,7 +13,7 @@
 <script>
 export default {
   props: {
-    breadCrumb: {
+    breadCrumbData: {
       type: Array,
       default: [{ name: 'Home', url: '/' }]
     },

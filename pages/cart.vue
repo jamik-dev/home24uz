@@ -3,7 +3,7 @@
     <section id="favourites">
       <div v-if="!isEmpty" class="w-full bg-grey-light px-16 py-[60px]">
         <div class="flex flex-col gap-3">
-          <customBreadCrumb :breadCrumb="breadCrumb" />
+          <customBreadCrumb :breadCrumbData="breadCrumb" />
           <h1 class="font-medium font-ttfirs text-4xl">Корзина</h1>
           <p class="text-base font-ttfirs">Товаров: 5</p>
         </div>
