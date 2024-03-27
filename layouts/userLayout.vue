@@ -2,6 +2,7 @@
   <a-layout>
     <customTheHeader />
     <Nuxt/>
+    <customTheSecondaryFooter />
     <customTheFooter />
   </a-layout>
 </template>

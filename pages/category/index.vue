@@ -1,13 +1,11 @@
 <template>
-  <div class="h-48 w-full bg-blue-400">
-    footer
-  </div>
+  <nuxt-child />
 </template>
 <script>
 export default {
-  
+  middleware: 'redirect',
 }
 </script>
-<style>
+<style lang="">
   
 </style>

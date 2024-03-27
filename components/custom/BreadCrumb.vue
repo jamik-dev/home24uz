@@ -1,0 +1,25 @@
+<template>
+  <a-breadcrumb :routes="breadCrumbData" separator=">">
+    <template slot="itemRender" slot-scope="{ route, params, routes, paths }">
+      <span class="text-orange font-ttfirs text-xl capitalize" v-if="routes.indexOf(route) === routes.length - 1">
+        {{ route.name }}
+      </span>
+      <nuxt-link class="font-ttfirs hover:!text-orange text-xl capitalize" v-else :to="route.url">
+        {{ route.name }}
+      </nuxt-link>
+    </template>
+  </a-breadcrumb>
+</template>
+<script>
+export default {
+  props: {
+    breadCrumbData: {
+      type: Array,
+      default: [{ name: 'Home', url: '/' }]
+    },
+  }
+}
+</script>
+<style lang="">
+
+</style>
