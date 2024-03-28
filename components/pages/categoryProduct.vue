@@ -1,6 +1,6 @@
 <template>
   <section id="category_product">
-    <a-modal :width="'600px'" @cancel="closeModal" v-model="isModalOpen" :footer="false" title="Новый отзыв" centered>
+    <a-modal :width="'600px'" @cancel="closeModal" v-model="isModalOpen" :footer="false" :title="isOneClickBuy && !isOneClickBuySuccessful ? 'Купить в один клик' : isOneClickBuySuccessful || isRatingSuccessful ? 'Отзыв принят' : 'Новый отзыв'" centered>
       <div v-if="!isRatingSuccessful && !isOneClickBuy && !isOneClickBuySuccessful" class="space-y-8 w-full p-2">
         <div class="gap-3 flex items-center">
           <h4 class="font-medium text-lg">Ваша оценка:</h4>
@@ -37,9 +37,14 @@
             </div>
           </div>
         </div>
-        <div class="bg-grey-3 h-[2px] w-full"></div>
+        <div class="bg-grey-3 h-[1px] w-full"></div>
         <div>
-           
+          <label class="text-black text-lg font-medium" for="oneClickFullName">Ф.И.О<span class="text-red"> *</span></label>
+          <input class="mt-2 w-full text-black placeholder:text-grey-text p-4 border border-grey-3 rounded-lg text-lg focus:border-orange outline-none" placeholder="Ф.И.О" type="text" id="oneClickFullName" />
+        </div>
+        <div>
+          <label class="text-black text-lg font-medium" for="oneClickFullName">Телефон<span class="text-red"> *</span></label>
+          <input class="mt-2 w-full text-black placeholder:text-grey-text p-4 border border-grey-3 rounded-lg text-lg focus:border-orange outline-none" placeholder="+998 (--)--- -- --" type="text" id="oneClickFullName" />
         </div>
         <button @click="isOneClickBuySuccessful = true"
           class="rounded-lg border border-orange bg-orange text-white hover:bg-white hover:text-orange duration-200 py-3 w-full font-medium text-lg">Оформить</button>
@@ -362,13 +367,14 @@ export default {
       return [...Array(n).keys()].slice().reverse()
     },
     openRatingModal() {
-      this.isOneClickBuy = false;
       this.isModalOpen = true;
       this.isRatingSuccessful = false;
+      this.isOneClickBuySuccessful = false;
       this.isOneClickBuy = false;
     },
     openIsOneClickBuy() {
       this.isOneClickBuySuccessful = false;
+      this.isRatingSuccessful = false;
       this.isOneClickBuy = true;
       this.isModalOpen = true;
     },
