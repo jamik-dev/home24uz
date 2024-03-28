@@ -90,8 +90,7 @@
             <div class="flex justify-between mb-10">
               <div>
                 <h3 class="font-ttfirs font-medium text-2xl">{{ data.price }} СУМ</h3>
-                <h4 v-if="data.price_old" class="font-ttfirs font-light text-lg text-grey-text line-through">{{
-    data.price_old }}СУМ</h4>
+                <h4 v-if="data.price_old" class="font-ttfirs font-light text-lg text-grey-text line-through">{{ data.price_old }}СУМ</h4>
               </div>
               <div class="flex items-center gap-6">
                 <img class="w-6" src="~/assets/icon/swap.svg" alt="swap">

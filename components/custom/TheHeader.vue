@@ -73,7 +73,7 @@
                   stroke-linejoin="round" />
               </svg>
             </a-badge>Корзина</nuxt-link></li>
-          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/user"><img src="~/assets/icon/user.svg" alt="user">Войти</nuxt-link></li>
+          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/profile"><img src="~/assets/icon/user.svg" alt="user">Войти</nuxt-link></li>
         </ul>
       </div>
       <transition name="modal">
