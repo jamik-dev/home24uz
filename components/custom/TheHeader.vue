@@ -1,5 +1,14 @@
 <template>
   <header id="header" class="w-full sticky top-0 duration-300 ease transition-all z-[1000]">
+    <a-modal :width="'600px'" v-model="enterAccountModal" :footer="false" title="Войти или создать профиль" centered>
+      <div class="p-4">
+        <label for="phone_number" class="text-lg text-grey-text">Номер телефона</label>
+        <input type="text" id="phone_number" placeholder="+998 (--) --- -- --"
+          class="w-full mt-2 text-lg  border border-grey-3 rounded-lg p-4 focus:border-orange outline-none" />
+        <button @click="enterAccountModal = false"
+          class="bg-orange mt-7 cursor-pointer w-full py-4 text-lg rounded-lg text-white font-medium">Войти</button>
+      </div>
+    </a-modal>
     <div class="bg-grey-light w-full px-16 py-2 flex justify-between items-center">
       <div class="flex gap-1">
         <p class="flex gap-1 items-center text-grey-text"><img class="w-[12px] h-[16px]"
@@ -35,12 +44,12 @@
               src="~/assets/icon/search.svg" alt="search"></button>
         </div>
         <ul class="flex items-center gap-[40px] relative list-none">
-          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/compare"><img src="~/assets/icon/swap.svg" alt="swap">Сравнение</nuxt-link></li>
+          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/compare"><img
+                src="~/assets/icon/swap.svg" alt="swap">Сравнение</nuxt-link></li>
           <a-dropdown placement="topCenter" :getPopupContainer="relativeDropdown">
             <li class="dropdown_heading">
               <nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/favourites">
-                <img
-                  src="~/assets/icon/heart.svg" alt="heart">Избранное
+                <img src="~/assets/icon/heart.svg" alt="heart">Избранное
               </nuxt-link>
             </li>
             <div class="p-6 bg-white shadow-lg rounded-lg" slot="overlay">
@@ -54,26 +63,37 @@
                   </div>
                   <img class="ml-auto" src="~/assets/icon/delete.svg" alt="delete">
                 </li>
-                <button class="py-4 w-full rounded-lg bg-orange mt-6 text-white text-lg font-medium">Перейти к оформлению</button>
+                <button @click="$router.push('/cart')"
+                  class="py-4 w-full rounded-lg bg-orange mt-6 text-white text-lg font-medium">Перейти к
+                  оформлению</button>
               </ul>
             </div>
           </a-dropdown>
-          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/cart"><a-badge count="4">
-            <svg width="21" height="22"
-                viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M14.5137 20.5H6.16592C3.09955 20.5 0.747152 19.3924 1.41534 14.9348L2.19338 8.89359C2.60528 6.66934 4.02404 5.81808 5.26889 5.81808H15.4474C16.7105 5.81808 18.0469 6.73341 18.5229 8.89359L19.3009 14.9348C19.8684 18.889 17.5801 20.5 14.5137 20.5Z"
-                  stroke="#020105" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                <path
-                  d="M14.651 5.5984C14.651 3.21232 12.7167 1.27803 10.3306 1.27803V1.27803C9.18162 1.27316 8.078 1.72619 7.26381 2.53695C6.44963 3.3477 5.99193 4.44939 5.99194 5.5984H5.99194"
-                  stroke="#020105" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M13.2963 10.1018H13.2506" stroke="#020105" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-                <path d="M7.46566 10.1018H7.41989" stroke="#020105" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </a-badge>Корзина</nuxt-link></li>
-          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/profile"><img src="~/assets/icon/user.svg" alt="user">Войти</nuxt-link></li>
+          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/cart"><a-badge
+                count="4">
+                <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M14.5137 20.5H6.16592C3.09955 20.5 0.747152 19.3924 1.41534 14.9348L2.19338 8.89359C2.60528 6.66934 4.02404 5.81808 5.26889 5.81808H15.4474C16.7105 5.81808 18.0469 6.73341 18.5229 8.89359L19.3009 14.9348C19.8684 18.889 17.5801 20.5 14.5137 20.5Z"
+                    stroke="#020105" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M14.651 5.5984C14.651 3.21232 12.7167 1.27803 10.3306 1.27803V1.27803C9.18162 1.27316 8.078 1.72619 7.26381 2.53695C6.44963 3.3477 5.99193 4.44939 5.99194 5.5984H5.99194"
+                    stroke="#020105" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M13.2963 10.1018H13.2506" stroke="#020105" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M7.46566 10.1018H7.41989" stroke="#020105" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </a-badge>Корзина</nuxt-link></li>
+          <li v-if="isUserLoggedIn">
+            <nuxt-link to="/profile" class="flex items-center gap-2 text-base text-black hover:text-orange"><img
+                src="~/assets/icon/user.svg" alt="user">Войти</nuxt-link>
+          </li>
+          <li v-else>
+            <p @click="enterAccountModal = true"
+              class="flex cursor-pointer duration-200 items-center gap-2 text-base text-black hover:text-orange"><img
+                src="~/assets/icon/user.svg" alt="user">Войти</p>
+          </li>
+
         </ul>
       </div>
       <transition name="modal">
@@ -122,6 +142,8 @@ export default {
   data: () => {
     return {
       headerModal: true,
+      enterAccountModal: false,
+      isUserLoggedIn: false,
     }
   },
   methods: {
@@ -135,9 +157,9 @@ export default {
   mounted() {
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 0 ) {
+      if (window.scrollY > 0) {
         header.classList.add('shadow-lg');
-      } else if(window.scrollY === 0) {
+      } else if (window.scrollY === 0) {
         header.classList.remove('shadow-lg');
       }
     });

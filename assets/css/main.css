@@ -11,9 +11,9 @@ body {
   background-color: #fff;
 }
 
-body, html {
+/* body, html {
   scrollbar-gutter: stable;
-}
+} */
 
 p, ul, h1, h2, h3, h4, h5, h6, a, button, input, select, span, div, figure {
   margin: 0;
@@ -48,6 +48,14 @@ main .ant-select-selection {
   @apply text-xl px-4 py-2 w-[200px] h-[50px] rounded-lg border border-grey-3 bg-grey-2;
 }
 
+.ant-select-open .ant-select-selection {
+  @apply border-orange;
+}
+
+.ant-select-focused .ant-select-selection, .ant-select-selection:focus, .ant-select-selection:active {
+  @apply border-orange;
+}
+
 #comparing .custom-arrow {
   border: 1px solid #EBEBEB;
   top: 0;
@@ -68,7 +76,7 @@ main .ant-select-selection {
 }
 
 .ant-modal-title {
-  @apply text-xl font-medium font-ttfirs uppercase max-w-[70%];
+  @apply text-xl font-medium font-ttfirs max-w-[70%];
 }
 
 .ant-modal-close-x {
