@@ -25,7 +25,7 @@
       <section id="popular-products" class="mt-[120px]">
         <div class="flex gap-6 items-end">
           <h2 class="text-4xl font-ttfirs">Популярные товары</h2>
-          <nuxt-link to="/" class="text-orange underline font-ttfirs text-xl">Все товары</nuxt-link>
+          <nuxt-link to="/popular" class="text-orange underline font-ttfirs text-xl">Все товары</nuxt-link>
         </div>
         <div class="w-full grid grid-cols-12 gap-6 mt-6">
           <customCartDefault v-for="item in 6" :key="item"
@@ -44,7 +44,7 @@
       <section id="popular-brands" class="mt-[140px]">
         <div class="flex gap-6 items-end">
           <h2 class="text-4xl font-ttfirs">Популярные бренды</h2>
-          <nuxt-link to="/" class="text-orange underline font-ttfirs text-xl">Смотреть все</nuxt-link>
+          <nuxt-link to="/brands" class="text-orange underline font-ttfirs text-xl">Смотреть все</nuxt-link>
         </div>
         <div class="w-full grid grid-cols-12 gap-6 mt-6">
           <div v-for="item in 12" :key="item" class="col-span-2">
@@ -56,7 +56,7 @@
       <section id="clients-review" class="mt-[140px]">
         <h2 class="text-4xl font-ttfirs">Фото довольных клиентов</h2>
         <div class="w-full mt-6">
-          <VueSlickCarousel class="gap-4" :slidesPerRow="4" :slidesToScroll="1 / 4" :infinite="true" :arrows="true">
+          <VueSlickCarousel :slidesPerRow="4" :slidesToScroll="1 / 4" :infinite="true" :arrows="true">
             <template #prevArrow="arrowOption">
               <div class="custom-arrow custom-arrow--left">
                 <a-icon type="arrow-left" />
@@ -68,7 +68,9 @@
               </div>
             </template>
             <div v-for="item in 8" :key="item">
-              <customCartClientReview />
+              <div class="p-3">
+                <customCartClientReview />
+              </div>
             </div>
           </VueSlickCarousel>
         </div>
@@ -103,16 +105,16 @@
       <section id="blog" class="mt-[140px]">
         <div class="flex gap-6 items-end">
           <h2 class="text-4xl font-ttfirs">Блог</h2>
-          <nuxt-link to="/" class="text-orange underline font-ttfirs text-xl">Все блоги</nuxt-link>
+          <nuxt-link to="/blog" class="text-orange underline font-ttfirs text-xl">Все блоги</nuxt-link>
         </div>
         <div class="w-full grid grid-cols-12 gap-6 mt-14">
           <div v-for="item in 4" :key="item"
             class="h-[270px] col-span-3 relative rounded-xl overflow-hidden bg-center bg-no-repeat bg-cover group w-full fit-content bg-[url(~/assets/img/blog/1.png)]">
             <div
               class="absolute h-full w-full top-0 left-0 bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0)] flex items-end p-4">
-              <h3
+              <nuxt-link to="/blog/8-marta"
                 class="font-semibold text-xl text-white max-w-[90%] group-hover:text-orange-2 duration-200 cursor-pointer">
-                Поздравляем с ”8 марта” любимых женщин</h3>
+                Поздравляем с ”8 марта” любимых женщин</nuxt-link>
             </div>
           </div>
         </div>
@@ -167,14 +169,5 @@ export default {
 
 .slick-dots li button:before {
   display: none !important;
-}
-
-#clients-review .slick-slide>div {
-  display: flex;
-  gap: 24px;
-}
-
-#clients-review .slick-slide>div>div:first-child {
-  margin-left: 24px;
 }
 </style>
