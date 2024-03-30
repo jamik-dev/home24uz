@@ -22,7 +22,9 @@
                 </div>
               </div>
               <div class="flex gap-4 mt-8 items-center">
-                <img class="w-[139px] h-[246px] object-cover" src="~/assets/img/chair/1_cropped.png" alt="chair">
+                <div class="w-full h-[246px]">
+                  <img class="h-full w-full object-cover" src="~/assets/img/chair/1_cropped.png" alt="chair">
+                </div>
                 <div>
                   <div class="rounded-xl overflow-hidden relative w-[150px] px-[10px] py-1 bg-grey-light"><span
                       class="text-lg">Cкидка</span>

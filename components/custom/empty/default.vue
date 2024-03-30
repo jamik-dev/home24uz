@@ -8,14 +8,19 @@
       <p class="text-center font-ttfirs text-grey-text text-lg max-w-[80%]">
         <slot name="description"></slot>
       </p>
-      <button @click="$router.push('/')"
+      <button v-if="button" @click="$router.push('/')"
         class="py-4 hover:text-white hover:bg-orange duration-200 w-[350px] rounded-lg border border-orange text-orange font-medium text-lg">На главную</button>
     </div>
   </div>
 </template>
 <script>
 export default {
-
+  props: {
+    button: {
+      type: Boolean,
+      default: true
+    }
+  }
 }
 </script>
 <style></style>
