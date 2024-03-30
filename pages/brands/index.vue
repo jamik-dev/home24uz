@@ -19,12 +19,12 @@
         </div>
       </div>
       <div class="w-full grid grid-cols-12 gap-6 mt-8">
-        <div v-for="item in 36" :key="item" class="col-span-2 space-y-2 text-center">
+        <div v-for="brand in brands" :key="brand.id" class="col-span-2 space-y-2 text-center">
           <div class="rounded-lg border overflow-hidden border-grey-3 flex justify-center items-center"><img
-              class="object-cover h-[160px]" src="~/assets/img/brands/1.png" alt="brands">
+              class="object-cover h-[160px]" :src="brand.lg_logo || require(`~/assets/img/brands/1.png`)" :alt="brand.name">
           </div>
-          <nuxt-link to="/brands/autoexport"
-            class="inline-block text-black text-lg cursor-pointer hover:text-orange duration-200">Autoexport</nuxt-link>
+          <nuxt-link :to="`/brands/${brand.slug}`"
+            class="inline-block text-black text-lg cursor-pointer hover:text-orange duration-200">{{ brand.name }}</nuxt-link>
         </div>
       </div>
       <div class="w-full mt-16">
@@ -34,13 +34,17 @@
   </main>
 </template>
 <script>
+import { mapGetters} from 'vuex';
 export default {
   layout: 'userLayout',
+  async asyncData({store}) {
+    await store.dispatch('brands/fetchBrands');
+  },
   data: () => {
     return {
       breadCrumb: [
         { name: 'Главная', url: '/' },
-        { name: 'Бренды', url: '/brands' },
+        { name: 'Бренды', url: '/brands' }
       ],
     }
   },
@@ -54,6 +58,9 @@ export default {
       return originalElement;
     },
   },
+  computed: {
+    ...mapGetters('brands', ['brands'])
+  }
 }
 </script>
 <style>

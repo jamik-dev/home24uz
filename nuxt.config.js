@@ -15,7 +15,7 @@ export default {
 
   css: ['ant-design-vue/dist/antd.css', 'vue-slick-carousel/dist/vue-slick-carousel.css', 'vue-slick-carousel/dist/vue-slick-carousel-theme.css', '@/assets/css/main.css', '@/assets/css/fonts.css'],
 
-  plugins: ['~/plugins/antd-ui','~/plugins/global-mixin.js'],
+  plugins: ['~/plugins/antd-ui','~/plugins/global-mixin.js', '~/plugins/axios'],
 
   components: true,
 
@@ -24,10 +24,6 @@ export default {
   modules: [
     '@nuxtjs/axios',
   ],
-
-  axios: {
-    baseURL: '/',
-  },
 
   build: {},
 

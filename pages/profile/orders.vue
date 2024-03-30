@@ -4,7 +4,7 @@
       <div class="flex items-center justify-between">
         <ul class="text-lg flex gap-6">
           <li class="text-grey-text cursor-pointer" @click="changeActiveHeader(index)"
-            v-for="(header, index) in headers" :key="header"
+            v-for="(header, index) in headers" :key="header.name"
             :style="{ borderBottom: header.isActive ? '1px solid #FF6418' : '0', color: header.isActive ? '#FF6418' : '' }">
             {{
               header.name }}</li>

@@ -3,13 +3,13 @@
     <section id="brands_name" class="w-full grid grid-cols-12 gap-6 items-start px-16 py-[60px]">
       <div class="col-span-2">
         <div class="space-y-10">
-          <div class="border rounded-lg border-grey-3 p-2 text-center overflow-hidden">
-            <img src="~/assets/img/brands/1.png" alt="brand">
+          <div class="border rounded-lg h-[200px] w-full border-grey-3 p-2 text-center overflow-hidden">
+            <img class="w-full h-full object-cover" :src="brand?.lg_logo" alt="brand">
           </div>
           <ul class="space-y-4">
-            <li v-for="item in listOfCatalog" :key="item.name"><nuxt-link
+            <li v-for="category in categories" :key="category.id"><nuxt-link
                 class="text-black hover:text-orange-2 font-ttfirs text-xl"
-                :to="'/brands/' + $route.params.name + '/' + item.url">{{ item.name
+                :to="`/category/${category.slug}`">{{ category.name
                 }}</nuxt-link></li>
           </ul>
           <div>
@@ -42,7 +42,7 @@
           <div class="flex items-center gap-4">
             <h1 class="font-medium font-ttfirs text-4xl"><span class="capitalize">{{ this.$route.params.name }}</span>
               весь ассортимент</h1>
-            <p class="text-lg text-grey-text">100 товаров</p>
+            <p class="text-lg text-grey-text">{{ products?.total }} товаров</p>
           </div>
           <div class="flex items-center gap-16">
             <div class="flex gap-2 items-center">
@@ -59,18 +59,30 @@
             </div>
           </div>
         </div>
-        <div class="w-full grid grid-cols-10 gap-6 mt-4">
-          <customCartDefault v-for="item in 12" :key="item" :items="6"
-            :data="{ img: require(`~/assets/img/electronics/1.png`), text: 'Электросамокат Xiaomi Mi Electric Scooter 3 до 100 кг, черный', discount: 0, price: '3 512 750', price_old: '', rating: '5.0' }" />
+        <div v-if="products.total > 0" class="w-full grid grid-cols-10 gap-6 mt-4">
+          <customCartDefault v-for="product in products.data" :key="product.id" :items="6"
+            :data="product" />
         </div>
-        <div class="w-full mt-16">
-          <a-pagination :total="500" :item-render="itemRender" />
+        <customEmptyDefault v-if="!products.total">
+          <template #image>
+            <img src="~/assets/icon/empty-3.svg" alt="empty">
+          </template>
+          <template #title>
+            В корзине пока нет товаров
+          </template>
+          <template #description>
+            Но вы всегда можете ее наполнить
+          </template>
+        </customEmptyDefault>
+        <div v-if="products.total" class="w-full mt-16">
+          <a-pagination :total="products.last_page" :item-render="itemRender" />
         </div>
       </div>
     </section>
   </main>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
   layout: 'userLayout',
   data: () => {
@@ -80,19 +92,19 @@ export default {
         { name: 'Бренды', url: '/brands' },
       ],
       price: [10000, 10000000],
-      listOfCatalog: [
-        { name: 'Телевизоры', url: `tv` },
-        { name: 'Холодильники', url: `fridge` },
-        { name: 'Выключатели и порты', url: `ports` },
-        { name: 'Стиральная машина', url: `washing-machine` },
-        { name: 'Кондиционеры', url: `conditioner` },
-      ]
     }
   },
+  computed: {
+    ...mapGetters('brands', ['brand', 'products', 'categories'])
+  },
+  async asyncData({store, params}) {
+    await store.dispatch('brands/fetchBrand', params.name);
+  },
   mounted() {
-    this.breadCrumb.push({ url: '/brands/' + this.$route.params.name, name: this.$route.params.name })
+    this.breadCrumb.push({ url: '/brands/' + this.$route.params.name, name: this.brand.name});
   },
   methods: {
+    ...mapActions('brands', ['fetchBrand']),
     itemRender(_, type, originalElement) {
       if (type === 'prev') {
         return;

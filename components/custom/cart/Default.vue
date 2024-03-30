@@ -14,8 +14,8 @@
         class="absolute h-full w-full top-0 left-0 z-10 text-base flex justify-center items-center transition-all ease translate-y-10 group-hover:translate-y-0 bg-[rgba(0,0,0,0.1)] opacity-0 group-hover:opacity-100">
         <button @click="isModalVisible = true" class="px-5 py-4 bg-white rounded-full">Быстрый просмотр</button>
       </div>
-      <img class="w-full object-cover scale-x-[-1]" :src="data.img" alt="image">
-      <div v-if="data.discount" class="absolute bottom-6 left-6 flex flex-col items-center justify-end">
+      <img class="w-full h-hull object-cover" :src="data.products[0].images[0].lg_img || require(`~/assets/img/chair/1.png`)" alt="image">
+      <div v-if="data.products[0].discount" class="absolute bottom-6 left-6 flex flex-col items-center justify-end">
         <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[70%]" width="71" height="60"
           viewBox="0 0 71 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -23,7 +23,7 @@
             fill="#E90A0A" />
         </svg>
         <p class="font-ttfirs text-white text-xs leading-[0.8] z-10">скидки</p>
-        <h4 class="text-base text-white font-semibold leading-tight font-ttfirs mb-1 z-10">--{{ data.discount }}%</h4>
+        <h4 class="text-base text-white font-semibold leading-tight font-ttfirs mb-1 z-10">--{{ data.products[0].discount }}%</h4>
       </div>
     </div>
     <div class="bg-grey-4 h-[calc(100%-370px)] relative py-3 px-4 rounded-2xl">
@@ -32,12 +32,12 @@
         <localSvgBuy class="w-5 h-5" fill="#FF6418" />
       </button>
       <div>
-        <h3 class="font-ttfirs text-xl">{{ data.price }} сум</h3>
-        <h4 v-if="data.price_old" class="line-through text-grey-5 text-base mt-1">{{ data.price_old }} сум</h4>
+        <h3 class="font-ttfirs text-xl">{{ data.products[0].price }} сум</h3>
+        <h4 v-if="data.products[0].discount_price" class="line-through text-grey-5 text-base mt-1">{{ data.products[0].discount_price }} сум</h4>
         <p class="text-lg font-ttfirs flex items-center gap-2"><a-icon type="star" :style="{ color: '#F6C65C' }"
-            theme="filled" /><span>5.0</span></p>
+            theme="filled" /><span>{{ data.stars || '5.0' }}</span></p>
       </div>
-      <figcaption class="text-base leading-snug font-medium mt-2 line-clamp-2">{{ data.text }}
+      <figcaption class="text-base leading-snug font-medium mt-2 line-clamp-2">{{ data.name }}
       </figcaption>
     </div>
 
