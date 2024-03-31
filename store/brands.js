@@ -28,20 +28,18 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchBrands({ commit }) {
+  async getBrands({ commit }) {
     return await this.$axiosURL.get('/brands')
       .then((response) => {
         commit('SET_BRANDS', response.data.brands);
-        console.log(response.data)
       });
   },
-  async fetchBrand({ commit }, slug) {
+  async getBrand({ commit }, slug) {
     return await this.$axiosURL.get('/brands/' + slug)
       .then((response) => {
         commit('SET_BRAND', response.data.brand);
         commit('SET_CATEGORIES', response.data.categories);
         commit('SET_PRODUCTS', response.data.products);
-        console.log(response.data)
       })
       .catch((error) => {
         console.log(error);

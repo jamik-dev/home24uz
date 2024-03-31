@@ -38,7 +38,7 @@ import { mapGetters} from 'vuex';
 export default {
   layout: 'userLayout',
   async asyncData({store}) {
-    await store.dispatch('brands/fetchBrands');
+    await store.dispatch('brands/getBrands');
   },
   data: () => {
     return {

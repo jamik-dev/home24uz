@@ -32,6 +32,7 @@ p, ul, h1, h2, h3, h4, h5, h6, a, button, input, select, span, div, figure {
   box-shadow: none;
 }
 
+
 #header .ant-select-selection-selected-value {
   @apply text-grey-text;
 }
@@ -124,6 +125,10 @@ main .ant-select-selection {
   color: #FF6418;
 }
 
+.ant-carousel .slick-slider {
+  height: 100%;
+}
+
 .ant-slider-handle {
   border-color: #FF6418;
   width: 20px;
@@ -132,6 +137,7 @@ main .ant-select-selection {
   top: 50%;
   transform: translate(-50%, -50%) !important;
 }
+
 
 .ant-slider-handle.ant-tooltip-open {
   border-color: #FF6418;

@@ -9,11 +9,13 @@ export const state = () => ({
     { id: 7, name: 'construction', active: false },
     { id: 8, name: 'penal', active: false },
     { id: 9, name: 'stock', active: false },
-  ]
+  ],
+  isProductModalVisible: false,
 })
 
 export const getters = {
   navLinks: state => state.navLinks,
+  isProductModalVisible: state => state.isProductModalVisible,
 }
 
 export const mutations = {
@@ -21,7 +23,9 @@ export const mutations = {
     state.navLinks.forEach((link) => {
       link.active = link.id === id;
     })
-    
+  },
+  SET_PRODUCT_MODAL_VISIBILITY(state, visibility) {
+    state.isProductModalVisible = visibility;
   }
 }
 

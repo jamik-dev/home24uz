@@ -1,6 +1,6 @@
 <template>
   <main>
-    <localHomeHero />
+    <localHomeHero :day_products="day_products.data" />
     <div class="w-full px-16 py-[120px]">
       <section id="home_category">
         <h2 class="text-4xl font-ttfirs">Категории</h2>
@@ -12,7 +12,7 @@
           </div>
         </div>
       </section>
-      <customProductBestSeller />
+      <customProductBestSeller :bestseller_products="bestseller_products.data" />
       <section id="banner" class="mt-[120px]">
         <div class="w-full h-auto">
           <client-only>
@@ -28,8 +28,8 @@
           <nuxt-link to="/popular" class="text-orange underline font-ttfirs text-xl">Все товары</nuxt-link>
         </div>
         <div class="w-full grid grid-cols-12 gap-6 mt-6">
-          <customCartDefault v-for="item in 6" :key="item"
-            :data="{ img: require(`~/assets/img/electronics/1.png`), text: 'Электросамокат Xiaomi Mi Electric Scooter 3 до 100 кг, черный', discount: 0, price: '3 512 750', price_old: '', rating: '5.0' }" />
+          <customCartDefault v-for="product in popular_products.data" :key="product.id"
+            :data="product" />
         </div>
         <div class="w-full grid grid-cols-12 gap-6 mt-14">
           <div v-for="item in 4" :key="item" class="col-span-3">
@@ -37,8 +37,8 @@
           </div>
         </div>
         <div class="w-full grid grid-cols-12 gap-6 mt-14">
-          <customCartDefault v-for="item in 6" :key="item"
-            :data="{ img: require(`~/assets/img/electronics/2.png`), text: 'Смартфон Vivo V21e 8/128GB, черный', discount: 0, price: '812 750', price_old: '1 012 750', rating: '5.0' }" />
+          <customCartDefault v-for="product in popular_products.data" :key="product.id"
+            :data="product" />
         </div>
       </section>
       <section id="popular-brands" class="mt-[140px]">
@@ -47,9 +47,9 @@
           <nuxt-link to="/brands" class="text-orange underline font-ttfirs text-xl">Смотреть все</nuxt-link>
         </div>
         <div class="w-full grid grid-cols-12 gap-6 mt-6">
-          <div v-for="item in 12" :key="item" class="col-span-2">
-            <div class="rounded-lg border overflow-hidden border-grey-3 flex justify-center items-center"><img
-                class="object-cover h-[160px]" src="~/assets/img/brands/1.png" alt="brands"></div>
+          <div v-for="brand in brands" :key="brand.id" class="col-span-2">
+            <nuxt-link :to="`/brands/${brand.slug}`" class="rounded-lg border overflow-hidden border-grey-3 flex justify-center items-center"><img
+                class="object-cover h-[160px]" :src="brand.lg_logo || require(`~/assets/img/brands/1.png`)" :alt="brand.name"></nuxt-link>
           </div>
         </div>
       </section>
@@ -81,8 +81,8 @@
           <nuxt-link to="/" class="text-orange underline font-ttfirs text-xl">Все товары</nuxt-link>
         </div>
         <div class="w-full grid grid-cols-12 gap-6 mt-14">
-          <customCartDefault v-for="item in 12" :key="item"
-            :data="{ img: require(`~/assets/img/electronics/3.png`), text: 'Телевизор Artel UA32H4101 32&quot;, серебристый', discount: 0, price: '3 512 750', price_old: '4 012 750', rating: '5.0' }" />
+          <customCartDefault v-for="product in popular_products.data" :key="product.id"
+            :data="product" />
         </div>
         <div class="w-full mt-[120px] px-[96px] py-[72px] bg-grey-4 rounded-2xl relative">
           <div class="w-2/3 flex flex-col gap-4">
@@ -124,11 +124,24 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import VueSlickCarousel from 'vue-slick-carousel'
 export default {
   components: {
     VueSlickCarousel,
   },
+  async asyncData({store}) {
+    const popular_products = await store.dispatch('products/getProducts', {type: 'popular', limit: 6});
+    const bestseller_products = await store.dispatch('products/getProducts', {type: 'bestseller', limit: 6});
+    const day_products = await store.dispatch('products/getProducts', {type: 'products_of_the_day', limit: 3});
+    await store.dispatch('brands/getBrands');
+    return { popular_products, bestseller_products, day_products }
+  },
+  computed: {
+    ...mapGetters({
+      brands: 'brands/brands'
+    })
+  }
 }
 </script>
 

@@ -4,7 +4,7 @@
       <div class="col-span-2">
         <div class="space-y-10">
           <div class="border rounded-lg h-[200px] w-full border-grey-3 p-2 text-center overflow-hidden">
-            <img class="w-full h-full object-cover" :src="brand?.lg_logo" alt="brand">
+            <img class="w-full h-full object-cover" :src="brand?.lg_logo || require(`~/assets/img/brands/1.png`)" :alt="brand.name">
           </div>
           <ul class="space-y-4">
             <li v-for="category in categories" :key="category.id"><nuxt-link
@@ -98,13 +98,12 @@ export default {
     ...mapGetters('brands', ['brand', 'products', 'categories'])
   },
   async asyncData({store, params}) {
-    await store.dispatch('brands/fetchBrand', params.name);
+    await store.dispatch('brands/getBrand', params.name);
   },
   mounted() {
     this.breadCrumb.push({ url: '/brands/' + this.$route.params.name, name: this.brand.name});
   },
   methods: {
-    ...mapActions('brands', ['fetchBrand']),
     itemRender(_, type, originalElement) {
       if (type === 'prev') {
         return;
