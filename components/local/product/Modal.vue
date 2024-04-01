@@ -1,7 +1,7 @@
 <template>
   <a-modal :width="'1000px'" v-if="product" v-model="isProductModalVisible" :footer="false"
     :title="product?.name || 'default title'" centered @ok="isProductModalVisible = false">
-    <div class="w-full flex items-start gap-8">
+    <div class="w-full flex gap-8">
       <div class="w-7/12">
         <div class="rounded-lg w-full border border-grey-4 p-2 relative">
           <div
@@ -32,7 +32,8 @@
         </div>
         <div class="mt-6">
           <VueSlickCarousel @beforeChange="syncSliders" v-if="product?.images" :arrows="false" @afterChange="activeItem"
-            :ref="product?.id + 'c2'" :asNavFor="this.$refs[this.product?.id + 'c1']" :slidesToShow="6" :focusOnSelect="true">
+            :ref="product?.id + 'c2'" :asNavFor="this.$refs[this.product?.id + 'c1']" :slidesToShow="6"
+            :focusOnSelect="true">
             <div v-for="(image, index) in product?.images" :key="image.id">
               <div :class="{ 'border-orange': index === activeSlider }"
                 class="h-[80px] w-[80px] mx-auto border border-grey-4 rounded-xl cursor-pointer p-1">
@@ -43,7 +44,8 @@
           </VueSlickCarousel>
         </div>
       </div>
-      <div class="space-y-8 w-5/12">
+      <div class="w-5/12 flex flex-col">
+        <div class="space-y-8">
         <div class="flex items-center justify-between text-grey-text text-base">
           <p class="flex items-center gap-1"><a-icon type="star" :style="{ color: '#F6C65C' }" theme="filled" /><span
               class="text-black">{{ product?.info.stars || '5.0' }}</span></p>
@@ -78,7 +80,8 @@
     attribute.options.filter(obj => obj.slug === product?.slug)[0].title }}</span>
           </p>
         </div>
-        <nuxt-link class="flex items-center gap-2 group hover:text-orange text-lg text-orange-2"
+      </div>
+        <nuxt-link class="flex items-center mt-auto mb-2 gap-2 group hover:text-orange text-lg text-orange-2"
           :to="`/category/nimadir/nimadir/${product?.slug}`">Подробнее о
           товаре <a-icon type="arrow-right" :style="{ color: '#FF7E00' }" /></nuxt-link>
       </div>

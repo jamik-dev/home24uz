@@ -19,13 +19,13 @@
         </div>
       </div>
       <div class="w-full grid grid-cols-12 gap-6 mt-8">
-        <div v-for="brand in brands" :key="brand.id" class="col-span-2 space-y-2 text-center">
-          <div class="rounded-lg border overflow-hidden border-grey-3 flex justify-center items-center"><img
-              class="object-cover h-[160px]" :src="brand.lg_logo || require(`~/assets/img/brands/1.png`)" :alt="brand.name">
+        <nuxt-link v-for="brand in brands" :key="brand.id" :to="`/brands/${brand.slug}`" class="col-span-2 space-y-2 text-center group">
+          <div class="rounded-lg  h-[160px] w-full border overflow-hidden border-grey-3 flex justify-center items-center"><img
+              class="object-cover h-full w-full duration-200 group-hover:scale-105" :src="brand.lg_logo || require(`~/assets/img/brands/1.png`)" :alt="brand.name">
           </div>
-          <nuxt-link :to="`/brands/${brand.slug}`"
-            class="inline-block text-black text-lg cursor-pointer hover:text-orange duration-200">{{ brand.name }}</nuxt-link>
-        </div>
+          <p
+            class="inline-block text-black text-lg cursor-pointer group-hover:text-orange duration-200">{{ brand.name }}</p>
+        </nuxt-link>
       </div>
       <div class="w-full mt-16">
         <a-pagination :total="500" :item-render="itemRender" />
