@@ -12,7 +12,7 @@
       </div>
       <div
         class="absolute h-full w-full top-0 left-0 z-10 text-base flex justify-center items-center transition-all ease translate-y-10 group-hover:translate-y-0 bg-[rgba(0,0,0,0.1)] opacity-0 group-hover:opacity-100">
-        <button @click="SET_PRODUCT_MODAL_VISIBILITY(true)" class="px-5 py-4 bg-white rounded-full">Быстрый просмотр</button>
+        <button @click="isProductModalVisible = true" class="px-5 py-4 bg-white rounded-full">Быстрый просмотр</button>
       </div>
       <img class="w-full h-hull object-cover" :src="data?.products[0].images[0].lg_img || require(`~/assets/img/chair/1.png`)" alt="image">
       <div v-if="data?.products[0].discount" class="absolute bottom-6 left-6 flex flex-col items-center justify-end">
@@ -44,11 +44,10 @@
       </figcaption>
     </div>
 
-    <localProductModal v-if="isProductModalVisible" :slug="this.data.products[0].slug" />
+    <localProductModal :modalVisible="isProductModalVisible" v-if="isProductModalVisible" @modalTrigger="modalTrigger" :slug="this.data.products[0].slug" />
   </figure>
 </template>
 <script>
-import {mapMutations, mapGetters} from 'vuex'
 export default {
   props: {
     data: {
@@ -60,11 +59,15 @@ export default {
       default: 6
     },
   },
-  computed: {
-    ...mapGetters(['isProductModalVisible'])
+  data() {
+    return {
+      isProductModalVisible: false,
+    }
   },
   methods: {
-    ...mapMutations(['SET_PRODUCT_MODAL_VISIBILITY'])
+    modalTrigger(val) {
+      this.isProductModalVisible = val
+    }
   }
 }
 </script>
