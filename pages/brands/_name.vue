@@ -61,7 +61,7 @@
         </div>
         <div v-if="products.total > 0" class="w-full grid grid-cols-10 gap-6 mt-4">
           <customCartDefault v-for="product in products.data" :key="product.id" :items="6"
-            :data="product" />
+            :data="product.products[0]" />
         </div>
         <customEmptyDefault v-if="!products.total">
           <template #image>

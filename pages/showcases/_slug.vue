@@ -2,14 +2,13 @@
   <main>
     <section id="popular" class="px-16 py-[60px]">
       <customBreadCrumb :breadCrumbData="breadCrumb" />
-      <h1 class="font-medium font-ttfirs text-4xl mt-4">Xит товары</h1>
+      <h1 class="font-medium font-ttfirs text-4xl mt-4">{{ showcase.name }}</h1>
       <div class="w-full grid grid-cols-12 gap-6 items-start mt-12">
         <div class="col-span-2">
           <div class="space-y-10">
             <ul class="space-y-4">
               <li v-for="item in listOfCatalog" :key="item.name"><nuxt-link
-                  class="text-black hover:text-orange-2 font-ttfirs text-xl"
-                  :to="'/category/' + item.url">{{ item.name
+                  class="text-black hover:text-orange-2 font-ttfirs text-xl" :to="'/category/' + item.url">{{ item.name
                   }}</nuxt-link></li>
             </ul>
             <div>
@@ -55,12 +54,23 @@
               </div>
             </div>
           </div>
-          <div :style="{gridTemplateColumns: `repeat(${gridOrder ? 6 : 10}, minmax(0, 1fr))`}" class="w-full grid gap-6 mt-4">
-            <customCartDefault v-for="product in products?.data" :key="product.id" :items="6"
-              :data="product" />
+          <div v-if="showcase.products.length"
+            :style="{ gridTemplateColumns: `repeat(${gridOrder ? 6 : 10}, minmax(0, 1fr))` }"
+            class="w-full grid gap-6 mt-4">
+            <customCartDefault v-for="product in showcase.products" :key="product.id" :items="6" :data="product" />
           </div>
-          <div v-if="products?.total" class="w-full mt-16">
-            <a-pagination :total="products.last_page" :item-render="itemRender" />
+          <div v-else>
+            <customEmptyDefault>
+              <template #image>
+                <img src="~/assets/icon/empty-4.svg" alt="empty">
+              </template>
+              <template #title>
+                Товар не найдена
+              </template>
+              <template #description>
+                Но вы всегда можете ее наполнить
+              </template>
+            </customEmptyDefault>
           </div>
         </div>
       </div>
@@ -68,16 +78,15 @@
   </main>
 </template>
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
-  async asyncData({store}) {
-    await store.dispatch('products/getProducts', {type: 'popular', limit: 0});
+  async asyncData({ store, params }) {
+    await store.dispatch('showcases/getShowcase', params.slug);
   },
   data: () => {
     return {
       breadCrumb: [
         { name: 'Главная', url: '/' },
-        { name: 'Xит товары', url: '/popular' }
       ],
       price: [10000, 10000000],
       listOfCatalog: [
@@ -90,8 +99,14 @@ export default {
       gridOrder: false,
     }
   },
+  mounted() {
+    this.breadCrumb.push({ name: this.showcase.name, url: `/showcases/${this.showcase.slug}` });
+  },
   computed: {
-    ...mapGetters('products', ['products']),
+    ...mapGetters({
+      showcase: 'showcases/showcase',
+      categories: 'showcases/categories'
+    })
   },
   methods: {
     itemRender(_, type, originalElement) {
