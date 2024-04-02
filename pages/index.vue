@@ -71,9 +71,9 @@
                 <a-icon type="arrow-right" />
               </div>
             </template>
-            <div v-for="item in 8" :key="item">
+            <div v-for="feedback in feedbacks?.data" :key="feedback.id">
               <div class="p-3">
-                <customCartClientReview />
+                <customCartClientReview :feedback="feedback" />
               </div>
             </div>
           </VueSlickCarousel>
@@ -142,13 +142,17 @@ export default {
     const top_banners = await store.dispatch('banners/getBanners', {type: '', limit: 3});
     const main_banners = await store.dispatch('banners/getBanners', {type: 'main', limit: 3});
     const promo_banners = await store.dispatch('banners/getBanners', {type: '', limit: 4});
-    const posts = await store.dispatch('posts/getPosts', {limit: 4});
+
+    await store.dispatch('posts/getPosts', {limit: 4});
+    await store.dispatch('feedbacks/getFeedbacks');
     await store.dispatch('brands/getBrands');
-    return { popular_products, bestseller_products, day_products, top_banners, main_banners, promo_banners, posts };
+    return { popular_products, bestseller_products, day_products, top_banners, main_banners, promo_banners };
   },
   computed: {
     ...mapGetters({
-      brands: 'brands/brands'
+      brands: 'brands/brands',
+      posts: 'posts/posts',
+      feedbacks: 'feedbacks/feedbacks',
     })
   }
 }
