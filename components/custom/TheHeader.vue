@@ -2,11 +2,15 @@
   <header id="header" class="w-full sticky top-0 duration-300 ease transition-all z-[1000]">
     <a-modal :width="'600px'" v-model="enterAccountModal" :footer="false" title="Войти или создать профиль" centered>
       <div class="p-4">
-        <label for="phone_number" class="text-lg text-grey-text">Номер телефона</label>
-        <input type="text" id="phone_number" placeholder="+998 (--) --- -- --"
-          class="w-full mt-2 text-lg  border border-grey-3 rounded-lg p-4 focus:border-orange outline-none" />
-        <button @click="enterAccountModal = false"
-          class="bg-orange mt-7 cursor-pointer w-full py-4 text-lg rounded-lg text-white font-medium">Войти</button>
+        <label :style="{color: !isPhoneValid ? '#E90A0A' : ''}" for="phone_number" class="text-lg text-grey-text">Номер телефона</label>
+        <div class="relative mt-2 mb-12">
+          <input type="text" id="phone_number" v-model="form.modalNumber" v-mask="'+998 (##) ###-##-##'" placeholder="+998 (--) --- -- --"
+            :style="{borderColor: !isPhoneValid ? '#E90A0A' : ''}"
+            class="w-full bg-white text-lg  border border-grey-3 rounded-lg p-4 focus:border-orange outline-none" />
+          <p :style="{transform: messageShow ? 'translateY(32px)' : 'translateY(0px)', opacity: messageShow ? '1' : '0', transition: 'opacity 0.2s ease-in-out, transform 0.2s ease-in-out'}" class="absolute pointer-events-none bottom-0 left-0 text-red font-light text-lg italic">{{ this.form.message }}</p>
+        </div>
+        <button @click="formValidate"
+          class="bg-orange cursor-pointer w-full py-4 text-lg rounded-lg text-white font-medium">Войти</button>
       </div>
     </a-modal>
     <div class="bg-grey-light w-full px-16 py-2 flex justify-between items-center">
@@ -144,6 +148,14 @@ export default {
       headerModal: true,
       enterAccountModal: false,
       isUserLoggedIn: false,
+      messageShow: false,
+      isPhoneValid: true,
+      form: {
+        modalNumber: '',
+        modalPassword: null,
+        modalSMSCode: null,
+        message: ''
+      }
     }
   },
   methods: {
@@ -152,6 +164,30 @@ export default {
     },
     relativeDropdown() {
       return document.querySelector('.dropdown_heading');
+    },
+    async formValidate() {
+      if (this.form.modalNumber.length < 19) {
+        this.form.message = 'Номер телефона должен содержать 12 символов';
+        this.isPhoneValid = false;
+        this.messageShow = true;
+        return;
+      }
+      this.isPhoneValid = true;
+      this.messageShow = false;
+      this.loading = true;
+      // await this.$store.dispatch('auth/authCheck', this.form.modalNumber);
+
+    }
+  },
+  watch: {
+    'form.modalNumber'(val) {
+      this.form.message = 'Номер телефона должен содержать 12 символов';
+      if (val.length < 19) {
+        this.messageShow = true;
+      } else {
+        this.isPhoneValid = true;
+        this.messageShow = false;
+      }
     }
   },
   mounted() {

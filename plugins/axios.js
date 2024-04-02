@@ -13,5 +13,10 @@ export default ({ $axios, redirect, error }, inject) => {
     }
   )
 
+  axiosURL.interceptors.request.use((config) => {
+    config.headers.common['Authorization'] = `Bearer ${process.server ? '' : localStorage.getItem('token') ? localStorage.getItem('token') : ''}`
+    return config
+  })
+
   inject('axiosURL', axiosURL)
 }
