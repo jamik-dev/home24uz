@@ -1,0 +1,34 @@
+<template>
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M14.2849 0.6H17.5515C18.5666 0.6 19.3993 1.4322 19.3993 2.47018V5.7641C19.3993 6.80121 18.5664 7.63429 17.5515 7.63429H14.2849C13.2687 7.63429 12.4359 6.80105 12.4359 5.7641V2.47018C12.4359 1.43237 13.2686 0.6 14.2849 0.6Z"
+      :stroke="fill" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+    <path
+      d="M2.44892 0.6H5.71449C6.73078 0.6 7.56341 1.43237 7.56341 2.47018V5.7641C7.56341 6.80105 6.73062 7.63429 5.71449 7.63429H2.44892C1.43279 7.63429 0.6 6.80105 0.6 5.7641V2.47018C0.6 1.43237 1.43263 0.6 2.44892 0.6Z"
+      :stroke="fill" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+    <path
+      d="M2.44892 12.3657H5.71449C6.73062 12.3657 7.56341 13.1979 7.56341 14.2369V17.5298C7.56341 18.5676 6.73078 19.4 5.71449 19.4H2.44892C1.43263 19.4 0.6 18.5676 0.6 17.5298V14.2369C0.6 13.1979 1.43279 12.3657 2.44892 12.3657Z"
+      :stroke="fill" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+    <path
+      d="M14.2849 12.3657H17.5515C18.5664 12.3657 19.3993 13.1978 19.3993 14.2369V17.5298C19.3993 18.5678 18.5666 19.4 17.5515 19.4H14.2849C13.2686 19.4 12.4359 18.5676 12.4359 17.5298V14.2369C12.4359 13.1979 13.2687 12.3657 14.2849 12.3657Z"
+      :stroke="fill" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+
+</template>
+
+<script>
+export default {
+  props: {
+    fill: {
+      type: String,
+      default: '#020105',
+    }
+  }
+}
+</script>
+
+<style scoped>
+svg {
+  transition: fill 0.3s ease;
+}
+</style>

@@ -53,7 +53,7 @@ export default {
         { name: 'Главная', url: '/' },
         { name: 'Избранное', url: '/favourites' },
       ],
-      isEmpty: false,
+      isEmpty: true,
     }
   }
 }

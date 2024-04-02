@@ -47,16 +47,20 @@
               </a-select>
             </div>
             <div class="flex gap-4">
-              <img class="w-8" src="~/assets/icon/9_cubes.svg" alt="filter_9">
-              <img class="w-8" src="~/assets/icon/4_cubes.svg" alt="filter_4">
+              <div @click="gridOrder = true">
+                <localSvgFourcubes :fill="gridOrder ? '#FF6418' : '#020105'" class="w-8 h-8 cursor-pointer" />
+              </div>
+              <div @click="gridOrder = false">
+                <localSvgNinecubes :fill="!gridOrder ? '#FF6418' : '#020105'" class="w-8 h-8 cursor-pointer" />
+              </div>
             </div>
           </div>
-          <div class="w-full grid grid-cols-10 gap-6 mt-4">
-            <customCartDefault v-for="item in 12" :key="item" :items="6"
-              :data="{ img: require(`~/assets/img/electronics/1.png`), text: 'Электросамокат Xiaomi Mi Electric Scooter 3 до 100 кг, черный', discount: 0, price: '3 512 750', price_old: '', rating: '5.0' }" />
+          <div :style="{gridTemplateColumns: `repeat(${gridOrder ? 6 : 10}, minmax(0, 1fr))`}" class="w-full grid gap-6 mt-4">
+            <customCartDefault v-for="product in products?.data" :key="product.id" :items="6"
+              :data="product" />
           </div>
-          <div class="w-full mt-16">
-            <a-pagination :total="500" :item-render="itemRender" />
+          <div v-if="products?.total" class="w-full mt-16">
+            <a-pagination :total="products.last_page" :item-render="itemRender" />
           </div>
         </div>
       </div>
@@ -64,7 +68,11 @@
   </main>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 export default {
+  async asyncData({store}) {
+    await store.dispatch('products/getProducts', {type: 'popular', limit: 0});
+  },
   data: () => {
     return {
       breadCrumb: [
@@ -78,8 +86,12 @@ export default {
         { name: 'Выключатели и порты', url: `ports` },
         { name: 'Стиральная машина', url: `washing-machine` },
         { name: 'Кондиционеры', url: `conditioner` },
-      ]
+      ],
+      gridOrder: false,
     }
+  },
+  computed: {
+    ...mapGetters('products', ['products']),
   },
   methods: {
     itemRender(_, type, originalElement) {

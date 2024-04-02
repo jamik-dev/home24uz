@@ -26,6 +26,7 @@ export const actions = {
   async getProducts({ commit }, {type, limit}) {
     return await this.$axiosURL.get('/products', {params: {type, limit}})
       .then(response => {
+        console.log(response.data.products)
         commit('SET_PRODUCTS', response.data.products)   
         return response.data.products;
       })

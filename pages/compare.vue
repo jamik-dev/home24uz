@@ -66,7 +66,7 @@ export default {
         { name: 'Главная', url: '/' },
         { name: 'Сравнение', url: '/compare' },
       ],
-      isEmpty: true,
+      isEmpty: false,
     }
   }
 }

@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div v-if="posts.last_page > 0" class="w-full mt-16">
+      <div v-if="posts.total" class="w-full mt-16">
         <a-pagination :total="posts.last_page" :item-render="itemRender" />
       </div>
     </section>
