@@ -19,12 +19,17 @@ export default {
       headerModal: false,
     }
   },
+  props: {
+    isHeaderModalOpen: {
+      type: Boolean,
+    }
+  },
   watch: {
-    headerModal(_, newVal) {
-      document.body.style.overflow = newVal ? 'auto' : 'hidden';
-      document.documentElement.style.scrollbarGutter = newVal ? 'auto' : 'stable';
-      document.body.style.scrollbarGutter = newVal ? 'auto' : 'stable';
-      this.$emit('toggleModal', newVal);
+    isHeaderModalOpen(val) {
+      this.headerModal = val;
+    },
+    headerModal(val) {
+      this.$emit('toggleModal', val);
     }
   }
 }

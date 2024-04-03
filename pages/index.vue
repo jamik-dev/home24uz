@@ -5,11 +5,13 @@
       <section id="home_category">
         <h2 class="text-4xl font-ttfirs">Категории</h2>
         <div class="w-full grid grid-cols-12 gap-8 mt-6">
-          <div v-for="item in 12" :key="item"
-            class="col-span-2 bg-grey-4 rounded-lg group flex flex-col cursor-pointer justify-between h-full w-full p-6">
-            <img class="w-full" src="~/assets/img/techniques/1.png" alt="image">
-            <h3 class="group-hover:text-orange font-ttfirs text-xl duration-200 text-center">Бытовая техника</h3>
-          </div>
+          <nuxt-link :to="`/category/${category.slug}`" v-for="category in categories" :key="category.id"
+            class="col-span-2 bg-grey-4 rounded-lg group flex flex-col cursor-pointer justify-between w-full p-6">
+            <div class="h-[150px] w-full">
+              <img class="w-full h-full object-cover" :src="category.lg_img || require(`~/assets/img/techniques/1.png`)" :alt="category.name">
+            </div>
+            <h3 class="group-hover:text-orange font-ttfirs text-xl duration-200 text-center">{{ category.name }}</h3>
+        </nuxt-link>
         </div>
       </section>
       <customProductShowcase :showcase="showcases[0]" />
@@ -110,6 +112,7 @@ export default {
     await store.dispatch('posts/getPosts', { limit: 4 });
     await store.dispatch('feedbacks/getFeedbacks');
     await store.dispatch('brands/getBrands');
+    await store.dispatch('categories/getCategories');
     return { day_products, top_banners, main_banners, promo_banners };
   },
   computed: {
@@ -118,6 +121,7 @@ export default {
       posts: 'posts/posts',
       feedbacks: 'feedbacks/feedbacks',
       showcases: 'showcases/showcases',
+      categories: 'categories/categories',
     })
   }
 }

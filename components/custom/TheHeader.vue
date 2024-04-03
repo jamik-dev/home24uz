@@ -40,7 +40,7 @@
         <nuxt-link to="/">
           <img src="~/assets/img/logo.png" class="w-[178px]" alt="logo">
         </nuxt-link>
-        <localTheHeaderBurger @toggleModal="modalToggler" />
+        <localTheHeaderBurger :isHeaderModalOpen="headerModal" @toggleModal="modalToggler" />
         <div class="w-2/5 h-fit relative overflow-hidden rounded-lg">
           <input type="text" placeholder="Искать"
             class="border text-grey-text py-2 px-4 pr-24 rounded-lg outline-none w-full text-lg border-grey-2 font-light overflow-hidden">
@@ -101,51 +101,30 @@
         </ul>
       </div>
       <transition name="modal">
-        <div v-if="headerModal" class="mt-5">
+        <div v-if="!headerModal" class="mt-5">
           <ul class="flex items-center justify-between list-none">
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgCrown /> Подарки
+            <li v-for="category in categories.slice(0, 8)" :key="category.id" class="text-nowrap text-lg">
+              <nuxt-link :to="`/category/${category.slug}`" class="text-black hover:text-orange">
+                {{ category.name }}
+              </nuxt-link>
             </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgSofa /> Мебель
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgMicrowave /> Техника
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgPot /> Текстиль
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgPot /> Посуда
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgInstruct /> Сантехника
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgDrill /> Стройматириалы
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgPenal /> Канцтовары
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgBag /> Акции
-            </li>
-            <li class="flex items-center gap-2 text-lg -mb-1">
-              <a-select default-value="Ещё" class="w-[86px] text-orange header-2">
-              </a-select>
+            <li @click="modalToggler(true)" class="flex items-center gap-2 text-lg text-orange cursor-pointer">
+              <span>Ещё</span>
+              <a-icon type="down"/>
             </li>
           </ul>
         </div>
-        <localTheHeaderModal v-else />
+        <localTheHeaderModal :categories="categories" v-else />
       </transition>
     </div>
   </header>
 </template>
 <script>
+import {mapActions, mapGetters} from 'vuex';
 export default {
   data: () => {
     return {
-      headerModal: true,
+      headerModal: false,
       enterAccountModal: false,
       isUserLoggedIn: false,
       messageShow: false,
@@ -159,7 +138,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions('categories', ['getCategories']),
     modalToggler(val) {
+      document.body.style.overflow = !val ? 'auto' : 'hidden';
+      document.documentElement.style.scrollbarGutter = !val ? 'auto' : 'stable';
+      document.body.style.scrollbarGutter = !val ? 'auto' : 'stable';
       this.headerModal = val;
     },
     relativeDropdown() {
@@ -190,7 +173,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters('categories', ['categories'])
+  },
   mounted() {
+    this.getCategories();
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 0) {
