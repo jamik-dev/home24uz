@@ -5,7 +5,8 @@
       <div class="w-7/12">
         <div class="rounded-lg w-full border border-grey-4 p-2 relative">
           <div
-            class="absolute bg-white overflow-hidden z-10 top-4 right-4 w-[75px] h-[75px] rounded-full border border-grey-4 flex items-center justify-center">
+            @click="product.info.brand.slug ? $router.push(`/brands/${product.info.brand.slug}`) : $router.push(`/brands`)"
+            class="absolute cursor-pointer bg-white overflow-hidden z-10 top-4 right-4 w-[75px] h-[75px] rounded-full border border-grey-4 flex items-center justify-center">
             <img class="w-full h-full object-cover"
               :src="product?.info.brand?.lg_logo || require(`~/assets/img/logos/1.png`)"
               :alt="product?.info.brand?.name">
@@ -50,7 +51,7 @@
           <p class="flex items-center gap-1"><a-icon type="star" :style="{ color: '#F6C65C' }" theme="filled" /><span
               class="text-black">{{ product?.info.stars || '5.0' }}</span></p>
           <p class="flex items-center gap-1"><a-icon type="message" /> {{ product?.info.comments.length }} Отзывов</p>
-          <p>Код товара: {{ product?.info.default_product_id }}</p>
+          <p>Код товара: {{ product?.id }}</p>
         </div>
         <div class="bg-grey-4 p-6 rounded-lg">
           <div class="flex justify-between mb-10">
@@ -73,16 +74,15 @@
             <localSvgTap fill="#FF6418" />Купить в один клик
           </button>
         </div>
-        <div class="space-y-3">
-          <p v-for="attribute in attributes" :key="attribute.title" class="text-lg flex items-center gap-2"><span
-              class="text-grey-text">{{ attribute.title }}:</span><span
-              class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">{{
-    attribute.options.filter(obj => obj.slug === product?.slug)[0].title }}</span>
+        <div v-if="characteristics.length" class="space-y-3 overflow-hidden">
+          <p v-for="characteristic in characteristics[0]?.characteristics" :key="characteristic.id" class="text-lg flex items-center gap-2 text-nowrap line-clamp-1"><span
+              class="text-grey-text">{{ characteristic.name }}:</span><span
+              class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">{{ characteristic.options[0].name }}</span>
           </p>
         </div>
       </div>
         <nuxt-link class="flex items-center mt-auto mb-2 gap-2 group hover:text-orange text-lg text-orange-2"
-          :to="`/category/nimadir/nimadir/${product?.slug}`">Подробнее о
+          :to="`/product/${product?.slug}`">Подробнее о
           товаре <a-icon type="arrow-right" :style="{ color: '#FF7E00' }" /></nuxt-link>
       </div>
     </div>
@@ -112,8 +112,8 @@ export default {
     product() {
       return this.$store.getters['products/product'];
     },
-    attributes() {
-      return this.$store.getters['products/attributes'];
+    characteristics() {
+      return this.$store.getters['products/characteristics'];
     },
   },
   created() {

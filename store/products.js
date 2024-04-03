@@ -1,13 +1,15 @@
 export const state = () => ({
   products: null,
   product: null,
-  attributes: null
+  attributes: null,
+  characteristics: null
 })
 
 export const getters = {
   products: state => state.products,
   product: state => state.product,
-  attributes: state => state.attributes
+  attributes: state => state.attributes,
+  characteristics: state => state.characteristics
 }
 
 export const mutations = {
@@ -19,6 +21,9 @@ export const mutations = {
   },
   SET_ATTRIBUTES(state, attributes) {
     state.attributes = attributes
+  },
+  SET_CHARACTERISTICS(state, characteristics) {
+    state.characteristics = characteristics
   }
 }
 
@@ -36,10 +41,11 @@ export const actions = {
       .then(response => {
         commit('SET_PRODUCT', response.data.product);
         commit('SET_ATTRIBUTES', response.data.attributes);   
+        commit('SET_CHARACTERISTICS', response.data.characteristics);
         console.log(response.data);
         return response.data;
       })
-  }
+  },
 }
 
 export const namespaced = true;

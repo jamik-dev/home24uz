@@ -1,5 +1,5 @@
 <template>
-  <section id="bestsellers" class="mt-[120px]">
+  <section id="showcase" class="mt-[120px]">
     <div class="flex gap-6 items-end">
       <h2 class="text-4xl font-ttfirs">{{ showcase.name }}</h2>
       <nuxt-link :to="`/showcases/${showcase.slug}`" class="text-orange underline font-ttfirs text-xl">Все товары</nuxt-link>

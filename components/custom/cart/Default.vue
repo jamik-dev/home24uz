@@ -38,7 +38,7 @@
             theme="filled" /><span>{{ data?.stars || '5.0' }}</span></p>
       </div>
       <figcaption class="text-base leading-snug font-medium mt-2 line-clamp-2">
-        <nuxt-link class="text-black hover:text-orange" :to="`/category/nimadir/nimadir/${data?.slug}`">
+        <nuxt-link class="text-black hover:text-orange" :to="`/product/${data?.slug}`">
           {{ data?.name }}
         </nuxt-link>
       </figcaption>
