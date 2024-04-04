@@ -10,7 +10,7 @@
               :expandedKeys.sync="expandedKeysInParent">
               <template #title="{ name, slug, parent }">
                 <a-dropdown :trigger="['contextmenu']">
-                  <nuxt-link class="text-black hover:text-orange" :to="!!parent ? `/category/${parent?.slug}/${slug}` : `/category/${slug}`">{{ name }}</nuxt-link>
+                  <nuxt-link :style="{color: category?.category.slug === slug ? '#FF6418' : ''}" class="text-grey-text hover:text-orange" :to="!!parent ? `/category/${parent?.slug}/${slug}` : `/category/${slug}`">{{ name }}</nuxt-link>
                 </a-dropdown>
               </template>
             </a-tree>
