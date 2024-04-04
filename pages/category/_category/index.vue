@@ -6,10 +6,11 @@
         <div class="col-span-2 space-y-10">
           <div>
             <h3 class="font-ttfirs text-xl mb-2">Категории</h3>
-            <a-tree class="!-ml-6" :tree-data="treeData" :expandedKeys.sync="expandedKeys">
-              <template #title="{ title }">
+            <a-tree class="!-ml-6" :tree-data="treeData" :replaceFields="replaceFields"
+              :expandedKeys.sync="expandedKeysInParent">
+              <template #title="{ name, slug, parent }">
                 <a-dropdown :trigger="['contextmenu']">
-                  <span>{{ title }}</span>
+                  <nuxt-link class="text-black hover:text-orange" :to="!!parent ? `/category/${parent?.slug}/${slug}` : `/category/${slug}`">{{ name }}</nuxt-link>
                 </a-dropdown>
               </template>
             </a-tree>
@@ -96,81 +97,45 @@
                 </a-select>
               </div>
               <div class="flex gap-4">
-                <img class="w-8" src="~/assets/icon/9_cubes.svg" alt="filter_9">
-                <img class="w-8" src="~/assets/icon/4_cubes.svg" alt="filter_4">
+                <div @click="gridOrder = true">
+                  <localSvgFourcubes :fill="gridOrder ? '#FF6418' : '#020105'" class="w-8 h-8 cursor-pointer" />
+                </div>
+                <div @click="gridOrder = false">
+                  <localSvgNinecubes :fill="!gridOrder ? '#FF6418' : '#020105'" class="w-8 h-8 cursor-pointer" />
+                </div>
               </div>
             </div>
           </div>
-          <nuxt-child />
+          <nuxt-child :gridOrder="gridOrder" />
         </div>
       </div>
       <div v-if="isParentCategory" class="w-full">
-        <customProductBestSeller />
+        <customProductShowcase :showcase="showcases[0]" />
         <customDescriptionDefault />
       </div>
     </section>
   </main>
 </template>
 <script>
-const treeData = [
-  {
-    title: 'Офисная мебель',
-    key: '0-0',
-    children: [
-      {
-        title: '0-0-0',
-        key: '0-0-0',
-        children: [
-          { title: '0-0-0-0', key: '0-0-0-0' },
-          { title: '0-0-0-1', key: '0-0-0-1' },
-          { title: '0-0-0-2', key: '0-0-0-2' },
-        ],
-      },
-      {
-        title: '0-0-1',
-        key: '0-0-1',
-        children: [
-          { title: '0-0-1-0', key: '0-0-1-0' },
-          { title: '0-0-1-1', key: '0-0-1-1' },
-          { title: '0-0-1-2', key: '0-0-1-2' },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Мебель для гостинной',
-    key: '0-1'
-  },
-  {
-    title: 'Мебель для кухни',
-    key: '0-2'
-  },
-  {
-    title: 'Мебель для прихожей',
-    key: '0-3'
-  },
-  {
-    title: 'Мебель для спальни',
-    key: '0-4'
-  },
-  {
-    title: 'Мягкая мебель',
-    key: '0-5'
-  },
-  {
-    title: 'Садовая и прочее',
-    key: '0-6'
-  },
-];
-
+import { mapGetters } from 'vuex';
 export default {
   layout: 'userLayout',
+  async asyncData({ store, params }) {
+    await store.dispatch('showcases/getShowcases');
+    await store.dispatch('categories/getCategories');
+    await store.dispatch('categories/getCategory', params.category);
+  },
   data: () => {
     return {
-      treeData,
-      expandedKeys: ['0-0'],
       value: 1,
+      gridOrder: false,
       price: [500000, 5000000],
+      expandedKeysInParent: [],
+      replaceFields: {
+        title: 'name',
+        key: 'id',
+        children: 'children'
+      },
       radioStyle: {
         display: 'block',
         height: '30px',
@@ -179,6 +144,13 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      categories: 'categories/categories',
+      category: 'categories/category',
+      treeData: 'categories/treeData',
+      expandedKeys: 'categories/expandedKeys',
+      showcases: 'showcases/showcases',
+    }),
     isParentCategory() {
       return this.$route.fullPath === `/category/${this.$route.params.category}`
     }
@@ -186,10 +158,18 @@ export default {
   watch: {
     $route() {
       this.routerCheck('/category');
+    },
+    expandedKeys(val) {
+      this.expandedKeysInParent = val;
     }
+  },
+  mounted() {
+    this.expandedKeysInParent = this.expandedKeys;
   },
   created() {
     this.routerCheck('/category');
+  },
+  methods: {
   }
 }
 </script>

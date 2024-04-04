@@ -5,7 +5,7 @@
       <div class="w-7/12">
         <div class="rounded-lg w-full border border-grey-4 p-2 relative">
           <div
-            @click="product.info.brand.slug ? $router.push(`/brands/${product.info.brand.slug}`) : $router.push(`/brands`)"
+            @click="product?.info.brand?.slug ? $router.push(`/brands/${product?.info.brand?.slug}`) : $router.push(`/brands`)"
             class="absolute cursor-pointer bg-white overflow-hidden z-10 top-4 right-4 w-[75px] h-[75px] rounded-full border border-grey-4 flex items-center justify-center">
             <img class="w-full h-full object-cover"
               :src="product?.info.brand?.lg_logo || require(`~/assets/img/logos/1.png`)"
@@ -76,8 +76,8 @@
         </div>
         <div v-if="characteristics.length" class="space-y-3 overflow-hidden">
           <p v-for="characteristic in characteristics[0]?.characteristics" :key="characteristic.id" class="text-lg flex items-center gap-2 text-nowrap line-clamp-1"><span
-              class="text-grey-text">{{ characteristic.name }}:</span><span
-              class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">{{ characteristic.options[0].name }}</span>
+              class="text-grey-text">{{ characteristic?.name }}:</span><span
+              class="w-full mt-3 border-b border-grey-text border-dotted"></span><span class="text-black">{{ characteristic?.options[0]?.name }}</span>
           </p>
         </div>
       </div>

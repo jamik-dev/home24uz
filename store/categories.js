@@ -1,11 +1,15 @@
 export const state = () => ({
   categories: null,
   category: null,
+  treeData: null,
+  expandedKeys: [],
 })
 
 export const getters = {
   categories: state => state.categories,
   category: state => state.category,
+  treeData: state => state.treeData,
+  expandedKeys: state => state.expandedKeys
 }
 
 export const mutations = {
@@ -15,6 +19,12 @@ export const mutations = {
   SET_CATEGORY(state, category) {
     state.category = category
   },
+  SET_TREE_DATA(state, treeData) {
+    state.treeData = treeData
+  },
+  SET_EXPANDED_KEYS(state, expandedKeys) {
+    state.expandedKeys = expandedKeys;
+  }
 }
 
 export const actions = {
@@ -30,6 +40,7 @@ export const actions = {
     return await this.$axiosURL.get(`/categories/${slug}`)
       .then(response => {
         commit('SET_CATEGORY', response.data)
+        commit('SET_EXPANDED_KEYS', response.data.category.parent ? [response.data.category.parent_id, response.data.category.id] : [response.data.category.id])
         return response.data;
       })
   },
