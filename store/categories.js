@@ -6,10 +6,10 @@ export const state = () => ({
 })
 
 export const getters = {
-  categories: state => state.categories,
-  category: state => state.category,
-  treeData: state => state.treeData,
-  expandedKeys: state => state.expandedKeys
+  categories: (state) => state.categories,
+  category: (state) => state.category,
+  treeData: (state) => state.treeData,
+  expandedKeys: (state) => state.expandedKeys,
 }
 
 export const mutations = {
@@ -20,30 +20,43 @@ export const mutations = {
     state.category = category
   },
   SET_TREE_DATA(state, treeData) {
-    state.treeData = treeData
+    state.treeData = [...treeData]
+    function fixCategories(categories) {
+      categories.forEach((category) => {
+        category.children.forEach((subCategory) => {
+          if(!category.saveChild) {
+            subCategory.children = [];
+          }
+        })
+      })
+    }
+    fixCategories(state.treeData)
   },
   SET_EXPANDED_KEYS(state, expandedKeys) {
-    state.expandedKeys = expandedKeys;
-  }
+    state.expandedKeys = expandedKeys
+  },
 }
 
 export const actions = {
   async getCategories({ commit }) {
-    return await this.$axiosURL.get('/categories')
-      .then(response => {
-        commit('SET_CATEGORIES', response.data.data)   
-        console.log(response.data.data)
-        return response.data.data;
-      })
+    return await this.$axiosURL.get('/categories').then((response) => {
+      commit('SET_CATEGORIES', response.data.data)
+      console.log(response.data.data)
+      return response.data.data
+    })
   },
   async getCategory({ commit }, slug) {
-    return await this.$axiosURL.get(`/categories/${slug}`)
-      .then(response => {
-        commit('SET_CATEGORY', response.data)
-        commit('SET_EXPANDED_KEYS', response.data.category.parent ? [response.data.category.parent_id, response.data.category.id] : [response.data.category.id])
-        return response.data;
-      })
+    return await this.$axiosURL.get(`/categories/${slug}`).then((response) => {
+      commit('SET_CATEGORY', response.data)
+      commit(
+        'SET_EXPANDED_KEYS',
+        response.data.category.parent
+          ? [response.data.category.parent_id, response.data.category.id]
+          : [response.data.category.id]
+      )
+      return response.data
+    })
   },
 }
 
-export const namespaced = true;
+export const namespaced = true
