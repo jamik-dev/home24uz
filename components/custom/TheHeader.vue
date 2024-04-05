@@ -103,7 +103,7 @@
       <transition name="modal">
         <div v-if="!headerModal" class="mt-5">
           <ul class="flex items-center justify-between list-none">
-            <li v-for="category in categories.slice(0, 8)" :key="category.id" class="text-nowrap text-lg">
+            <li v-for="category in categories?.slice(0, 8)" :key="category.id" class="text-nowrap text-lg">
               <nuxt-link :to="`/category/${category.slug}`" class="text-black hover:text-orange">
                 {{ category.name }}
               </nuxt-link>
@@ -171,6 +171,9 @@ export default {
         this.isPhoneValid = true;
         this.messageShow = false;
       }
+    },
+    $route() {
+      this.headerModal = false;
     }
   },
   computed: {

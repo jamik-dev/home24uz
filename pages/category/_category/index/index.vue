@@ -19,7 +19,7 @@ export default {
     this.SET_TREE_DATA(this.categories);
   },
   methods: {
-    ...mapActions('categories', ['getCategory', 'getCategories']),
+    ...mapActions('categories', ['getCategory']),
     ...mapMutations('categories', ['SET_TREE_DATA'])
   }
 }

@@ -3,7 +3,7 @@
     class="mt-20 py-12 grid grid-cols-12 gap-4 px-16 bg-white absolute top-0 w-full h-[calc(100vh-128px)] -ml-16 z-10 overflow-y-auto">
     <div class="col-span-2 overflow-y-auto">
       <ul class="list-none flex flex-col gap-14">
-        <li @click="getCategory(category_item.id)" v-for="category_item in categories" :key="category_item.id" :style="{color: category_item.id === category?.id ? '#FF6418' : ''}" class="flex gap-2 items-center text-lg cursor-pointer">
+        <li @click="id = category_item.id" v-for="category_item in categories" :key="category_item.id" :style="{color: category_item.id === category?.id ? '#FF6418' : ''}" class="flex gap-2 items-center text-lg cursor-pointer">
           {{ category_item.name }}
         </li>
       </ul>
@@ -34,18 +34,13 @@ export default {
   },
   data: () => {
     return {
-      category: null
+      id: 6
     }
   },
-  mounted() {
-    if(!this.category) {
-      this.getCategory(this.categories[0].id);
-    }
-  },
-  methods: {
-    getCategory(id) {
-      this.category = this.categories.find(obj => obj.id === id);
-    }
+  computed: {
+    category() {
+      return this.categories.find(obj => obj.id === this.id);
+    },
   },
 }
 </script>

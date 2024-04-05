@@ -46,7 +46,7 @@ export default {
   },
   watch: {
     category(val) {
-      this.SET_TREE_DATA([{ name: val.category.parent?.name, slug: val.category.parent?.slug, id: val.category.parent?.id, saveChild: true, children: [val.category]}]);
+      this.SET_TREE_DATA([{ name: val.category.parent?.name, slug: val.category.parent?.slug, id: val.category.parent?.id, parentSlug: this.$route.params.category, children: [val.category]}]);
     }
   },
   mounted() {

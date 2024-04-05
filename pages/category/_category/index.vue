@@ -8,9 +8,10 @@
             <h3 class="font-ttfirs text-xl mb-2">Категории</h3>
             <a-tree class="!-ml-6" :tree-data="treeData" :replaceFields="replaceFields"
               :expandedKeys.sync="expandedKeysInParent">
-              <template #title="{ name, slug, parent, parent_id }">
+              <template #title="{ name, slug, children, parent_id }">
                 <a-dropdown :trigger="['contextmenu']">
-                  <nuxt-link :style="{color: category?.category.slug === slug ? '#FF6418' : ''}" class="text-grey-text hover:text-orange" :to="!parent_id ? `/category/${slug}` : !!parent ? `/category/${parent?.slug}/${slug}` : `/category/${$route.params.category}/${$route.params.subCategory}/${slug}`">{{ name }}</nuxt-link>
+                  <p class="text-grey-text" v-if="children.length && parent_id">{{ name }}</p>
+                  <nuxt-link v-else :style="{color: category?.category.slug === slug ? '#FF6418' : ''}" class="text-grey-text hover:text-orange" :to="`/category/${slug}`">{{ name }}</nuxt-link>
                 </a-dropdown>
               </template>
             </a-tree>

@@ -21,11 +21,18 @@ export const mutations = {
   },
   SET_TREE_DATA(state, treeData) {
     state.treeData = [...treeData]
-    function fixCategories(categories) {
-      categories.forEach((category) => {
-        category.children.forEach((subCategory) => {
-          if(!category.saveChild) {
-            subCategory.children = [];
+    function fixCategories(treeCategories) {
+      treeCategories.forEach((treeCategory) => {
+        if(treeCategory.parentSlug) {
+          treeCategory.slug = `${treeCategory.parentSlug}/${treeCategory.slug}`
+        }
+        treeCategory.children.forEach((subCategory) => {
+          subCategory.slug = `${treeCategory.slug}/${subCategory.slug}`
+          if(treeCategory.children) {
+            subCategory.children.forEach((subSubCategory) => {
+              subSubCategory.children = [];
+              subSubCategory.slug = `${subCategory.slug}/${subSubCategory.slug}`
+            });
           }
         })
       })
