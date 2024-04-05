@@ -2,12 +2,15 @@
   <header id="header" class="w-full sticky top-0 duration-300 ease transition-all z-[1000]">
     <a-modal :width="'600px'" v-model="enterAccountModal" :footer="false" title="Войти или создать профиль" centered>
       <div class="p-4">
-        <label :style="{color: !isPhoneValid ? '#E90A0A' : ''}" for="phone_number" class="text-lg text-grey-text">Номер телефона</label>
+        <label :style="{ color: !isPhoneValid ? '#E90A0A' : '' }" for="phone_number" class="text-lg text-grey-text">Номер
+          телефона</label>
         <div class="relative mt-2 mb-12">
-          <input type="text" id="phone_number" v-model="form.modalNumber" v-mask="'+998 (##) ###-##-##'" placeholder="+998 (--) --- -- --"
-            :style="{borderColor: !isPhoneValid ? '#E90A0A' : ''}"
+          <input type="text" id="phone_number" v-model="form.modalNumber" v-mask="'+998 (##) ###-##-##'"
+            placeholder="+998 (--) --- -- --" :style="{ borderColor: !isPhoneValid ? '#E90A0A' : '' }"
             class="w-full bg-white text-lg  border border-grey-3 rounded-lg p-4 focus:border-orange outline-none" />
-          <p :style="{transform: messageShow ? 'translateY(32px)' : 'translateY(0px)', opacity: messageShow ? '1' : '0', transition: 'opacity 0.2s ease-in-out, transform 0.2s ease-in-out'}" class="absolute pointer-events-none bottom-0 left-0 text-red font-light text-lg italic">{{ this.form.message }}</p>
+          <p :style="{ transform: messageShow ? 'translateY(32px)' : 'translateY(0px)', opacity: messageShow ? '1' : '0', transition: 'opacity 0.2s ease-in-out, transform 0.2s ease-in-out' }"
+            class="absolute pointer-events-none bottom-0 left-0 text-red font-light text-lg italic">{{ this.form.message
+            }}</p>
         </div>
         <button @click="formValidate"
           class="bg-orange cursor-pointer w-full py-4 text-lg rounded-lg text-white font-medium">Войти</button>
@@ -110,7 +113,7 @@
             </li>
             <li @click="modalToggler(true)" class="flex items-center gap-2 text-lg text-orange cursor-pointer">
               <span>Ещё</span>
-              <a-icon type="down"/>
+              <a-icon type="down" />
             </li>
           </ul>
         </div>
@@ -120,7 +123,7 @@
   </header>
 </template>
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   data: () => {
     return {

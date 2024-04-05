@@ -91,7 +91,8 @@
             </VueSlickCarousel>
           </div>
           <div class="rounded-lg w-[calc(100%-85px)] border border-grey-4 p-2 relative">
-            <div @click="product.info.brand.slug ? $router.push(`/brands/${product.info.brand.slug}`) : $router.push(`/brands`)"
+            <div
+              @click="product?.info.brand?.slug ? $router.push(`/brands/${product?.info.brand?.slug}`) : $router.push(`/brands`)"
               class="absolute cursor-pointer bg-white z-10 top-4 right-4 w-[70px] h-[70px] rounded-full overflow-hidden border border-grey-4 flex items-center justify-center">
               <img class="h-full w-full object-cover"
                 :src="product?.info.brand?.lg_logo || require(`~/assets/img/logos/1.png`)"
@@ -137,12 +138,13 @@
               <div v-for="attribute in attributes" :key="attribute.title">
                 <p class="text-grey-6 text-lg mb-2">{{ attribute.title }}:</p>
                 <localCategoryColorPicker v-if="attribute.title == 'Color' || attribute.title == 'Цвет'"
-                  :rectangle="true" :fit="true" :colors="attribute.options.map(option => option.title)" />
-                <a-radio-group v-else v-model="sizeValues[attribute.title]">
-                  <a-radio-button v-for="option in attribute.options" :key="option.title" :value="option.title">
-                    {{ option.title }}
-                  </a-radio-button>
-                </a-radio-group>
+                  :rectangle="true" :fit="true" :colors="attribute.options" />
+                <div v-else class="flex gap-3">
+                  <div v-for="option in attribute.options" :key="option.slug"
+                    @click="option.available ? $router.push(option.slug) : ''"
+                    :style="{borderColor: option.active ? '#FF6418' : '', color: option.active ? '#FF6418' : ''}"
+                    class="border cursor-pointer border-grey-3 rounded-lg py-1 px-2 text-grey-text font-ttfirs text-lg">{{ option.title }}</div>
+                </div>
               </div>
               <div>
                 <p class="text-grey-6 text-lg mb-2">Количество:</p>
@@ -173,8 +175,7 @@
                 <img class="w-6" src="~/assets/icon/heart.svg" alt="heart">
               </div>
             </div>
-            <button
-              @click="notification('topRight')"
+            <button @click="notification('topRight')"
               class="flex w-full justify-center items-center py-4 bg-orange text-white gap-2 rounded-lg text-lg border-orange">
               <localSvgBuy class="w-6 h-6" />Добавить в корзину
             </button>
@@ -208,8 +209,7 @@
         </ul>
         <div class="w-full grid grid-cols-12 -mt-[1px]">
           <div v-if="navigationMenus[0].isActive" class="col-span-9 border-t border-grey-3 py-8">
-            <div v-if="!!product.info?.desc">
-              <p class="font-ttfirs text-base text-grey-text" v-html="product.info.desc"></p>
+            <div v-if="!!product.info?.desc" class="font-ttfirs text-base text-grey-text" v-html="product.info.desc">
             </div>
             <div v-else class="w-1/2 mx-auto">
               <customEmptyDefault :button="false">
@@ -280,8 +280,10 @@
                 <h3 class="font-medium text-lg">{{ characteristic.name }}</h3>
                 <div class="w-full grid grid-cols-2 gap-x-[160px] gap-y-8 mt-5">
                   <p v-for="item in characteristic.characteristics" :key="item.id"
-                    class="text-lg flex items-center gap-2"><span class="text-grey-text font-ttfirs text-nowrap">{{item.name }}:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span
-                      v-for="i in item.options" :key="i.id" class="text-black text-nowrap">{{ i.name }}</span>
+                    class="text-lg flex items-center gap-2"><span
+                      class="text-grey-text font-ttfirs text-nowrap">{{ item.name }}:</span><span
+                      class="w-full mt-3 border-b border-grey-text border-dotted"></span><span v-for="i in item.options"
+                      :key="i.id" class="text-black text-nowrap">{{ i.name }}</span>
                   </p>
                 </div>
               </div>
@@ -416,57 +418,6 @@ export default {
 <style>
 #product .first_slide .slick-slide {
   width: auto !important;
-}
-
-#product .ant-radio-button-wrapper:not(:first-child)::before {
-  width: 0;
-}
-
-#product .ant-radio-group {
-  @apply flex gap-2;
-}
-
-#product .ant-radio-button-wrapper {
-  @apply text-lg font-ttfirs h-auto px-4 py-1 rounded-lg;
-  border-left: 1px solid #E0E0E0;
-}
-
-#product .ant-radio-button-wrapper:first-child {
-  @apply rounded-lg;
-}
-
-#product .ant-radio-button-wrapper:last-child {
-  @apply rounded-lg;
-}
-
-#product .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child {
-  border-color: #FF6418;
-  color: #FF6418;
-}
-
-#product .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
-  border-color: #FF6418;
-}
-
-#product .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-  border-color: #FF6418;
-  color: #FF6418;
-}
-
-#product .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
-  color: #FF6418;
-}
-
-#product .ant-radio-button-wrapper:hover {
-  color: #FF6418;
-}
-
-#product .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
-  background-color: #FF6418;
-}
-
-#product .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover::before {
-  background-color: #FF6418;
 }
 
 #product .ant-rate {

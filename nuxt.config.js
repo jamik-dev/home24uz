@@ -40,8 +40,8 @@ export default {
     extendRoutes(routes, resolve) {
       routes.push({
         name: 'categoryProduct',
-        path: '/category/:category/:subCategory/:subSubCategory/:categoryProduct',
-        component: resolve(__dirname, 'components/pages/categoryProduct.vue'),
+        path: '/category/:category/:subCategory/:subSubCategory/:slug',
+        component: resolve(__dirname, 'pages/product/_slug.vue'),
       })
     },
   },
