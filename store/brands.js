@@ -35,7 +35,7 @@ export const actions = {
       });
   },
   async getBrand({ commit }, slug) {
-    return await this.$axiosURL.get('/brands/' + slug)
+    return await this.$axiosURL.get(`/brands/${slug}`, {params: {...this.$router.currentRoute.query}})
       .then((response) => {
         commit('SET_BRAND', response.data.brand);
         commit('SET_CATEGORIES', response.data.categories);

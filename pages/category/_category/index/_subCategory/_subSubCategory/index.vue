@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
   props: ['gridOrder'],
   computed: {
@@ -32,9 +32,6 @@ export default {
   },
   methods: {
     ...mapMutations('categories', ['SET_TREE_DATA']),
-    ...mapActions({
-      getCategory: 'categories/getCategory',
-    }),
     itemRender(_, type, originalElement) {
       if (type === 'prev') {
         return;
@@ -48,9 +45,6 @@ export default {
     category(val) {
       this.SET_TREE_DATA([{ name: val.category.parent?.name, slug: val.category.parent?.slug, id: val.category.parent?.id, parentSlug: this.$route.params.category, children: [val.category]}]);
     }
-  },
-  mounted() {
-    this.getCategory(this.$route.params.subSubCategory);
   },
 }
 </script>

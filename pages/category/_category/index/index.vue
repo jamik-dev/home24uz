@@ -9,17 +9,15 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapActions, mapMutations} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 export default {
   computed: {
     ...mapGetters('categories', ['category', 'categories'])
   },  
   mounted() {
-    this.getCategory(this.$route.params.category);
     this.SET_TREE_DATA(this.categories);
   },
   methods: {
-    ...mapActions('categories', ['getCategory']),
     ...mapMutations('categories', ['SET_TREE_DATA'])
   }
 }

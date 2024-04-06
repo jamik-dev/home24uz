@@ -10,23 +10,19 @@
               :expandedKeys.sync="expandedKeysInParent">
               <template #title="{ name, slug, children, parent_id }">
                 <a-dropdown :trigger="['contextmenu']">
-                  <p class="text-grey-text" v-if="children.length && parent_id">{{ name }}</p>
-                  <nuxt-link v-else :style="{color: category?.category.slug === slug ? '#FF6418' : ''}" class="text-grey-text hover:text-orange" :to="`/category/${slug}`">{{ name }}</nuxt-link>
+                  <p class="text-grey-text" :style="{ color: category?.category.slug === slug ? '#FF6418' : '' }"
+                    v-if="children.length && parent_id">{{ name }}</p>
+                  <nuxt-link v-else :style="{ color: category?.category.slug === slug ? '#FF6418' : '' }"
+                    class="text-grey-text hover:text-orange" :to="`/category/${slug}`">{{ name }}</nuxt-link>
                 </a-dropdown>
               </template>
             </a-tree>
           </div>
           <div v-if="!isParentCategory">
             <h3 class="font-ttfirs text-xl mb-2">Сортировать</h3>
-            <a-radio-group v-model="value">
-              <a-radio :style="radioStyle" :value="1">
-                по популярности
-              </a-radio>
-              <a-radio :style="radioStyle" :value="2">
-                добавлено недавно
-              </a-radio>
-              <a-radio :style="radioStyle" :value="3">
-                цена
+            <a-radio-group v-model="sortValue">
+              <a-radio v-for="sort in sortingAttributes" :key="sort.value" :style="radioStyle" :value="sort.value">
+                {{ sort.name }}
               </a-radio>
             </a-radio-group>
           </div>
@@ -34,7 +30,8 @@
             <h3 class="font-ttfirs text-xl">Цена</h3>
             <div class="mt-2">
               <div>
-                <a-slider v-model="price" range :min="10000" :max="10000000" />
+                <a-slider @afterChange="sliderAfterChange" v-model="price" range :min="category.product_min_price"
+                  :max="category.product_max_price" />
               </div>
               <div class="flex gap-4 items-center mt-4">
                 <div class="relative overflow-hidden">
@@ -52,30 +49,17 @@
               </div>
             </div>
           </div>
-          <div v-if="!isParentCategory">
-            <h3 class="font-ttfirs text-xl">Материал корпуса</h3>
-            <div class="mt-2">
-              <a-checkbox-group>
-                <a-checkbox value="dcp">ДСП</a-checkbox>
-                <a-checkbox value="mdf">МДФ</a-checkbox>
-                <a-checkbox value="shpon">Шпон</a-checkbox>
-              </a-checkbox-group>
-            </div>
-          </div>
-          <div v-if="!isParentCategory">
-            <h3 class="font-ttfirs text-xl">Цвет</h3>
-            <div class="mt-2">
-              <localCategoryColorPicker
-                :colors="['#000', '#E90A0A', '#F6C65C', '#fff', '#64c108', '#667b8c', '#55ffaa', '#781ecd']" />
-            </div>
-          </div>
-          <div v-if="!isParentCategory">
-            <h3 class="font-ttfirs text-xl">Обслуживаемая площадь</h3>
-            <div class="mt-2">
-              <a-checkbox-group>
-                <a-checkbox value="to25">до 25 м2</a-checkbox>
-                <a-checkbox value="from25">от 25 м2</a-checkbox>
-              </a-checkbox-group>
+          <div class="space-y-10" v-if="!isParentCategory">
+            <div v-for="attribute in category.attributes" :key="attribute.id">
+              <h3 class="font-ttfirs text-xl">{{ attribute.name }}</h3>
+              <div class="mt-2">
+                <localCategoryColorPickerFilter @selectedColor="selectedColorHandler"
+                  v-if="attribute.name === 'Цвет' || attribute.name === 'Color'" :colors="attribute.options" />
+                <a-checkbox-group v-model="attributes[`${attribute.name}`]" v-else>
+                  <a-checkbox v-for="option in attribute.options" :key="option.id"
+                    :value="option.id">{{ option.name }}</a-checkbox>
+                </a-checkbox-group>
+              </div>
             </div>
           </div>
         </div>
@@ -91,9 +75,10 @@
             <div v-if="!isParentCategory" class="flex items-center gap-16">
               <div class="flex gap-2 items-center">
                 <p class="text-lg text-grey-text">Сортировка</p>
-                <a-select default-value="Подешевле">
-                  <a-select-option value="Подешевле">
-                    Подешевле
+                <a-select v-model="sortValue">
+                  <a-select-option class="!text-lg hover:!bg-[rgb(255,100,24,0.7)] hover:!text-white"
+                    v-for="sort in sortingAttributes" :key="sort.value" :value="sort.value">
+                    {{ sort.name }}
                   </a-select-option>
                 </a-select>
               </div>
@@ -118,7 +103,7 @@
   </main>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
   layout: 'userLayout',
   async asyncData({ store, params }) {
@@ -128,9 +113,11 @@ export default {
   },
   data: () => {
     return {
-      value: 1,
+      sortValue: '',
+      attributes: {},
+      selectedColor: [],
+      price: [],
       gridOrder: false,
-      price: [500000, 5000000],
       expandedKeysInParent: [],
       replaceFields: {
         title: 'name',
@@ -142,6 +129,32 @@ export default {
         height: '30px',
         lineHeight: '30px',
       },
+      sortingAttributes: [
+        {
+          name: 'Популярности',
+          value: "popular"
+        },
+        {
+          name: 'Подешевле',
+          value: "cheap_first"
+        },
+        {
+          name: 'Подороже',
+          value: "expensive_first"
+        },
+        {
+          name: 'Высокий рейтинг',
+          value: "high_rating"
+        },
+        // {
+        //   name: 'Много заказов',
+        //   value: ""
+        // },
+        {
+          name: 'Добавлено недавно',
+          value: "new"
+        },
+      ]
     }
   },
   computed: {
@@ -159,18 +172,64 @@ export default {
   watch: {
     $route() {
       this.routerCheck('/category');
+      if (!this.isParentCategory) {
+        this.getCategory(this.$route.params[Object.keys(this.$route.params)[Object.keys(this.$route.params).length - 1]]);
+      }
     },
     expandedKeys(val) {
       this.expandedKeysInParent = val;
-    }
+    },
+    category(val) {
+      this.sortValue = this.$route.query.sort;
+      this.price = [val.product_min_price, val.product_max_price];
+    },
+    sortValue() {
+      if (!this.isParentCategory) {
+        this.queryHandler();
+      }
+    },
+    attributes: {
+      handler() {
+        if (!this.isParentCategory) {
+          this.queryHandler();
+        }
+      },
+      deep: true
+    },
   },
   mounted() {
     this.expandedKeysInParent = this.expandedKeys;
+    if (!this.isParentCategory) {
+      this.getCategory(this.$route.params[Object.keys(this.$route.params)[Object.keys(this.$route.params).length - 1]]);
+    }
   },
   created() {
     this.routerCheck('/category');
   },
   methods: {
+    ...mapActions({
+      getCategory: 'categories/getCategory',
+    }),
+    queryHandler() {
+      let attrs = this.attributes ? Object.values(this.attributes).flatMap(arr => arr).join(',') : '';
+      attrs = this.selectedColor.length ? (attrs ? attrs + ',' : '') + this.selectedColor.join(',') : attrs;
+      this.$router.push({
+        query: {
+          sort: this.sortValue,
+          attributes: attrs,
+          min_price: this.price[0],
+          max_price: this.price[1]
+        }
+      });
+    },
+    sliderAfterChange(val) {
+      this.price = val;
+      this.queryHandler();
+    },
+    selectedColorHandler(val) {
+      this.selectedColor = val;
+      this.queryHandler();
+    }
   }
 }
 </script>
@@ -192,6 +251,6 @@ export default {
 }
 
 .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected {
-    background-color: #fff;
+  background-color: #fff;
 }
 </style>

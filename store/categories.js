@@ -47,13 +47,13 @@ export const mutations = {
 export const actions = {
   async getCategories({ commit }) {
     return await this.$axiosURL.get('/categories').then((response) => {
-      commit('SET_CATEGORIES', response.data.data)
+      commit('SET_CATEGORIES', response.data.data, {})
       console.log(response.data.data)
       return response.data.data
     })
   },
   async getCategory({ commit }, slug) {
-    return await this.$axiosURL.get(`/categories/${slug}`).then((response) => {
+    return await this.$axiosURL.get(`/categories/${slug}`, {params: {...this.$router.currentRoute.query}}).then((response) => {
       commit('SET_CATEGORY', response.data)
       commit(
         'SET_EXPANDED_KEYS',
