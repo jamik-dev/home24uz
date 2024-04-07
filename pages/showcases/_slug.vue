@@ -6,11 +6,15 @@
       <div class="w-full grid grid-cols-12 gap-6 items-start mt-12">
         <div class="col-span-2">
           <div class="space-y-10">
-            <ul class="space-y-4">
-              <li v-for="item in listOfCatalog" :key="item.name"><nuxt-link
-                  class="text-black hover:text-orange-2 font-ttfirs text-xl" :to="'/category/' + item.url">{{ item.name
-                  }}</nuxt-link></li>
-            </ul>
+            <a-tree class="!-ml-6" :tree-data="categories" :replaceFields="replaceFields" :expandedKeys.sync="expandedKeysInParent"
+              >
+              <template #title="{ name, id }">
+                <a-dropdown :trigger="['contextmenu']">
+                  <p @click="$router.push({query: {category: id}})" :style="{ color: $route.query?.category == id ? '#FF6418' : '' }"
+                    class="text-grey-text hover:text-orange">{{ name }}</p>
+                </a-dropdown>
+              </template>
+            </a-tree>
             <div>
               <h3 class="font-ttfirs text-xl">Цена</h3>
               <div class="mt-8">
@@ -78,7 +82,7 @@
   </main>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
   async asyncData({ store, params }) {
     await store.dispatch('showcases/getShowcase', params.slug);
@@ -89,26 +93,37 @@ export default {
         { name: 'Главная', url: '/' },
       ],
       price: [10000, 10000000],
-      listOfCatalog: [
-        { name: 'Телевизоры', url: `tv` },
-        { name: 'Холодильники', url: `fridge` },
-        { name: 'Выключатели и порты', url: `ports` },
-        { name: 'Стиральная машина', url: `washing-machine` },
-        { name: 'Кондиционеры', url: `conditioner` },
-      ],
+      replaceFields: {
+        title: 'name',
+        key: 'id',
+      },
       gridOrder: false,
+      expandedKeysInParent: [],
+    }
+  },
+  watch: {
+    $route() {
+      this.getShowcase(this.$route.params.slug);
+    },
+    expandedKeys() {
+      this.expandedKeysInParent = this.expandedKeys;
     }
   },
   mounted() {
     this.breadCrumb.push({ name: this.showcase.name, url: `/showcases/${this.showcase.slug}` });
+    this.expandedKeysInParent = this.expandedKeys;
   },
   computed: {
     ...mapGetters({
       showcase: 'showcases/showcase',
-      categories: 'showcases/categories'
+      categories: 'showcases/categories',
+      expandedKeys: 'showcases/expandedKeys',
     })
   },
   methods: {
+    ...mapActions({
+      getShowcase: 'showcases/getShowcase',
+    }),
     itemRender(_, type, originalElement) {
       if (type === 'prev') {
         return;

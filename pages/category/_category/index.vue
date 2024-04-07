@@ -122,7 +122,6 @@ export default {
       replaceFields: {
         title: 'name',
         key: 'id',
-        children: 'children'
       },
       radioStyle: {
         display: 'block',
@@ -179,9 +178,8 @@ export default {
     expandedKeys(val) {
       this.expandedKeysInParent = val;
     },
-    category(val) {
+    category() {
       this.sortValue = this.$route.query.sort;
-      this.price = [val.product_min_price, val.product_max_price];
     },
     sortValue() {
       if (!this.isParentCategory) {
@@ -201,6 +199,7 @@ export default {
     this.expandedKeysInParent = this.expandedKeys;
     if (!this.isParentCategory) {
       this.getCategory(this.$route.params[Object.keys(this.$route.params)[Object.keys(this.$route.params).length - 1]]);
+      this.price = [this.category.product_min_price, this.category.product_max_price];
     }
   },
   created() {
