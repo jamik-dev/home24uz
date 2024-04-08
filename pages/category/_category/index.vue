@@ -199,8 +199,8 @@ export default {
     this.expandedKeysInParent = this.expandedKeys;
     if (!this.isParentCategory) {
       this.getCategory(this.$route.params[Object.keys(this.$route.params)[Object.keys(this.$route.params).length - 1]]);
-      this.price = [this.category.product_min_price, this.category.product_max_price];
     }
+    this.price = [this.category.product_min_price, this.category.product_max_price];
   },
   created() {
     this.routerCheck('/category');

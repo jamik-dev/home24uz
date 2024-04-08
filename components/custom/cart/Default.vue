@@ -3,12 +3,14 @@
     <div
       class="flex items-center justify-center rounded-2xl overflow-hidden h-[362px] border border-grey-3 p-4 relative">
       <div
+        @click="saveLocalStorage({id: data.id, name: `favorites`})"
         class="absolute z-[11] top-2 right-2 w-[40px] h-[40px] cursor-pointer bg-grey-light rounded-full flex justify-center items-center">
-        <img src="~/assets/icon/heart.svg" alt="heart">
+        <localSvgHeart :fill="favorites.includes(data.id) ? '#FF6418' : '#020105'" />
       </div>
       <div
+        @click="saveLocalStorage({id: data.id, name: `compares`})"
         class="absolute z-[11] top-14 right-2 w-[40px] h-[40px] cursor-pointer bg-grey-light rounded-full flex justify-center items-center">
-        <img src="~/assets/icon/swap.svg" alt="swap">
+        <localSvgCompare :fill="compares.includes(data.id) ? '#FF6418' : '#020105'" />
       </div>
       <div
         class="absolute h-full w-full top-0 left-0 z-10 text-base flex justify-center items-center transition-all ease translate-y-10 group-hover:translate-y-0 bg-[rgba(0,0,0,0.1)] opacity-0 group-hover:opacity-100">
@@ -28,8 +30,10 @@
     </div>
     <div class="bg-grey-4 h-[calc(100%-370px)] relative py-3 px-4 rounded-2xl">
       <button
-        class="absolute top-3 right-3 border border-orange h-12 w-12 flex items-center justify-center rounded-full">
-        <localSvgBuy class="w-5 h-5" fill="#FF6418" />
+        @click="saveLocalStorage({id: data.id, name: `carts`})"
+        :style="{backgroundColor: carts.includes(data.id) ? '#FF6418' : '#fff'}"
+        class="absolute duration-200 top-3 right-3 border border-orange h-12 w-12 flex items-center justify-center rounded-full">
+        <localSvgBuy class="w-5 h-5" :fill="carts.includes(data.id) ? '#fff' : '#FF6418'" />
       </button>
       <div>
         <h3 class="font-ttfirs text-xl">{{ data?.price }} сум</h3>
@@ -48,6 +52,7 @@
   </figure>
 </template>
 <script>
+import {mapActions, mapGetters} from 'vuex';
 export default {
   props: {
     data: {
@@ -64,10 +69,14 @@ export default {
       isProductModalVisible: false,
     }
   },
+  computed: {
+    ...mapGetters(['favorites', 'compares', 'carts']),
+  },
   methods: {
+    ...mapActions(['saveLocalStorage']),
     modalTrigger(val) {
       this.isProductModalVisible = val
-    }
+    },
   }
 }
 </script>

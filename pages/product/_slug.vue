@@ -142,8 +142,9 @@
                 <div v-else class="flex gap-3">
                   <div v-for="option in attribute.options" :key="option.slug"
                     @click="option.available ? $router.push(option.slug) : ''"
-                    :style="{borderColor: option.active ? '#FF6418' : '', color: option.active ? '#FF6418' : ''}"
-                    class="border cursor-pointer border-grey-3 rounded-lg py-1 px-2 text-grey-text font-ttfirs text-lg">{{ option.title }}</div>
+                    :style="{ borderColor: option.active ? '#FF6418' : '', color: option.active ? '#FF6418' : '' }"
+                    class="border cursor-pointer border-grey-3 rounded-lg py-1 px-2 text-grey-text font-ttfirs text-lg">
+                    {{ option.title }}</div>
                 </div>
               </div>
               <div>
@@ -171,11 +172,17 @@
       product.discount_price }} СУМ</h4>
               </div>
               <div class="flex items-center gap-6">
-                <img class="w-6" src="~/assets/icon/swap.svg" alt="swap">
-                <img class="w-6" src="~/assets/icon/heart.svg" alt="heart">
+                <div @click="saveLocalStorage({id: product.id, name: `compares`})">
+                  <localSvgCompare class="w-6 h-6 cursor-pointer"
+                  :fill="compares.includes(product?.id) ? '#FF6418' : '#020105'" />
+                </div>
+                <div @click="saveLocalStorage({id: product.id, name: 'favorites'})">
+                  <localSvgHeart class="w-6 h-6 cursor-pointer"
+                  :fill="favorites.includes(product?.id) ? '#FF6418' : '#020105'" />
+                </div>
               </div>
             </div>
-            <button @click="notification('topRight')"
+            <button @click="saveCart"
               class="flex w-full justify-center items-center py-4 bg-orange text-white gap-2 rounded-lg text-lg border-orange">
               <localSvgBuy class="w-6 h-6" />Добавить в корзину
             </button>
@@ -280,10 +287,9 @@
                 <h3 class="font-medium text-lg">{{ characteristic.name }}</h3>
                 <div class="w-full grid grid-cols-2 gap-x-[160px] gap-y-8 mt-5">
                   <p v-for="item in characteristic.characteristics" :key="item.id"
-                    class="text-lg flex items-center gap-2"><span
-                      class="text-grey-text font-ttfirs text-nowrap">{{ item.name }}:</span><span
-                      class="w-full mt-3 border-b border-grey-text border-dotted"></span><span v-for="i in item.options"
-                      :key="i.id" class="text-black text-nowrap">{{ i.name }}</span>
+                    class="text-lg flex items-center gap-2"><span class="text-grey-text font-ttfirs text-nowrap">{{
+      item.name }}:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span
+                      v-for="i in item.options" :key="i.id" class="text-black text-nowrap">{{ i.name }}</span>
                   </p>
                 </div>
               </div>
@@ -309,7 +315,7 @@
   </section>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import VueSlickCarousel from 'vue-slick-carousel'
 export default {
   layout: 'userLayout',
@@ -362,6 +368,9 @@ export default {
       attributes: 'products/attributes',
       characteristics: 'products/characteristics',
       showcases: 'showcases/showcases',
+      carts: 'carts',
+      compares: 'compares',
+      favorites: 'favorites'
     }),
   },
   mounted() {
@@ -369,6 +378,7 @@ export default {
     this.navigationMenus[1].title = `Отзывы (${this.product.info.comments.length})`;
   },
   methods: {
+    ...mapActions(['saveLocalStorage']),
     slideOne(el) {
       this.c1 = el;
     },
@@ -405,12 +415,19 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-    notification(placement) {
-      this.$notification.error({
-        message: 'Notification Title',
-        description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-        placement
-      });
+    saveCart() {
+      if (!this.carts.includes(this.product.id)) {
+        this.saveLocalStorage({ id: this.product.id, name: `carts` })
+        this.$notification.success({
+          message: 'Успешно',
+          description: 'Товар добавлен в корзину'
+        })
+      } else {
+        this.$notification.error({
+          message: 'Ошибка',
+          description: 'Товар уже добавлен в корзину'
+        })
+      }
     }
   }
 }

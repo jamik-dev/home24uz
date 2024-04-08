@@ -17,9 +17,9 @@
             <figure v-for="product in day_products" :key="product.products[0].id" class="px-8 py-7">
               <div class="flex justify-between items-center">
                 <h3 class="uppercase font-ttfirs text-2xl">товар дня</h3>
-                <div
+                <div @click="saveLocalStorage({ id: product?.products[0]?.id, name: `favorites` })"
                   class="w-[40px] h-[40px] cursor-pointer bg-grey-light rounded-full flex justify-center items-center">
-                  <img src="~/assets/icon/heart.svg" alt="heart">
+                  <localSvgHeart :fill="favorites.includes(product?.products[0]?.id) ? '#FF6418' : '#020105'" />
                 </div>
               </div>
               <div class="flex gap-4 mt-8 items-center">
@@ -54,7 +54,7 @@
                       class="text-lg text-grey-text hover:text-orange leading-tight line-clamp-3">{{
             product.products[0].name }}</nuxt-link>
                   </div>
-                  <button
+                  <button @click="saveCart(product.products[0].id)"
                     class="px-6 mt-4 py-[10px] rounded-lg bg-orange text-white text-base font-ttfirs flex gap-2 items-center">
                     <localSvgBag fill="#fff" /> в карзину
                   </button>
@@ -68,6 +68,7 @@
   </section>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
   props: {
     day_products: {
@@ -77,6 +78,26 @@ export default {
     top_banners: {
       type: Array,
       default: () => []
+    }
+  },
+  computed: {
+    ...mapGetters(['favorites', 'carts']),
+  },
+  methods: {
+    ...mapActions(['saveLocalStorage']),
+    saveCart(id) {
+      if (!this.carts.includes(id)) {
+        this.saveLocalStorage({ id, name: `carts` })
+        this.$notification.success({
+          message: 'Успешно',
+          description: 'Товар добавлен в корзину'
+        })
+      } else {
+        this.$notification.error({
+          message: 'Ошибка',
+          description: 'Товар уже добавлен в корзину'
+        })
+      }
     }
   }
 }

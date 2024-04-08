@@ -44,8 +44,8 @@
             <div class="flex gap-2 items-center">
               <p class="text-lg text-grey-text">Сортировка</p>
               <a-select default-value="Подешевле">
-                <a-select-option value="Подешевле">
-                  Подешевле
+                <a-select-option v-for="attribute in sortingAttributes" :key="attribute.value" :value="attribute.value" class="!text-lg hover:!bg-[rgb(255,100,24,0.7)] hover:!text-white">
+                  {{ attribute.name }}
                 </a-select-option>
               </a-select>
             </div>
@@ -97,6 +97,32 @@ export default {
         title: 'name',
         key: 'id',
       },
+      sortingAttributes: [
+        {
+          name: 'Популярности',
+          value: "popular"
+        },
+        {
+          name: 'Подешевле',
+          value: "cheap_first"
+        },
+        {
+          name: 'Подороже',
+          value: "expensive_first"
+        },
+        {
+          name: 'Высокий рейтинг',
+          value: "high_rating"
+        },
+        // {
+        //   name: 'Много заказов',
+        //   value: ""
+        // },
+        {
+          name: 'Добавлено недавно',
+          value: "new"
+        },
+      ],
       gridOrder: false,
       expandedKeysInParent: [],
     }

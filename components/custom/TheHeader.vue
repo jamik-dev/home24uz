@@ -51,12 +51,11 @@
               src="~/assets/icon/search.svg" alt="search"></button>
         </div>
         <ul class="flex items-center gap-[40px] relative list-none">
-          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/compare"><img
-                src="~/assets/icon/swap.svg" alt="swap">Сравнение</nuxt-link></li>
+          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/compare"><a-badge :count="compares.length"><localSvgCompare /></a-badge>Сравнение</nuxt-link></li>
           <a-dropdown placement="topCenter" :getPopupContainer="relativeDropdown">
             <li class="dropdown_heading">
               <nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/favourites">
-                <img src="~/assets/icon/heart.svg" alt="heart">Избранное
+                <a-badge :count="favorites.length"><localSvgHeart /></a-badge>Избранное
               </nuxt-link>
             </li>
             <div class="p-6 bg-white shadow-lg rounded-lg" slot="overlay">
@@ -77,7 +76,7 @@
             </div>
           </a-dropdown>
           <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/cart"><a-badge
-                count="4">
+                :count="carts.length">
                 <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M14.5137 20.5H6.16592C3.09955 20.5 0.747152 19.3924 1.41534 14.9348L2.19338 8.89359C2.60528 6.66934 4.02404 5.81808 5.26889 5.81808H15.4474C16.7105 5.81808 18.0469 6.73341 18.5229 8.89359L19.3009 14.9348C19.8684 18.889 17.5801 20.5 14.5137 20.5Z"
@@ -141,7 +140,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions('categories', ['getCategories']),
+    ...mapActions({
+      getCategories: 'categories/getCategories',
+      loadFromLocalStorage: 'loadFromLocalStorage',
+    }),
     modalToggler(val) {
       document.body.style.overflow = !val ? 'auto' : 'hidden';
       document.documentElement.style.scrollbarGutter = !val ? 'auto' : 'stable';
@@ -180,10 +182,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('categories', ['categories'])
+    ...mapGetters({
+      categories: 'categories/categories',
+      compares: 'compares',
+      favorites: 'favorites',
+      carts: 'carts'
+    })
   },
   mounted() {
     this.getCategories();
+    this.loadFromLocalStorage('compares');
+    this.loadFromLocalStorage('favorites');
+    this.loadFromLocalStorage('carts');
+
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 0) {
