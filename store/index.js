@@ -7,7 +7,7 @@ export const state = () => ({
 export const getters = {
   compares: state => state.compares,
   favorites: state => state.favorites,
-  carts: state => state.carts,
+  carts: state => state.carts
 }
 
 export const mutations = {
@@ -24,7 +24,7 @@ export const mutations = {
 
 export const actions = {
   loadFromLocalStorage({ commit }, name) {
-    const data = JSON.parse(localStorage.getItem(name));
+    const data = JSON.parse(localStorage.getItem(name)) || [];
     if (data !== null) {
       commit('SET_' + name.toUpperCase(), data);
     }

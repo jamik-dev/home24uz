@@ -54,7 +54,7 @@
           <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/compare"><a-badge :count="compares.length"><localSvgCompare /></a-badge>Сравнение</nuxt-link></li>
           <a-dropdown placement="topCenter" :getPopupContainer="relativeDropdown">
             <li class="dropdown_heading">
-              <nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/favourites">
+              <nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/favorites">
                 <a-badge :count="favorites.length"><localSvgHeart /></a-badge>Избранное
               </nuxt-link>
             </li>

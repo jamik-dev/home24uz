@@ -62,10 +62,10 @@
             </div>
             <div class="flex items-center gap-6">
               <div @click="saveLocalStorage({id: product?.id, name: 'compares'})">
-                <localSvgCompare class="w-6 h-6" :fill="compares.includes(product?.id) ? '#FF6418' : '#020105'" />
+                <localSvgCompare class="w-6 h-6 cursor-pointer" :fill="compares.includes(product?.id) ? '#FF6418' : '#020105'" />
               </div>
               <div @click="saveLocalStorage({id: product?.id, name: 'favorites'})">
-                <localSvgHeart class="w-6 h-6" :fill="favorites.includes(product?.id) ? '#FF6418' : '#020105'" />
+                <localSvgHeart class="w-6 h-6 cursor-pointer" :fill="favorites.includes(product?.id) ? '#FF6418' : '#020105'" />
               </div>
             </div>
           </div>

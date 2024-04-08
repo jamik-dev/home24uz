@@ -31,9 +31,9 @@
     <div class="bg-grey-4 h-[calc(100%-370px)] relative py-3 px-4 rounded-2xl">
       <button
         @click="saveLocalStorage({id: data.id, name: `carts`})"
-        :style="{backgroundColor: carts.includes(data.id) ? '#FF6418' : '#fff'}"
+        :style="{backgroundColor: carts?.includes(data.id) ? '#FF6418' : '#fff'}"
         class="absolute duration-200 top-3 right-3 border border-orange h-12 w-12 flex items-center justify-center rounded-full">
-        <localSvgBuy class="w-5 h-5" :fill="carts.includes(data.id) ? '#fff' : '#FF6418'" />
+        <localSvgBuy class="w-5 h-5" :fill="carts?.includes(data.id) ? '#fff' : '#FF6418'" />
       </button>
       <div>
         <h3 class="font-ttfirs text-xl">{{ data?.price }} сум</h3>

@@ -28,6 +28,8 @@ export default {
     '~/plugins/v-mask'
   ],
 
+  loading: {color: '#FF6418'},
+
   components: true,
 
   buildModules: ['@nuxtjs/tailwindcss'],

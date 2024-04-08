@@ -183,11 +183,11 @@
               </div>
             </div>
             <button @click="saveCart"
-              class="flex w-full justify-center items-center py-4 bg-orange text-white gap-2 rounded-lg text-lg border-orange">
+              class="flex w-full justify-center items-center py-4 duration-200 bg-orange hover:bg-orange-2 text-white gap-2 rounded-lg text-lg border-orange">
               <localSvgBuy class="w-6 h-6" />Добавить в корзину
             </button>
             <button @click="openIsOneClickBuy"
-              class="flex w-full justify-center items-center text-center py-4 bg-white text-orange gap-2 border border-orange rounded-lg text-lg mt-3">
+              class="flex w-full justify-center items-center text-center py-4 duration-200 bg-white text-orange hover:text-orange-2 hover:border-orange-2 gap-2 border border-orange rounded-lg text-lg mt-3">
               <localSvgTap fill="#FF6418" />Купить в один клик
             </button>
           </div>
