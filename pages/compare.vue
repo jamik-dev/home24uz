@@ -8,7 +8,7 @@
           <p class="text-base font-ttfirs">Товаров: 5</p>
         </div>
         <div class="flex items-center gap-10">
-          <nuxt-link to="/comparing" class="text-orange underline font-ttfirs text-xl">Очистить</nuxt-link>
+          <p @click="removeCompares" class="text-orange cursor-pointer hover:text-orange-2 underline font-ttfirs text-xl">Очистить</p>
           <a-select default-value="Техника">
             <a-select-option value="Техника">
               Техника
@@ -50,15 +50,19 @@
           Добавляйте товары к сравнению характеристики выбирайте самый подходящий вам товар
         </template> 
       </customEmptyDefault>
-      <customProductBestSeller v-if="isEmpty" />
+      <customProductShowcase v-if="isEmpty" :showcase="showcases[0]" />
     </section>
   </main>
 </template>
 <script>
 import VueSlickCarousel from 'vue-slick-carousel'
+import {mapGetters, mapActions} from 'vuex';
 export default {
   components: {
     VueSlickCarousel
+  },
+  async asyncData({store}) {
+    await store.dispatch('showcases/getShowcases');
   },
   data: () => {
     return {
@@ -66,9 +70,40 @@ export default {
         { name: 'Главная', url: '/' },
         { name: 'Сравнение', url: '/compare' },
       ],
-      isEmpty: true,
+      isEmpty: false,
     }
-  }
+  },
+  mounted() {
+    if(this.compares.length < 2 ) {
+      this.$notification.error({
+        message: 'Ошибка',
+        description: 'Добавьте товары для сравнения'
+      });
+      this.isEmpty = true;
+    } else {
+      this.isEmpty = false;
+      this.getComparison(this.compares);
+    }
+  },
+  computed: {
+    ...mapGetters({
+      comparison: 'comparison/comparison',
+      compares: 'compares',
+      showcases: 'showcases/showcases'
+    })
+  },
+  methods: {
+    ...mapActions({
+      getComparison: 'comparison/getComparison',
+    }),
+    removeCompares() {
+      this.$notification.success({
+        message: 'Успешно',
+        description: 'Список сравнения очищен'
+      });
+      this.isEmpty = true;
+    }
+  },
 }
 </script>
 <style>

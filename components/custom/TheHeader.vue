@@ -2,11 +2,18 @@
   <header id="header" class="w-full sticky top-0 duration-300 ease transition-all z-[1000]">
     <a-modal :width="'600px'" v-model="enterAccountModal" :footer="false" title="Войти или создать профиль" centered>
       <div class="p-4">
-        <label for="phone_number" class="text-lg text-grey-text">Номер телефона</label>
-        <input type="text" id="phone_number" placeholder="+998 (--) --- -- --"
-          class="w-full mt-2 text-lg  border border-grey-3 rounded-lg p-4 focus:border-orange outline-none" />
-        <button @click="enterAccountModal = false"
-          class="bg-orange mt-7 cursor-pointer w-full py-4 text-lg rounded-lg text-white font-medium">Войти</button>
+        <label :style="{ color: !isPhoneValid ? '#E90A0A' : '' }" for="phone_number" class="text-lg text-grey-text">Номер
+          телефона</label>
+        <div class="relative mt-2 mb-12">
+          <input type="text" id="phone_number" v-model="form.modalNumber" v-mask="'+998 (##) ###-##-##'"
+            placeholder="+998 (--) --- -- --" :style="{ borderColor: !isPhoneValid ? '#E90A0A' : '' }"
+            class="w-full bg-white text-lg  border border-grey-3 rounded-lg p-4 focus:border-orange outline-none" />
+          <p :style="{ transform: messageShow ? 'translateY(32px)' : 'translateY(0px)', opacity: messageShow ? '1' : '0', transition: 'opacity 0.2s ease-in-out, transform 0.2s ease-in-out' }"
+            class="absolute pointer-events-none bottom-0 left-0 text-red font-light text-lg italic">{{ this.form.message
+            }}</p>
+        </div>
+        <button @click="formValidate"
+          class="bg-orange cursor-pointer w-full py-4 text-lg rounded-lg text-white font-medium">Войти</button>
       </div>
     </a-modal>
     <div class="bg-grey-light w-full px-16 py-2 flex justify-between items-center">
@@ -36,7 +43,7 @@
         <nuxt-link to="/">
           <img src="~/assets/img/logo.png" class="w-[178px]" alt="logo">
         </nuxt-link>
-        <localTheHeaderBurger @toggleModal="modalToggler" />
+        <localTheHeaderBurger :isHeaderModalOpen="headerModal" @toggleModal="modalToggler" />
         <div class="w-2/5 h-fit relative overflow-hidden rounded-lg">
           <input type="text" placeholder="Искать"
             class="border text-grey-text py-2 px-4 pr-24 rounded-lg outline-none w-full text-lg border-grey-2 font-light overflow-hidden">
@@ -44,12 +51,11 @@
               src="~/assets/icon/search.svg" alt="search"></button>
         </div>
         <ul class="flex items-center gap-[40px] relative list-none">
-          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/compare"><img
-                src="~/assets/icon/swap.svg" alt="swap">Сравнение</nuxt-link></li>
+          <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/compare"><a-badge :count="compares.length"><localSvgCompare /></a-badge>Сравнение</nuxt-link></li>
           <a-dropdown placement="topCenter" :getPopupContainer="relativeDropdown">
             <li class="dropdown_heading">
-              <nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/favourites">
-                <img src="~/assets/icon/heart.svg" alt="heart">Избранное
+              <nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/favorites">
+                <a-badge :count="favorites.length"><localSvgHeart /></a-badge>Избранное
               </nuxt-link>
             </li>
             <div class="p-6 bg-white shadow-lg rounded-lg" slot="overlay">
@@ -70,7 +76,7 @@
             </div>
           </a-dropdown>
           <li><nuxt-link class="flex items-center gap-2 text-base text-black hover:text-orange" to="/cart"><a-badge
-                count="4">
+                :count="carts.length">
                 <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M14.5137 20.5H6.16592C3.09955 20.5 0.747152 19.3924 1.41534 14.9348L2.19338 8.89359C2.60528 6.66934 4.02404 5.81808 5.26889 5.81808H15.4474C16.7105 5.81808 18.0469 6.73341 18.5229 8.89359L19.3009 14.9348C19.8684 18.889 17.5801 20.5 14.5137 20.5Z"
@@ -97,64 +103,98 @@
         </ul>
       </div>
       <transition name="modal">
-        <div v-if="headerModal" class="mt-5">
+        <div v-if="!headerModal" class="mt-5">
           <ul class="flex items-center justify-between list-none">
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgCrown /> Подарки
+            <li v-for="category in categories?.slice(0, 8)" :key="category.id" class="text-nowrap text-lg">
+              <nuxt-link :to="`/category/${category.slug}`" class="text-black hover:text-orange">
+                {{ category.name }}
+              </nuxt-link>
             </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgSofa /> Мебель
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgMicrowave /> Техника
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgPot /> Текстиль
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgPot /> Посуда
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgInstruct /> Сантехника
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgDrill /> Стройматириалы
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgPenal /> Канцтовары
-            </li>
-            <li class="flex items-center gap-2 text-lg">
-              <localSvgBag /> Акции
-            </li>
-            <li class="flex items-center gap-2 text-lg -mb-1">
-              <a-select default-value="Ещё" class="w-[86px] text-orange header-2">
-              </a-select>
+            <li @click="modalToggler(true)" class="flex items-center gap-2 text-lg text-orange cursor-pointer">
+              <span>Ещё</span>
+              <a-icon type="down" />
             </li>
           </ul>
         </div>
-        <localTheHeaderModal v-else />
+        <localTheHeaderModal :categories="categories" v-else />
       </transition>
     </div>
   </header>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
   data: () => {
     return {
-      headerModal: true,
+      headerModal: false,
       enterAccountModal: false,
       isUserLoggedIn: false,
+      messageShow: false,
+      isPhoneValid: true,
+      form: {
+        modalNumber: '',
+        modalPassword: null,
+        modalSMSCode: null,
+        message: ''
+      }
     }
   },
   methods: {
+    ...mapActions({
+      getCategories: 'categories/getCategories',
+      loadFromLocalStorage: 'loadFromLocalStorage',
+    }),
     modalToggler(val) {
+      document.body.style.overflow = !val ? 'auto' : 'hidden';
+      document.documentElement.style.scrollbarGutter = !val ? 'auto' : 'stable';
+      document.body.style.scrollbarGutter = !val ? 'auto' : 'stable';
       this.headerModal = val;
     },
     relativeDropdown() {
       return document.querySelector('.dropdown_heading');
+    },
+    async formValidate() {
+      if (this.form.modalNumber.length < 19) {
+        this.form.message = 'Номер телефона должен содержать 12 символов';
+        this.isPhoneValid = false;
+        this.messageShow = true;
+        return;
+      }
+      this.isPhoneValid = true;
+      this.messageShow = false;
+      this.loading = true;
+      // await this.$store.dispatch('auth/authCheck', this.form.modalNumber);
+
     }
   },
+  watch: {
+    'form.modalNumber'(val) {
+      this.form.message = 'Номер телефона должен содержать 12 символов';
+      if (val.length < 19) {
+        this.messageShow = true;
+      } else {
+        this.isPhoneValid = true;
+        this.messageShow = false;
+      }
+    },
+    $route() {
+      this.headerModal = false;
+    }
+  },
+  computed: {
+    ...mapGetters({
+      categories: 'categories/categories',
+      compares: 'compares',
+      favorites: 'favorites',
+      carts: 'carts'
+    })
+  },
   mounted() {
+    this.getCategories();
+    this.loadFromLocalStorage('compares');
+    this.loadFromLocalStorage('favorites');
+    this.loadFromLocalStorage('carts');
+
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 0) {

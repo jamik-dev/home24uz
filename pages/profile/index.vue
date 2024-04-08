@@ -76,29 +76,17 @@
           <div class="mt-6 flex gap-6">
             <div class="w-1/3">
               <label class="text-lg text-grey-text block">Область</label>
-              <a-select palceholder="Область" default-value="Tashkent" style="width: 100%; margin-top: 8px">
-                <a-select-option value="Tashkent">
-                  Tashkent
-                </a-select-option>
-                <a-select-option value="Samarkand">
-                  Samarkand
-                </a-select-option>
-                <a-select-option value="Bukhara">
-                  Bukhara
+              <a-select v-model="regionId" @change="regionSelected" palceholder="Область" style="width: 100%; margin-top: 8px">
+                <a-select-option class="!text-lg hover:!bg-[rgb(255,100,24,0.7)] hover:!text-white" v-for="region in regions" :key="region.id" :value="region.id">
+                  {{ region.name}}
                 </a-select-option>
               </a-select>
             </div>
-            <div class="w-1/3">
+            <div class="w-1/3" v-if="regionId">
               <label class="text-lg text-grey-text">Город / Район</label>
-              <a-select palceholder="Город / Район" default-value="Alat" style="width: 100%; margin-top: 8px">
-                <a-select-option value="Alat">
-                  Alat
-                </a-select-option>
-                <a-select-option value="Karakul">
-                  Karakul
-                </a-select-option>
-                <a-select-option value="Peshku">
-                  Peshku
+              <a-select v-model="districtId" palceholder="Город / Район" style="width: 100%; margin-top: 8px">
+                <a-select-option class="!text-lg hover:!bg-[rgb(255,100,24,0.7)] hover:!text-white" v-for="district in regions[regionId-1]?.districts" :key="district.id" :value="district.id">
+                  {{ district.name }}
                 </a-select-option>
               </a-select>
             </div>
@@ -142,11 +130,27 @@
   </aside>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 export default {
+  async asyncData({store}) {
+    await store.dispatch('regions/getRegions');
+  },
   data: () => {
     return {
-      editProfile: false
+      editProfile: false,
+      regionId: null,
+      districtId: null
     }
+  },
+  methods: {
+    regionSelected() {
+      this.districtId = undefined;
+    }
+  },
+  computed: {
+    ...mapGetters({
+      regions: 'regions/regions'
+    })
   }
 }
 </script>

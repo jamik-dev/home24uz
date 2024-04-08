@@ -1,6 +1,8 @@
 <template>
-  <section id="category_product">
-    <a-modal :width="'600px'" @cancel="closeModal" v-model="isModalOpen" :footer="false" :title="isOneClickBuy && !isOneClickBuySuccessful ? 'Купить в один клик' : isOneClickBuySuccessful || isRatingSuccessful ? 'Отзыв принят' : 'Новый отзыв'" centered>
+  <section id="product">
+    <a-modal :width="'600px'" @cancel="closeModal" v-model="isModalOpen" :footer="false"
+      :title="isOneClickBuy && !isOneClickBuySuccessful ? 'Купить в один клик' : isOneClickBuySuccessful || isRatingSuccessful ? 'Отзыв принят' : 'Новый отзыв'"
+      centered>
       <div v-if="!isRatingSuccessful && !isOneClickBuy && !isOneClickBuySuccessful" class="space-y-8 w-full p-2">
         <div class="gap-3 flex items-center">
           <h4 class="font-medium text-lg">Ваша оценка:</h4>
@@ -39,12 +41,18 @@
         </div>
         <div class="bg-grey-3 h-[1px] w-full"></div>
         <div>
-          <label class="text-black text-lg font-medium" for="oneClickFullName">Ф.И.О<span class="text-red"> *</span></label>
-          <input class="mt-2 w-full text-black placeholder:text-grey-text p-4 border border-grey-3 rounded-lg text-lg focus:border-orange outline-none" placeholder="Ф.И.О" type="text" id="oneClickFullName" />
+          <label class="text-black text-lg font-medium" for="oneClickFullName">Ф.И.О<span class="text-red">
+              *</span></label>
+          <input
+            class="mt-2 w-full text-black placeholder:text-grey-text p-4 border border-grey-3 rounded-lg text-lg focus:border-orange outline-none"
+            placeholder="Ф.И.О" type="text" id="oneClickFullName" />
         </div>
         <div>
-          <label class="text-black text-lg font-medium" for="oneClickFullName">Телефон<span class="text-red"> *</span></label>
-          <input class="mt-2 w-full text-black placeholder:text-grey-text p-4 border border-grey-3 rounded-lg text-lg focus:border-orange outline-none" placeholder="+998 (--)--- -- --" type="text" id="oneClickFullName" />
+          <label class="text-black text-lg font-medium" for="oneClickFullName">Телефон<span class="text-red">
+              *</span></label>
+          <input
+            class="mt-2 w-full text-black placeholder:text-grey-text p-4 border border-grey-3 rounded-lg text-lg focus:border-orange outline-none"
+            placeholder="+998 (--)--- -- --" type="text" id="oneClickFullName" />
         </div>
         <button @click="isOneClickBuySuccessful = true"
           class="rounded-lg border border-orange bg-orange text-white hover:bg-white hover:text-orange duration-200 py-3 w-full font-medium text-lg">Оформить</button>
@@ -69,24 +77,28 @@
     <div class="w-full px-16 py-[60px]">
       <customBreadCrumb :breadCrumbData="breadCrumb" />
       <div class="flex gap-8 mt-10 items-start">
-        <div class="w-1/3 flex">
+        <div class="w-5/12 flex items-start">
           <div class="mr-2 first_slide">
             <VueSlickCarousel :vertical="true" :verticalSwiping="true" :arrows="false" @afterChange="activeItem"
               :ref="slideTwo" :asNavFor="c1" :slidesToShow="6" :focusOnSelect="true">
-              <div v-for="(item, index) in 10" :key="item">
+              <div v-for="(img, index) in product.images" :key="img.id">
                 <div :class="{ 'border-orange': index === activeSlider }"
                   class="h-[80px] w-[80px] mx-auto border border-grey-4 rounded-xl cursor-pointer p-1">
-                  <img class="object-contain w-full h-full" src="~/assets/img/chair/2.png" alt="chair">
+                  <img class="object-contain w-full h-full" :src="img.lg_img || require(`~/assets/img/chair/2.png`)"
+                    :alt="product.for_search">
                 </div>
               </div>
             </VueSlickCarousel>
           </div>
           <div class="rounded-lg w-[calc(100%-85px)] border border-grey-4 p-2 relative">
             <div
-              class="absolute bg-white z-10 top-4 right-4 w-[70px] h-[70px] rounded-full border border-grey-4 flex items-center justify-center">
-              <img class="w-4/5" src="~/assets/img/logos/1.png" alt="cougar">
+              @click="product?.info.brand?.slug ? $router.push(`/brands/${product?.info.brand?.slug}`) : $router.push(`/brands`)"
+              class="absolute cursor-pointer bg-white z-10 top-4 right-4 w-[70px] h-[70px] rounded-full overflow-hidden border border-grey-4 flex items-center justify-center">
+              <img class="h-full w-full object-cover"
+                :src="product?.info.brand?.lg_logo || require(`~/assets/img/logos/1.png`)"
+                :alt="product?.info.brand?.name">
             </div>
-            <div class="z-10 absolute bottom-4 right-10 flex flex-col items-center justify-end">
+            <div v-if="product.discount" class="z-10 absolute bottom-4 right-10 flex flex-col items-center justify-end">
               <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[70%]" width="71" height="60"
                 viewBox="0 0 71 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -94,109 +106,88 @@
                   fill="#E90A0A" />
               </svg>
               <p class="font-ttfirs text-white text-xs leading-[0.8] z-10">скидки</p>
-              <h4 class="text-base text-white font-semibold leading-tight font-ttfirs mb-1 z-10">--30%
+              <h4 class="text-base text-white font-semibold leading-tight font-ttfirs mb-1 z-10">{{ product.discount }}%
               </h4>
             </div>
             <VueSlickCarousel :arrows="false" :ref="slideOne" :asNavFor="c2" :focusOnSelect="true">
-              <div v-for="item in 10" :key="item" class="h-[450px]">
-                <img class="object-contain w-full h-full" src="~/assets/img/chair/1.png" alt="chair">
+              <div v-for="img in product.images" :key="img.id" class="h-[450px]">
+                <img class="object-contain w-full h-full" :src="img.lg_img || require(`~/assets/img/chair/1.png`)"
+                  :alt="product.for_search">
               </div>
             </VueSlickCarousel>
           </div>
         </div>
-        <div class="w-5/12">
+        <div class="w-4/12">
           <div class="flex items-center justify-between text-grey-text text-base">
             <p class="flex items-center gap-1"><a-icon type="star" :style="{ color: '#F6C65C' }" theme="filled" /><span
-                class="text-black">5</span></p>
-            <p class="flex items-center gap-1"><a-icon type="message" /> 10 Отзывов</p>
-            <p>Код товара: 1375043</p>
+                class="text-black">{{ product.info.stars ? product.info.stars : '5.0' }}</span></p>
+            <p class="flex items-center gap-1"><a-icon type="message" /> {{ product.info.comments.length }} Отзывов</p>
+            <p>Код товара: {{ product.id }}</p>
             <p class="flex items-center gap-2"><img src="~/assets/icon/print.svg" alt="print"> Печатать</p>
           </div>
-          <h2 class="text-3xl font-medium mt-4 font-ttfirs max-w-[80%]">ОФИСНОЕ КРЕСЛО 6206A-2</h2>
+          <h2 class="text-3xl font-medium mt-4 font-ttfirs max-w-[80%]">{{ product.name }}</h2>
           <div class="mt-6">
             <div class="space-y-4">
-              <p class="text-grey-6 text-lg">Производитель:<span
-                  class="font-ttfirs ml-2 text-black font-medium">Cougar</span></p>
-              <p class="text-grey-6 text-lg">Модель:<span class="font-ttfirs ml-2 text-black font-medium">6206A-2</span>
+              <p v-if="product?.info.brand?.name" class="text-grey-6 text-lg">Производитель:<span
+                  class="font-ttfirs ml-2 text-black font-medium">{{ product?.info.brand?.name }}</span></p>
+              <p v-if="product.model" class="text-grey-6 text-lg">Модель:<span
+                  class="font-ttfirs ml-2 text-black font-medium">{{ product.model }}</span>
               </p>
             </div>
-            <div class="mt-6">
-              <p class="text-grey-6 text-lg mb-2">Цвет:</p>
-              <localCategoryColorPicker :rectangle="true" :fit="true" :colors="['#000', '#E90A0A', '#F6C65C']" />
-            </div>
-            <div class="mt-6">
-              <p class="text-grey-6 text-lg mb-2">Размер:</p>
-              <a-radio-group v-model="sizeValues">
-                <a-radio-button value="a">
-                  32 gb
-                </a-radio-button>
-                <a-radio-button value="b">
-                  64 gb
-                </a-radio-button>
-                <a-radio-button value="c">
-                  128 gb
-                </a-radio-button>
-                <a-radio-button value="d">
-                  256 gb
-                </a-radio-button>
-                <a-radio-button value="e">
-                  512 gb
-                </a-radio-button>
-              </a-radio-group>
-            </div>
-            <div class="mt-6">
-              <p class="text-grey-6 text-lg mb-2">Размер RAM:</p>
-              <a-radio-group v-model="sizeValues">
-                <a-radio-button value="a">
-                  4 gb
-                </a-radio-button>
-                <a-radio-button value="b">
-                  8 gb
-                </a-radio-button>
-                <a-radio-button value="c">
-                  12 gb
-                </a-radio-button>
-                <a-radio-button value="d">
-                  16 gb
-                </a-radio-button>
-                <a-radio-button value="e">
-                  32 gb
-                </a-radio-button>
-              </a-radio-group>
-            </div>
-            <div class="mt-6">
-              <p class="text-grey-6 text-lg mb-2">Количество:</p>
-              <div class="flex items-center gap-4">
-                <div class="border border-grey-3 w-fit rounded-lg flex">
-                  <button @click="count--" class="w-12 h-12 flex items-center justify-center cursor-pointer"><a-icon
-                      type="minus" /></button>
-                  <p class="w-12 h-12 text-lg font-ttfirs flex items-center justify-center">{{ count }}</p>
-                  <button @click="count++" class="w-12 h-12 flex items-center justify-center cursor-pointer"><a-icon
-                      type="plus" /></button>
+            <div class="space-y-6 mt-6">
+              <div v-for="attribute in attributes" :key="attribute.title">
+                <p class="text-grey-6 text-lg mb-2">{{ attribute.title }}:</p>
+                <localCategoryColorPicker v-if="attribute.title == 'Color' || attribute.title == 'Цвет'"
+                  :rectangle="true" :fit="true" :colors="attribute.options" />
+                <div v-else class="flex gap-3">
+                  <div v-for="option in attribute.options" :key="option.slug"
+                    @click="option.available ? $router.push(option.slug) : ''"
+                    :style="{ borderColor: option.active ? '#FF6418' : '', color: option.active ? '#FF6418' : '' }"
+                    class="border cursor-pointer border-grey-3 rounded-lg py-1 px-2 text-grey-text font-ttfirs text-lg">
+                    {{ option.title }}</div>
                 </div>
-                <p class="text-grey-text text-base">Осталось всего 4</p>
+              </div>
+              <div>
+                <p class="text-grey-6 text-lg mb-2">Количество:</p>
+                <div class="flex items-center gap-4">
+                  <div class="border border-grey-3 w-fit rounded-lg flex">
+                    <button @click="count--" class="w-12 h-12 flex items-center justify-center cursor-pointer"><a-icon
+                        type="minus" /></button>
+                    <p class="w-12 h-12 text-lg font-ttfirs flex items-center justify-center">{{ count }}</p>
+                    <button @click="count++" class="w-12 h-12 flex items-center justify-center cursor-pointer"><a-icon
+                        type="plus" /></button>
+                  </div>
+                  <p class="text-grey-text text-base">Осталось всего {{ product.stock }}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="w-1/4">
+        <div class="w-3/12">
           <div class="bg-grey-4 p-6 rounded-lg">
             <div class="flex justify-between mb-10">
               <div>
-                <h3 class="font-ttfirs font-medium text-2xl">25 880 000 СУМ</h3>
-                <h4 class="font-ttfirs font-light text-lg text-grey-text line-through">25 880 000 СУМ</h4>
+                <h3 class="font-ttfirs font-medium text-2xl">{{ product.price }} СУМ</h3>
+                <h4 v-if="product.discount_price" class="font-ttfirs font-light text-lg text-grey-text line-through">{{
+      product.discount_price }} СУМ</h4>
               </div>
               <div class="flex items-center gap-6">
-                <img class="w-6" src="~/assets/icon/swap.svg" alt="swap">
-                <img class="w-6" src="~/assets/icon/heart.svg" alt="heart">
+                <div @click="saveLocalStorage({id: product.id, name: `compares`})">
+                  <localSvgCompare class="w-6 h-6 cursor-pointer"
+                  :fill="compares.includes(product?.id) ? '#FF6418' : '#020105'" />
+                </div>
+                <div @click="saveLocalStorage({id: product.id, name: 'favorites'})">
+                  <localSvgHeart class="w-6 h-6 cursor-pointer"
+                  :fill="favorites.includes(product?.id) ? '#FF6418' : '#020105'" />
+                </div>
               </div>
             </div>
-            <button
-              class="flex w-full justify-center items-center py-4 bg-orange text-white gap-2 rounded-lg text-lg border-orange">
+            <button @click="saveCart"
+              class="flex w-full justify-center items-center py-4 duration-200 bg-orange hover:bg-orange-2 text-white gap-2 rounded-lg text-lg border-orange">
               <localSvgBuy class="w-6 h-6" />Добавить в корзину
             </button>
             <button @click="openIsOneClickBuy"
-              class="flex w-full justify-center items-center text-center py-4 bg-white text-orange gap-2 border border-orange rounded-lg text-lg mt-3">
+              class="flex w-full justify-center items-center text-center py-4 duration-200 bg-white text-orange hover:text-orange-2 hover:border-orange-2 gap-2 border border-orange rounded-lg text-lg mt-3">
               <localSvgTap fill="#FF6418" />Купить в один клик
             </button>
           </div>
@@ -225,22 +216,25 @@
         </ul>
         <div class="w-full grid grid-cols-12 -mt-[1px]">
           <div v-if="navigationMenus[0].isActive" class="col-span-9 border-t border-grey-3 py-8">
-            <p class="font-ttfirs text-base text-grey-text">Геймерские кресла 6206A-2
-              выполнено в сочетание фиолетового и черного. Модель выглядит элегантно и лаконично, поэтому она подойдет
-              как в современный офис, так и в более консервативные заведения. Полозья выполнены из крепкого металла, при
-              этом они разбираются, что очень удобно при сборке. Для более удобного долгого сидения сделаны широкие
-              подлокотники из прочного пластика.
-              <br />
-              <br />
-              Геймерские кресла 6206A-2 соответствует американскому стандарту Cougar, который создан компетентным
-              техническим комитетом. Обивка выполнена из нескольких материалов - сидение сделано из дышащей ткани
-              черного цвета для комфортного нахождения в кресле, а спинка из воздухопроницаемой сетки того же оттенка.
-              Нагрузка на модель не может превышать 120 кг.
-            </p>
+            <div v-if="!!product.info?.desc" class="font-ttfirs text-base text-grey-text" v-html="product.info.desc">
+            </div>
+            <div v-else class="w-1/2 mx-auto">
+              <customEmptyDefault :button="false">
+                <template #image>
+                  <img src="~/assets/icon/empty-4.svg" alt="comments page not found">
+                </template>
+                <template #title>
+                  Описание не найдено
+                </template>
+                <template #description>
+                  Описание данного товара не найдено
+                </template>
+              </customEmptyDefault>
+            </div>
           </div>
           <div v-if="navigationMenus[1].isActive" class="col-span-9 border-t border-grey-3 py-8">
-            <div v-if="comments > 0" class="w-4/5">
-              <div v-for="item in comments" :key="item"
+            <div v-if="product.info.comments.length > 0" class="w-4/5">
+              <div v-for="item in product.info.comments.length" :key="item"
                 class="border-b border-grey-3 py-8 first:pt-0 last:pb-0 last:border-0">
                 <h4 class="text-base font-medium">Shaxram G’iyosov</h4>
                 <div class="flex items-center mt-2 gap-8"><a-rate style="font-size: 16px" :default-value="5" disabled />
@@ -288,49 +282,71 @@
             </div>
           </div>
           <div v-if="navigationMenus[2].isActive" class="col-span-9 border-t border-grey-3 py-8 space-y-10">
-            <div v-for="item in 4" :key="item" class="max-w-[80%]">
-              <h3 class="font-medium text-lg">Основные характеристики</h3>
-              <div class="w-full grid grid-cols-2 gap-x-[160px] gap-y-8 mt-5">
-                <p v-for="item in 7" :key="item" class="text-lg flex items-center gap-2"><span
-                    class="text-grey-text font-ttfirs">Производитель:</span><span
-                    class="w-full mt-3 border-b border-grey-text border-dotted"></span><span
-                    class="text-black">Китай</span>
-                </p>
+            <div v-if="characteristics.length" class="w-full space-y-10">
+              <div v-for="characteristic in characteristics" :key="characteristic.id">
+                <h3 class="font-medium text-lg">{{ characteristic.name }}</h3>
+                <div class="w-full grid grid-cols-2 gap-x-[160px] gap-y-8 mt-5">
+                  <p v-for="item in characteristic.characteristics" :key="item.id"
+                    class="text-lg flex items-center gap-2"><span class="text-grey-text font-ttfirs text-nowrap">{{
+      item.name }}:</span><span class="w-full mt-3 border-b border-grey-text border-dotted"></span><span
+                      v-for="i in item.options" :key="i.id" class="text-black text-nowrap">{{ i.name }}</span>
+                  </p>
+                </div>
               </div>
+            </div>
+            <div v-else class="w-1/2 mx-auto">
+              <customEmptyDefault :button="false">
+                <template #image>
+                  <img src="~/assets/icon/empty-4.svg" alt="comments page not found">
+                </template>
+                <template #title>
+                  Характеристики не найдены
+                </template>
+                <template #description>
+                  Характеристики данного товара не найдены
+                </template>
+              </customEmptyDefault>
             </div>
           </div>
         </div>
       </div>
-      <customProductBestSeller />
+      <customProductShowcase :showcase="showcases[0]" />
     </div>
   </section>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import VueSlickCarousel from 'vue-slick-carousel'
 export default {
   layout: 'userLayout',
   components: {
     VueSlickCarousel
   },
+  async asyncData({ store, params }) {
+    await store.dispatch('products/getProduct', params.slug);
+    await store.dispatch('showcases/getShowcases');
+  },
   data: () => {
-    let comments = 2;
     return {
       c1: null,
       c2: null,
       activeSlider: 0,
-      sizeValues: [],
+      sizeValues: {},
       count: 0,
       isModalOpen: false,
       isRatingSuccessful: false,
       isOneClickBuy: false,
       isOneClickBuySuccessful: false,
+      breadCrumb: [
+        { name: 'Главная', url: '/' },
+      ],
       navigationMenus: [
         {
           title: 'Описание товара',
           isActive: true
         },
         {
-          title: `Отзывы (${comments})`,
+          title: ``,
           isActive: false
         },
         {
@@ -338,13 +354,31 @@ export default {
           isActive: false
         }
       ],
-      comments
     }
   },
-  created() {
-    this.routerCheck('/category');
+  watch: {
+    count(val) {
+      if (val < 0) this.count = 0;
+      if (val > this.product.stock) this.count = this.product.stock;
+    }
+  },
+  computed: {
+    ...mapGetters({
+      product: 'products/product',
+      attributes: 'products/attributes',
+      characteristics: 'products/characteristics',
+      showcases: 'showcases/showcases',
+      carts: 'carts',
+      compares: 'compares',
+      favorites: 'favorites'
+    }),
+  },
+  mounted() {
+    this.breadCrumb.push({ name: this.product.name, url: `/product/${this.product.slug}` });
+    this.navigationMenus[1].title = `Отзывы (${this.product.info.comments.length})`;
   },
   methods: {
+    ...mapActions(['saveLocalStorage']),
     slideOne(el) {
       this.c1 = el;
     },
@@ -381,68 +415,34 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-
+    saveCart() {
+      if (!this.carts.includes(this.product.id)) {
+        this.saveLocalStorage({ id: this.product.id, name: `carts` })
+        this.$notification.success({
+          message: 'Успешно',
+          description: 'Товар добавлен в корзину'
+        })
+      } else {
+        this.$notification.error({
+          message: 'Ошибка',
+          description: 'Товар уже добавлен в корзину'
+        })
+      }
+    }
   }
 }
 </script>
 <style>
-#category_product .first_slide .slick-slide {
+#product .first_slide .slick-slide {
   width: auto !important;
 }
 
-.ant-radio-button-wrapper:not(:first-child)::before {
-  width: 0;
-}
-
-#category_product .ant-radio-group {
-  @apply flex gap-2;
-}
-
-.ant-radio-button-wrapper {
-  @apply text-lg font-ttfirs h-auto px-4 py-1 rounded-lg;
-  border-left: 1px solid #E0E0E0;
-}
-
-.ant-radio-button-wrapper:first-child {
-  @apply rounded-lg;
-}
-
-.ant-radio-button-wrapper:last-child {
-  @apply rounded-lg;
-}
-
-.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child {
-  border-color: #FF6418;
-  color: #FF6418;
-}
-
-.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
-  border-color: #FF6418;
-}
-
-.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-  border-color: #FF6418;
-  color: #FF6418;
-}
-
-.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
-  color: #FF6418;
-}
-
-.ant-radio-button-wrapper:hover {
-  color: #FF6418;
-}
-
-.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
-  background-color: #FF6418;
-}
-
-.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover::before {
-  background-color: #FF6418;
-}
-
-.ant-rate {
+#product .ant-rate {
   color: #FF7E00;
+}
+
+#product .slick-list {
+  height: 528px;
 }
 
 /* .ant-rate .ant-rate-star-full .anticon-star {

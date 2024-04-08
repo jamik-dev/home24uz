@@ -24,7 +24,7 @@
       </div>
       <div v-if="!isEmpty" class="w-full grid grid-cols-12 gap-6 mt-4">
         <customCartDefault v-for="item in 12" :key="item"
-          :data="{ img: require(`~/assets/img/electronics/1.png`), text: 'Электросамокат Xiaomi Mi Electric Scooter 3 до 100 кг, черный', discount: 0, price: '3 512 750', price_old: '', rating: '5.0' }" />
+          :data="'r'" />
       </div>
       <customEmptyDefault v-if="isEmpty">
         <template #image>
@@ -53,7 +53,7 @@ export default {
         { name: 'Главная', url: '/' },
         { name: 'Избранное', url: '/favourites' },
       ],
-      isEmpty: false,
+      isEmpty: true,
     }
   }
 }

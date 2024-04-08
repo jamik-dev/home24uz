@@ -1,30 +1,44 @@
 export const state = () => ({
-  navLinks: [
-    { id: 1, name: 'gifts', active: false },
-    { id: 2, name: 'furniture', active: false },
-    { id: 3, name: 'technique', active: true },
-    { id: 4, name: 'textile', active: false },
-    { id: 5, name: 'dish', active: false },
-    { id: 6, name: 'plumbing', active: false },
-    { id: 7, name: 'construction', active: false },
-    { id: 8, name: 'penal', active: false },
-    { id: 9, name: 'stock', active: false },
-  ]
+  compares: [],
+  favorites: [],
+  carts: []
 })
 
 export const getters = {
-  navLinks: state => state.navLinks,
+  compares: state => state.compares,
+  favorites: state => state.favorites,
+  carts: state => state.carts
 }
 
 export const mutations = {
-  SET_NAV_LINKS(state, id) {
-    state.navLinks.forEach((link) => {
-      link.active = link.id === id;
-    })
-    
+  SET_COMPARES(state, payload) {
+    state.compares = payload
+  },
+  SET_FAVORITES(state, payload) {
+    state.favorites = payload
+  },
+  SET_CARTS(state, payload) {
+    state.carts = payload
   }
 }
 
 export const actions = {
-
+  loadFromLocalStorage({ commit }, name) {
+    const data = JSON.parse(localStorage.getItem(name)) || [];
+    if (data !== null) {
+      commit('SET_' + name.toUpperCase(), data);
+    }
+  },
+  saveLocalStorage({ dispatch }, {id, name} ) {
+    console.log('saveLocalStorage', id, name)
+    let storage = JSON.parse(localStorage.getItem(name)) || [];
+    let index = storage.indexOf(id);
+    if (index !== -1) {
+      storage.splice(index, 1);
+    } else {
+      storage.push(id);
+    }
+    localStorage.setItem(name, JSON.stringify(storage));
+    dispatch('loadFromLocalStorage', name);
+  },
 }

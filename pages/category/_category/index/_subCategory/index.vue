@@ -1,16 +1,16 @@
 <template>
-  <div v-if="!isEmpty">
-    <div class="w-full grid grid-cols-10 gap-6 mt-4">
-      <customCartDefault v-for="item in 12" :key="item" :items="6"
-        :data="{ img: require(`~/assets/img/electronics/1.png`), text: 'Электросамокат Xiaomi Mi Electric Scooter 3 до 100 кг, черный', discount: 0, price: '3 512 750', price_old: '', rating: '5.0' }" />
+  <div v-if="category?.products.data.length">
+    <div :style="{ gridTemplateColumns: `repeat(${gridOrder ? 6 : 10}, minmax(0, 1fr))` }"
+      class="w-full grid gap-6 mt-4">
+      <customCartDefault v-for="product in category.products.data" :key="product.id" :items="6" :data="product.products[0]" />
     </div>
-    <div class="w-full mt-16">
-      <a-pagination :total="500" :item-render="itemRender" />
+    <div v-if="category.products.total" class="w-full mt-16">
+      <a-pagination :total="category.products.last_page" :item-render="itemRender" />
       <customDescriptionDefault />
     </div>
   </div>
   <div v-else>
-    <customEmptyDefault v-if="isEmpty">
+    <customEmptyDefault>
       <template #image>
         <img src="~/assets/icon/empty-4.svg" alt="empty">
       </template>
@@ -24,11 +24,14 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapMutations } from 'vuex';
 export default {
-  data: () => ({
-    isEmpty: false
-  }),
+  props: ['gridOrder'],
+  computed: {
+    ...mapGetters('categories', ['category'])
+  },
   methods: {
+    ...mapMutations('categories', ['SET_TREE_DATA']),
     itemRender(_, type, originalElement) {
       if (type === 'prev') {
         return;
@@ -37,7 +40,12 @@ export default {
       }
       return originalElement;
     },
-  }
+  },
+  watch: {
+    category(val) {
+      this.SET_TREE_DATA([{ name: val.category.parent?.name, slug: val.category.parent?.slug, id: val.category.parent?.id, saveChild: true, children: [val.category]}]);
+    }
+  },
 }
 </script>
 <style lang="">
